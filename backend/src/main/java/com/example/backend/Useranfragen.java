@@ -1,15 +1,17 @@
 package com.example.backend;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Repository;
 
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Repository
+
 
 public class Useranfragen {
 
