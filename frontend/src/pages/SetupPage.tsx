@@ -15,10 +15,25 @@ export default function SetupPage() {
                 <div className="logo-container-l">
                     <h1>Das ist eine SetupPage</h1>
 
-                </div>
 
-                <Link className="direction-link" to={"/register"}>New here? REGISTER NOW</Link>
+                    <div>
+                    <Link className="direction-link" to={""}>Klingelton</Link>
+
+
+
+                    </div>
+
+                    <Link className="direction-link" to={""}>Farbe</Link>
+
+
+
+
+
+                 </div>
+
+                <Link className="direction-link" to={"/Adresseepagework"}>User</Link>
             </div>
+
         </div>
     )
 }

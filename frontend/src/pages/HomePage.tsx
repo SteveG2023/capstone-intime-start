@@ -1,6 +1,7 @@
 import {ChangeEvent, FormEvent, useState} from "react";
 import axios from "axios";
 import {Link, useNavigate} from "react-router-dom";
+;
 
 
 
@@ -18,8 +19,20 @@ export default function HomePage() {
 
                 </div>
 
-                <Link className="direction-link" to={"/register"}>New here? REGISTER NOW</Link>
+                        <Link className="direction-link" to={"/homepage"}>Zurück</Link>
+
+                <div>
+
+
+                        <Link className="direction-link" to={"/setup"}>Setup</Link>
+
+
+                </div>
+
+
+
             </div>
         </div>
     )
 }
+

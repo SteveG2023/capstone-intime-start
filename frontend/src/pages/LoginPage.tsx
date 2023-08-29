@@ -43,6 +43,7 @@ export default function LoginPage(loginPageProps: Props) {
                     <button>LOGIN</button>
                 </form>
                 <Link className="direction-link" to={"/register"}>New here? REGISTER NOW</Link>
+                <Link className="direction-link" to={"/Homepage"}>Homepage</Link>
             </div>
         </div>
     )

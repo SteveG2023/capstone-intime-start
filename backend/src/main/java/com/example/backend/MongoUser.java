@@ -27,12 +27,12 @@ public class MongoUser {
 
     // Benutzung innerhalb der app;
     String wohnadressestadt;
-    String wohnadressestreet;
-    String wohnadressenumber;
+    String wohnadressestrasse;
+    String wohnadressenummer;
 
     String arbeitsadressestadt;
     String arbeitsadressestrasse;
-    String arbeitsadressenumber;
+    String arbeitsadressenummer;
     String fortbewegung;
 
 }

@@ -50,7 +50,7 @@ public class Controller {
         return service.saveUser(user).getUsername();
     }
 
-    @GetMapping("/{adresse}/{street}/{number}")
+    @GetMapping("/placeid/{adresse}/{street}/{number}")
     public PlaceIdResponse PlaceId(@PathVariable String adresse,@PathVariable String street,@PathVariable String number) {
 
         return service.Place_Id(adresse,street,number);

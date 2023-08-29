@@ -1,11 +1,15 @@
-import {ChangeEvent, FormEvent, useState} from "react";
+import {ChangeEvent, FormEvent, ReactNode, useState} from "react";
 import axios from "axios";
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
+//import navigate, useNavigate} from "react-router-dom";
+
+//const navigate = useNavigate();
+
+
 
 
 
 export default function WeckerPage() {
-
 
 
     return (
@@ -16,7 +20,7 @@ export default function WeckerPage() {
 
                 </div>
 
-                <Link className="direction-link" to={"/register"}>New here? REGISTER NOW</Link>
+
             </div>
         </div>
     )

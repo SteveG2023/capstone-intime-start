@@ -7,8 +7,10 @@ export default function RegisterPage() {
     const [password, setPassword] = useState("");
     const [vorname, setVorname] = useState("");
     const [nachname, setNachname] = useState("");
-
+    const [email, setEmail] = useState("");
     const nav = useNavigate();
+
+
 
     function onChangeUsername(event: ChangeEvent<HTMLInputElement>) {
         setUsername(event.target.value)
@@ -25,11 +27,15 @@ export default function RegisterPage() {
     function onChangePassword(event: ChangeEvent<HTMLInputElement>) {
         setPassword(event.target.value)
     }
+    function onChangeEmail(event: ChangeEvent<HTMLInputElement>) {
+        setEmail(event.target.value)
+    }
 
     function register(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        axios.post("/api/user/register", {username, password, vorname, nachname})
-            .then(() => nav("/"))
+        axios.post("/api/user/register", {username, password, vorname, nachname, email})
+
+            .then(() => nav("/adreepagehome"))
             .catch((error) => console.log(error))
     }
 
@@ -41,14 +47,20 @@ export default function RegisterPage() {
                 </div>
                 <form onSubmit={register}>
                     <h1>REGISTER</h1>
-                    <input type={"text"} required={true} id={username} placeholder={"Please insert your username"}
+                        <div className="Register">
+                        <input type={"text"} required={true} id={username} placeholder={"Please insert your username"}
                            onChange={onChangeUsername}/>
-                    <input type={"password"} required={true} id={password} placeholder={"Please insert your password"}
+                        <input type={"password"} required={true} id={password} placeholder={"Please insert your password"}
                            onChange={onChangePassword}/>
-                    <input type={"vorname"} required={true} id={vorname} placeholder={"Please insert your vorname"}
+                        <input type={"vorname"} required={true} id={vorname} placeholder={"Please insert your vorname"}
                            onChange={onChangeVorname}/>
-                    <input type={"nachname"} required={true} id={nachname} placeholder={"Please insert your vorname"}
-                           onChange={onChangeNachname}/>
+                        <input type={"nachname"} required={true} id={nachname} placeholder={"Please insert your nachname"}
+                               onChange={onChangeNachname}/>
+                        <input type={"Email"} required={true} id={email} placeholder={"Please insert your email"}
+                                   onChange={onChangeEmail}/>
+
+                        </div>
+
                     <button>Register</button>
                 </form>
 
