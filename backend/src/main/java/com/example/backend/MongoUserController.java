@@ -2,10 +2,12 @@ package com.example.backend;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,16 +22,21 @@ public class MongoUserController {
         return service.saveUser(user).getUsername();
     }
 
-    @PostMapping("/register/placeidwork")
-    public String saveUserPlaceIdWork(@RequestBody MongoUser user){
-        return service.saveUser(user).getUsername();
-    }
+    @PostMapping("/register/placeidwork/{sarbeitsadressstadt}/{arbeitsadressestrasse}/{arbeitsadressenummer}")
+    public MongoUser saveuserplaceidwork(@RequestBody MongoUser user, @PathVariable String sarbeitsadressstadt, @PathVariable String arbeitsadressestrasse, @PathVariable String arbeitsadressenummer){
+        user.setArbeitsadressestrasse(user.arbeitsadressestrasse);
+        user.setArbeitsadressestrasse(user.arbeitsadressestrasse);
+        user.setArbeitsadressestrasse(user.arbeitsadressenummer);
 
+        return user;
+
+    }
+/*
     @PostMapping("/register/placeidhome")
     public String saveUserPlaceIdHome(@RequestBody MongoUser user){
-        return service.saveUser(user).getUsername();
+        return service.saveUserPlaceIdWork();
     }
-
+*/
 
     @Autowired
     private MongoUserRepo mongoUserRepo;

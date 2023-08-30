@@ -50,7 +50,7 @@ public class Controller {
     public PlaceIdResponse PlaceId(@PathVariable String adresse,@PathVariable String street,@PathVariable String number) {
         PlaceIdResponse response = service.Place_Id(adresse, street, number);
 
-        return service.Place_Id(adresse,street,number);
+        return response;
 
 
     }
