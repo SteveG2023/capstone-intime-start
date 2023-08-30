@@ -1,9 +1,9 @@
 import './App.css'
-import { useState} from "react";
+import {useState} from "react";
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 
 import LoginPage from "./pages/LoginPage.tsx";
-import ProtectedRoute from "./pages/ProtectedRoute.tsx";
+import ProtectedRoute from "./ProtectedRoute.tsx";
 import RegisterPage from "./pages/RegisterPage/RegisterPage.tsx";
 import Homepage from "./pages/HomePage.tsx";
 import WeckerPage from "./pages/WeckerPage.tsx";
@@ -18,65 +18,24 @@ function App() {
 
     return (
 
-
+        <Router>
             <Routes>
-                <Route
-                    path={""}
-                    element={
-                        <LoginPage setUser={setUser}/>
-                    }
-                />
+                    <Route path={"/"}element={<LoginPage setUser={setUser}/> }/>
 
-                <Route
-                    path={"Register"}
-                    element={
-                        <RegisterPage/>
-                    }
-                />
-                <Route
-                    path={"Wecker"}
-                    element={
-                        <WeckerPage/>
-                    }
-                />
-                <Route
-                    path={"HomePage"}
-                    element={
-                        <Homepage />
-                    }
-                />
-                <Route
-                    path={"Setup"}
-                    element={
-                        <SetupPage />
-                    }
-                />
-                <Route
-                    path={"Adresspagehome"}
-                    element={
-                        <AdressePageHome />
-                    }
-                />
+                    <Route path={"/Register"}element={<RegisterPage/>}/>
 
-                <Route
-                    path={"Adresspagework"}
-                    element={
-                        <AdressePageWork />
-                    }
-                />
+                    <Route element={<ProtectedRoute user={user}/>}>
 
-                <Route
-                    path={"Timeplan"}
-                    element={
-                        <TimePlan />
-                    }
-                />
-                <Route element={<ProtectedRoute user={user}/>}>
+                            <Route path={"/wecker"} element={ <WeckerPage/> } />
+                            <Route path={"/homepage"} element={<Homepage />} />
+                            <Route path={"/Setup"}element={<SetupPage/>}/>
+                            <Route path={"/adresspagehome"}element={<AdressePageHome />} />
+                            <Route path={"/adresspagework"} element={<AdressePageWork />} />
+                            <Route path={"/timeplan"} element={<TimePlan/> }/>
+                    </Route>
 
-
-                </Route>
             </Routes>
-
+        </Router>
     )
 }
 

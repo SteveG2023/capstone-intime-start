@@ -26,7 +26,7 @@ export default function LoginPage(loginPageProps: Props) {
         event.preventDefault()
         axios.post("/api/user/login", undefined, {auth: {username, password}})
             .then((response) => loginPageProps.setUser(response.data))
-            .then(() => nav("/home"))
+            .then(() => nav("/homepage"))
             .catch((error) => console.log(error))
     }
 
@@ -34,7 +34,7 @@ export default function LoginPage(loginPageProps: Props) {
         <div className="wrapper">
             <div className="card">
                 <div className="logo-container-l">
-                    <img src="/img/logo.png" alt="Logo"/>
+
                 </div>
                 <form onSubmit={login}>
                     <h1>LOGIN</h1>
@@ -43,7 +43,7 @@ export default function LoginPage(loginPageProps: Props) {
                     <button>LOGIN</button>
                 </form>
                 <Link className="direction-link" to={"/register"}>New here? REGISTER NOW</Link>
-                <Link className="direction-link" to={"/Homepage"}>Homepage</Link>
+                <Link className="direction-link" to={"/homepage"}>Homepage</Link>
             </div>
         </div>
     )

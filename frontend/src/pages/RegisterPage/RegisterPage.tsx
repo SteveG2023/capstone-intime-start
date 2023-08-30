@@ -35,7 +35,7 @@ export default function RegisterPage() {
         event.preventDefault();
         axios.post("/api/user/register", {username, password, vorname, nachname, email})
 
-            .then(() => nav("/adreepagehome"))
+            .then(() => nav("/homepage"))
             .catch((error) => console.log(error))
     }
 

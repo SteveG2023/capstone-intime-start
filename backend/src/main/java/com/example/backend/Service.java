@@ -34,7 +34,7 @@ public class Service {
     private MongoUserDetailService mongoUserDetailService;
 
     private final MongoUserRepo mongoUserRepo;
-    private static WebClient webClient = WebClient.create("https://maps.googleapis.com/maps/api");
+    static WebClient webClient = WebClient.create("https://maps.googleapis.com/maps/api");
 
     String API_Key = "AIzaSyACQwB6EJsUNDvda1Yxl9sbnF2Muwhi4v8";
 

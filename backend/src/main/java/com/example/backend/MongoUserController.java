@@ -20,7 +20,15 @@ public class MongoUserController {
         return service.saveUser(user).getUsername();
     }
 
+    @PostMapping("/register/placeidwork")
+    public String saveUserPlaceIdWork(@RequestBody MongoUser user){
+        return service.saveUser(user).getUsername();
+    }
 
+    @PostMapping("/register/placeidhome")
+    public String saveUserPlaceIdHome(@RequestBody MongoUser user){
+        return service.saveUser(user).getUsername();
+    }
 
 
     @Autowired
@@ -65,7 +73,7 @@ public class MongoUserController {
 
 
 
-    @PostMapping("/Login")
+    @PostMapping("/login")
     public String login() {
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }

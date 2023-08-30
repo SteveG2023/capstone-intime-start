@@ -45,15 +45,13 @@ public class Controller {
     }
 */
 
-    @PostMapping("")
-    public String saveUser(@RequestBody MongoUser user){
-        return service.saveUser(user).getUsername();
-    }
 
     @GetMapping("/placeid/{adresse}/{street}/{number}")
     public PlaceIdResponse PlaceId(@PathVariable String adresse,@PathVariable String street,@PathVariable String number) {
+        PlaceIdResponse response = service.Place_Id(adresse, street, number);
 
         return service.Place_Id(adresse,street,number);
+
 
     }
     @GetMapping("/{place_idH}/{place_idW}")

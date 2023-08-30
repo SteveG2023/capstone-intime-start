@@ -2,7 +2,7 @@ import {ChangeEvent, FormEvent, useState} from "react";
 import { useNavigate} from "react-router-dom";
 import axios from "axios";
 
-export default function RegisterPageWork() {
+export default function AdressePageWork() {
 
 
     const [arbeitsadressestadt, setArbeitsadresseStadt] = useState("");
@@ -28,7 +28,7 @@ export default function RegisterPageWork() {
 
     function registerwork(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        axios.post("/api/user/register/placeid/", { arbeitsadressestadt, arbeitsadressestrasse, arbeitsadressenummer})
+        axios.post("/api/user/register/placeidwork/", { arbeitsadressestadt, arbeitsadressestrasse, arbeitsadressesnummer})
 
             .then(() => nav("/Iimeplan"))
             .catch((error) => console.log(error))
@@ -41,16 +41,16 @@ export default function RegisterPageWork() {
 
                 </div>
                 <form onSubmit={registerwork}>
-                    <h1>REGISTER</h1>
+                    <h1>REGISTER Your Workplace</h1>
                     <div className="Register">
 
 
-                        <input type={"password"} required={true} id={arbeitsadressestrasse} placeholder={"Please insert your Work-Street"}
+                        <input type={"City"} required={true} id={arbeitsadressestrasse} placeholder={"Please insert your Work-Street"}
                                onChange={onChangeArbeitsAdresseStrasse}/>
-                        <input type={"vorname"} required={true} id={arbeitsadressesnummer} placeholder={"Please insert your Work-Number"}
+                        <input type={"street"} required={true} id={arbeitsadressesnummer} placeholder={"Please insert your Work-Number"}
                                onChange={onChangeArbeitsAdresseNummer}/>
 
-                        <input type={"nachname"} required={true} id={arbeitsadressestadt} placeholder={"Please insert your Work-Address"}
+                        <input type={"number"} required={true} id={arbeitsadressestadt} placeholder={"Please insert your Work-Address"}
                                onChange={onChangeArbeitsAdresseStadt}/>
 
 
