@@ -1,26 +1,26 @@
-import {ChangeEvent, FormEvent, useState} from "react";
+import {ChangeEvent, FormEvent, useEffect, useState} from "react";
 import { useNavigate} from "react-router-dom";
 import axios from "axios";
 
 export default function AdressePageWork() {
 
 
-    const [arbeitsadressestadt, setArbeitsadresseStadt] = useState("");
-    const [arbeitsadressestrasse, setArbeitsAdresseStrasse] = useState("");
-    const [arbeitsadressesnummer,setArbeitsAdresseNummer] = useState("");
+    const [stadt, setStadt] = useState("");
+    const [strasse, setStrasse] = useState("");
+    const [nummer,setNummer] = useState("");
 
 
     const nav = useNavigate();
 
 
-    function onChangeArbeitsAdresseStadt(event: ChangeEvent<HTMLInputElement>) {
-        setArbeitsadresseStadt(event.target.value)
+    function onChangeStadt(event: ChangeEvent<HTMLInputElement>) {
+        setStadt(event.target.value)
     }
-    function onChangeArbeitsAdresseStrasse(event: ChangeEvent<HTMLInputElement>) {
-        setArbeitsAdresseStrasse(event.target.value)
+    function onChangeStrasse(event: ChangeEvent<HTMLInputElement>) {
+        setStrasse(event.target.value)
     }
-    function onChangeArbeitsAdresseNummer(event: ChangeEvent<HTMLInputElement>) {
-        setArbeitsAdresseNummer(event.target.value)
+    function onChangeNummer(event: ChangeEvent<HTMLInputElement>) {
+        setNummer(event.target.value)
     }
 
 
@@ -28,11 +28,14 @@ export default function AdressePageWork() {
 
     function registerwork(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        axios.post("/api/user/register/placeidwork/", { arbeitsadressestadt, arbeitsadressestrasse, arbeitsadressesnummer})
-
-            .then(() => nav("/Iimeplan"))
+        axios({
+            method: 'get',
+            url: `/api/user/placeid/${stadt}/${strasse}/${nummer}`
+        })
+            .then(() => nav("/timeplan"))
             .catch((error) => console.log(error))
     }
+
 
     return (
         <div className="wrapper">
@@ -45,13 +48,13 @@ export default function AdressePageWork() {
                     <div className="Register">
 
 
-                        <input type={"City"} required={true} id={arbeitsadressestrasse} placeholder={"Please insert your Work-Street"}
-                               onChange={onChangeArbeitsAdresseStrasse}/>
-                        <input type={"street"} required={true} id={arbeitsadressesnummer} placeholder={"Please insert your Work-Number"}
-                               onChange={onChangeArbeitsAdresseNummer}/>
+                        <input type={"street"} required={true} id={strasse} placeholder={" Work-Street"}
+                               onChange={onChangeStrasse}/>
+                        <input type={"number"} required={true} id={nummer} placeholder={" Work-Number"}
+                               onChange={onChangeNummer}/>
 
-                        <input type={"number"} required={true} id={arbeitsadressestadt} placeholder={"Please insert your Work-Address"}
-                               onChange={onChangeArbeitsAdresseStadt}/>
+                        <input type={"City"} required={true} id={stadt} placeholder={" Work-City"   }
+                               onChange={onChangeStadt}/>
 
 
 
@@ -63,7 +66,7 @@ export default function AdressePageWork() {
 
                     </div>
 
-                    <button>Register</button>
+                    <button>registerwork</button>
                 </form>
 
 

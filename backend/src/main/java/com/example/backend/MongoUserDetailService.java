@@ -47,6 +47,17 @@ public class MongoUserDetailService implements UserDetailsService {
         return user;
     }
 
+    public MongoUser saveUserAdresse(MongoUser user,String response) {
+        if (repo.findMongoUserByUsername(user.getUsername()).equals(user.getUsername())){
+
+        }
+
+
+        return user;
+    }
+
+
+
     public MongoUser deleteUser(MongoUser user) {
         if (repo.findMongoUserByUsername(user.getUsername()).equals(user.getUsername())){
             repo.delete(user);

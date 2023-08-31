@@ -33,19 +33,22 @@ public class Controller {
     public String getPlace_ID(@PathVariable String adresse, @PathVariable String street, @PathVariable int number) {
         return service.getDataHomeAddressGeocode(useranfragen.getAdresse(),useranfragen.getStreet(), useranfragen.getNumber());
 
-    }
+  }
+ */
+
+//Test
+    @GetMapping("/placeid/{stadt}/{strasse}/{nummer}")
+    public PlaceIdResponse PlaceId(@PathVariable String stadt,@PathVariable String strasse,@PathVariable String nummer) {
+    PlaceIdResponse response = service.Place_Id(stadt, strasse, nummer);
 
 
-    //Test
-    @GetMapping("")
-    public PlaceIdResponse PlaceId() {
-
-        return service.placeIdResponseFunction("Magdeburg","Breiterweg","5");
-
-    }
-*/
+    return response;
 
 
+}
+
+
+/*
     @GetMapping("/placeid/{adresse}/{street}/{number}")
     public PlaceIdResponse PlaceId(@PathVariable String adresse,@PathVariable String street,@PathVariable String number) {
         PlaceIdResponse response = service.Place_Id(adresse, street, number);
@@ -54,6 +57,8 @@ public class Controller {
 
 
     }
+
+ */
     @GetMapping("/{place_idH}/{place_idW}")
     public PlaceIdResponse Route(@PathVariable String place_idH,@PathVariable String place_idW) {
 

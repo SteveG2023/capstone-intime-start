@@ -54,11 +54,6 @@ public class MongoUserController {
 
 
 
-
-
-
-
-
     @GetMapping("/me2")
     public String getMe2(){
         return SecurityContextHolder
@@ -74,10 +69,6 @@ public class MongoUserController {
         return "logged out";
 
     }
-
-
-
-
 
 
     @PostMapping("/login")
