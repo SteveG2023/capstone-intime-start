@@ -1,6 +1,7 @@
 import {ChangeEvent, FormEvent, useEffect, useState} from "react";
-import { useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
+
 
 export default function AdressePageWork() {
 
@@ -44,7 +45,7 @@ export default function AdressePageWork() {
 
                 </div>
                 <form onSubmit={registerwork}>
-                    <h1>REGISTER Your Workplace</h1>
+                    <h3>REGISTER Your Workplace</h3>
                     <div className="Register">
 
 
@@ -66,7 +67,17 @@ export default function AdressePageWork() {
 
                     </div>
 
-                    <button>registerwork</button>
+                    <button>Save</button>
+
+
+
+                    <div>
+
+
+                        <Link className="direction-link" to={"/setup"}>Setup</Link>
+
+
+                    </div>
                 </form>
 
 

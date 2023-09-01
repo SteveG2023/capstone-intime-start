@@ -1,5 +1,5 @@
 import {ChangeEvent, FormEvent, useState} from "react";
-import { useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 
 export default function TimePlan() {
@@ -43,18 +43,18 @@ export default function TimePlan() {
 
                 </div>
                 <form onSubmit={registerTime}>
-                    <h1>REGISTER</h1>
-                    <div className="Register">
+                    <h3>REGISTER YOUR TIME</h3>
+                    <div className="Register Your Time">
 
 
-                        <input type={"WorkTimeStart"} required={true} id={arbeituhrzeitstart} placeholder={"Please insert your WorkTimeStart"}
+                        <input type={"WorkTimeStart"} required={true} id={arbeituhrzeitstart} placeholder={" WorkTimeStart"}
                                onChange={onChangeArbeitsUhrzeitStart}/>
-                        <input type={"WorkTimeEnde"} required={true} id={arbeitsuhrzeitende} placeholder={"Please insert your WorkTimeEnd"}
+                        <input type={"WorkTimeEnde"} required={true} id={arbeitsuhrzeitende} placeholder={" WorkTimeEnd"}
                                onChange={onChangeArbeitsuhrzeitEnde}/>
 
-                        <input type={"nachname"} required={true} id={datum} placeholder={"Please insert your Work-Date"}
+                        <input type={"nachname"} required={true} id={datum} placeholder={" Work-Date"}
                                onChange={onChangeDatum}/>
-                        <input type={"nachname"} required={true} id={driveBy} placeholder={"Please insert your Drive_By"}
+                        <input type={"nachname"} required={true} id={driveBy} placeholder={" Drive_By"}
                                onChange={onChangeDriveBy}/>
 
 
@@ -67,6 +67,7 @@ export default function TimePlan() {
                     </div>
 
                     <button>Register</button>
+                    <Link className="direction-link" to={"/homepage"}>HomePage</Link>
                 </form>
 
 

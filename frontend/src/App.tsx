@@ -30,7 +30,7 @@ function App() {
                             <Route path={"/homepage"} element={<Homepage />} />
                             <Route path={"/Setup"}element={<SetupPage/>}/>
                             <Route path={"/adresspagehome"}element={<AdressePageHome />} />
-                            <Route path={"/adresspagework"} element={<AdressePageWork />} />
+                            <Route path={"/adresspagework"} element={<AdressePageWork  />} />
                             <Route path={"/timeplan"} element={<TimePlan/> }/>
                     </Route>
 

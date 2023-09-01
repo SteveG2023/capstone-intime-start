@@ -13,7 +13,7 @@ export default function SetupPage() {
         <div className="wrapper">
             <div className="card">
                 <div className="logo-container-l">
-                    <h1>Das ist eine SetupPage</h1>
+                    <h3>Das ist eine SetupPage</h3>
 
 
                     <div>
@@ -24,14 +24,24 @@ export default function SetupPage() {
                     </div>
 
                     <Link className="direction-link" to={""}>Farbe</Link>
+                    <div>
 
-                    <Link className="direction-link" to={"adresspagehome"}>AddresspageWork</Link>
+                    <Link className="direction-link" to={"/adresspagework"}>Workplace</Link>
+
+                    </div>
+                    <Link className="direction-link" to={"/adresspagehome"}>Homeplace</Link>
+                    </div>
+                    <div>
+                    <Link className="direction-link" to={"/homepage"}>Homepage</Link>
+                    </div>
+                    <div>
+                    <Link className="direction-link" to={"/homepage"}>Logout</Link>
+                    </div>
+                    <div>
+                    <Link className="direction-link" to={"/wecker"}>Wecker</Link>
+                     </div>
 
 
-
-                 </div>
-
-                <Link className="direction-link" to={"/adresspagework"}>AdresspageHome</Link>
             </div>
 
         </div>

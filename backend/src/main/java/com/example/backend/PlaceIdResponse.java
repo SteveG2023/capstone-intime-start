@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
+
+
+
 public class PlaceIdResponse {
     @JsonProperty("results")
     private Result[] results;
@@ -11,17 +14,20 @@ public class PlaceIdResponse {
     @JsonProperty("status")
     private String status;
 
-
-
-
     public String getStatus() {
-        return status;
+        return getPlaceId();
     }
 
+    public String getPlaceId() {
+        if (results != null && results.length > 0) {
+
+            return results[0].placeId;
+        }
+        return null;
+    }
+    @Data
     private static class Result {
         @JsonProperty("place_id")
         private String placeId;
-
-
     }
 }

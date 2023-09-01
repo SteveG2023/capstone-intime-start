@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+
 
 
 public class Useranfragen {

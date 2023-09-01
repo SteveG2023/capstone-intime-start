@@ -15,10 +15,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @With
 public class MongoUser {
 
-
-
-
-
+    String id;
     String username;
     String password;
     String vorname;
@@ -30,15 +27,16 @@ public class MongoUser {
     String wohnadressestadt;
     String wohnadressestrasse;
     String wohnadressenummer;
-    String place_ipHome;
+    String place_idHome;
 
     String arbeitsadressestadt;
     String arbeitsadressestrasse;
     String arbeitsadressenummer;
-    String place_ipWork;
+    String place_idWork;
 
     String TimeStart;
-    String TimeStop;
+
+    String place_id;
 
     String fortbewegung;
 

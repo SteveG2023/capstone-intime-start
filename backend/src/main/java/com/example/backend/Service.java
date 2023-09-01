@@ -2,12 +2,14 @@ package com.example.backend;
 
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
@@ -15,6 +17,8 @@ import reactor.core.publisher.Mono;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+
 @RequiredArgsConstructor
 
 
@@ -24,7 +28,7 @@ import java.util.Objects;
 
 public class Service {
 
-
+    private final MongoUserDetailService service;
     private final com.example.backend.Repository repository;
 
     private PlaceIdResponse placeIdResponse;
@@ -33,19 +37,12 @@ public class Service {
     private Results results;
     private MongoUserDetailService mongoUserDetailService;
 
-    private final MongoUserRepo mongoUserRepo;
+    private final MongoUserRepo user;
     static WebClient webClient = WebClient.create("https://maps.googleapis.com/maps/api");
 
     String API_Key = "AIzaSyACQwB6EJsUNDvda1Yxl9sbnF2Muwhi4v8";
 
-    public MongoUser saveUser(MongoUser user) {
-        if (mongoUserDetailService.loadUserByUsername(user.getUsername()).equals(user.getUsername())){
-            throw new IllegalArgumentException("Username already taken");
-        }
-        PasswordEncoder encoder = Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8();
-        mongoUserDetailService.saveUser(user.withPassword(encoder.encode(user.getPassword())));
-        return user;
-    }
+
 
 
 
@@ -59,16 +56,7 @@ public class Service {
                         .block())
                 .getBody();
     }
-    public Useranfragen timeWithTraffic(String place_idA, String place_idB) {
 
-        return Objects.requireNonNull(webClient.get()
-                        .uri("/directions/json?destination=place_id:"+place_idA+"&origin=place_id:"+place_idB+"&key="+API_Key)
-                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                        .retrieve()
-                        .toEntity(Useranfragen.class)
-                        .block())
-                .getBody();
-    }
 
 
     // Diese Application funktioniert////////////////////////////////////////////
@@ -84,6 +72,8 @@ public class Service {
                         .block())
                 .getBody();
     }
+
+
 /*
     public ApiService(WebClient.Builder webClientBuilder, Repository Repository) {
         this.webClient = webClientBuilder.baseUrl("DEINE_API_URL_HIER").build();
@@ -118,6 +108,8 @@ public class Service {
 
 
     */
+
+
 
 
     }

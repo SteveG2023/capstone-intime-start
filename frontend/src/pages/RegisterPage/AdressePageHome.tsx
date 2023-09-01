@@ -1,26 +1,26 @@
 import {ChangeEvent, FormEvent, useState} from "react";
-import { useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 
 export default function AdressePageHome() {
-    const [wohnadressestadt, setWohnAdresseStadt] = useState("");
-    const [wohnadressestrasse, setWohnAdresseStrasse] = useState("");
-    const [wohnadressenummer, setWohnAdresseNummer] = useState("");
+    const [stadt, setStadt] = useState("");
+    const [strasse, setStrasse] = useState("");
+    const [nummer, setNummer] = useState("");
 
 
 
     const nav = useNavigate();
 
-    function onChangeWohnAdresseStadt(event: ChangeEvent<HTMLInputElement>) {
-        setWohnAdresseStadt(event.target.value)
+    function onChangeStadt(event: ChangeEvent<HTMLInputElement>) {
+        setStadt(event.target.value)
     }
 
-    function onChangeWohnAdresseStrasse(event: ChangeEvent<HTMLInputElement>) {
-        setWohnAdresseStrasse(event.target.value)
+    function onChangeStrasse(event: ChangeEvent<HTMLInputElement>) {
+        setStrasse(event.target.value)
     }
 
-    function onChangeWohnAdresseNummer(event: ChangeEvent<HTMLInputElement>) {
-        setWohnAdresseNummer(event.target.value)
+    function onChangeNummer(event: ChangeEvent<HTMLInputElement>) {
+        setNummer(event.target.value)
     }
 
 
@@ -28,16 +28,14 @@ export default function AdressePageHome() {
 
 
 
-    function registerhome(event: FormEvent<HTMLFormElement>) {
+    function register(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        axios.post("/api/user/register/placeidhome/", { wohnadressestadt, wohnadressestrasse, wohnadressenummer})
-
-            .then(() => nav("/Adresspagework"))
+        axios({
+            method: 'get',
+            url: `/api/user/placeid/${stadt}/${strasse}/${nummer}`
+        })
+            .then(() => nav("/timeplan"))
             .catch((error) => console.log(error))
-
-
-
-
     }
 
     return (
@@ -46,18 +44,25 @@ export default function AdressePageHome() {
                 <div className="logoContainerL">
 
                 </div>
-                <form onSubmit={registerhome}>
-                    <h1>REGISTER</h1>
-                    <div className="Register yout Home-Address">
-                        <input type={"Stadt"} required={true} id={wohnadressestadt} placeholder={"Please insert your Stadt"}
-                               onChange={onChangeWohnAdresseStadt}/>
-                        <input type={"Strasse"} required={true} id={wohnadressestrasse} placeholder={"Please insert your Strasse"}
-                               onChange={onChangeWohnAdresseStrasse}/>
-                        <input type={"nummer"} required={true} id={wohnadressenummer} placeholder={"Please insert your nummer"}
-                               onChange={onChangeWohnAdresseNummer}/>
+                <form onSubmit={register}>
+                    <h3>REGISTER YOUR HOMEPLACE</h3>
+                    <div className="Register your Home-Address">
+                        <input type={"Stadt"} required={true} id={stadt} placeholder={" Stadt"}
+                               onChange={onChangeStadt}/>
+                        <input type={"Strasse"} required={true} id={strasse} placeholder={" Strasse"}
+                               onChange={onChangeStrasse}/>
+                        <input type={"nummer"} required={true} id={nummer} placeholder={" nummer"}
+                               onChange={onChangeNummer}/>
                     </div>
 
-                    <button>Register</button>
+                    <button>Save</button>
+                    <div>
+
+
+                        <Link className="direction-link" to={"/setup"}>Setup</Link>
+
+
+                    </div>
                 </form>
 
 
