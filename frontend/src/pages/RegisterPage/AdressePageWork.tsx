@@ -31,10 +31,10 @@ export default function AdressePageWork() {
         event.preventDefault();
         axios({
             method: 'get',
-            url: `/api/user/placeid/${stadt}/${strasse}/${nummer}`
+            url: `/api/user/placeidw/${stadt}/${strasse}/${nummer}`
         })
-            .then(() => nav("/timeplan"))
-            .catch((error) => console.log(error))
+            .then(() => nav("/setup"))
+            //.catch((error) => console.log(error))
     }
 
 

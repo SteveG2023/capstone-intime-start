@@ -5,7 +5,6 @@ import lombok.Data;
 
 import lombok.NoArgsConstructor;
 import lombok.With;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
@@ -34,9 +33,13 @@ public class MongoUser {
     String arbeitsadressenummer;
     String place_idWork;
 
+    String routeTimewithoutTraffic;
+    String routTimewithTraffic;
     String TimeStart;
 
     String place_id;
+    String duration;
+    String distance;
 
     String fortbewegung;
 

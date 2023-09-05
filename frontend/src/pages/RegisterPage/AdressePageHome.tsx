@@ -32,7 +32,7 @@ export default function AdressePageHome() {
         event.preventDefault();
         axios({
             method: 'get',
-            url: `/api/user/placeid/${stadt}/${strasse}/${nummer}`
+            url: `/api/user/placeidh/${stadt}/${strasse}/${nummer}`
         })
             .then(() => nav("/timeplan"))
             .catch((error) => console.log(error))

@@ -63,28 +63,54 @@ export default function RegisterPage() {
     }
 
 
-    function register(event: FormEvent<HTMLFormElement>) {
+    async function register(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        axios.post("/api/user/register", {
-            username,
-            password,
-            vorname,
-            nachname,
-            email,
-            wohnadressestadt,
-            wohnadressestrasse,
-            wohnadressenummer,
-            arbeitsadressestadt,
-            arbeitsadressestrasse,
-            arbeitsadressenummer,
-        }). then()
-        event.preventDefault();
-        axios({
-            method: 'get',
-            url: `/api/user/placeida/${username}${arbeitsadressestadt}/${arbeitsadressestrasse}/${arbeitsadressenummer}`
-              })
-            .then(() => nav("/timeplan"))
-            .catch((error) => console.log(error))
+
+        try {
+            // Erste Axios POST-Anfrage
+            await axios.post("/api/user/register", {
+                username,
+                password,
+                vorname,
+                nachname,
+
+                email,
+                wohnadressestadt,
+                wohnadressestrasse,
+                wohnadressenummer,
+                arbeitsadressestadt,
+                arbeitsadressestrasse,
+                arbeitsadressenummer,
+
+
+            });
+
+
+
+            // Dritte Axios GET-Anfrage
+            setTimeout(() => {
+                axios.get(`/api/user/placeidh/${username}`)
+
+            }, 1500); // 5000 Millisekunden entsprechen 5 Sekunden
+            setTimeout(() => {
+                axios.get(`/api/user/placeidw/${username}`)
+
+            }, 5000); // 5000 Millisekunden entsprechen 5 Sekunden
+
+
+
+
+
+            // Navigieren nach erfolgreicher Ausführung der letzten GET-Anfrage
+            nav("/homepage");
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
+
+
         /*
         event.preventDefault();
         axios({
@@ -92,7 +118,7 @@ export default function RegisterPage() {
             url: `/api/user/placeidw/${username}${wohnadressestadt}/${wohnadressestrasse}/${wohnadressenummer}`
         */
 
-    }
+
         return (
             <div className="wrapper">
                 <div className="card">
@@ -134,14 +160,15 @@ export default function RegisterPage() {
                         <div className="Register">
 
 
-                            <input type={"street"} required={true} id={arbeitsadressestrasse}
-                                   placeholder={" Stadt"}
-                                   onChange={onChangearbeitsadressestrasse}/>
+
 
 
                             <input type={"City"} required={true} id={arbeitsadressestadt}
-                                   placeholder={" Strasse"}
+                                   placeholder={" Stadt"}
                                    onChange={onChangearbeitsadressestadt}/>
+                            <input type={"street"} required={true} id={arbeitsadressestrasse}
+                                   placeholder={" Strasse"}
+                                   onChange={onChangearbeitsadressestrasse}/>
 
                             <input type={"number"} required={true} id={arbeitsadressenummer}
                                    placeholder={" nummer"}

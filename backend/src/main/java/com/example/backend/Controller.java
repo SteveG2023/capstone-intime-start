@@ -5,8 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 import java.util.Optional;
@@ -86,10 +84,10 @@ public class Controller {
 
      */
 // nicht anfassen ////////////////////////////////
-    private static final Logger logger = LoggerFactory.getLogger(MongoUserController.class);
 
 
-    @GetMapping("/get-user/{username}")
+/*
+    @GetMapping("/placeidw/{username}")
     public ResponseEntity<PlaceIdResponse> findbyusername(@PathVariable String username) {
         Optional<MongoUser> user = detailService.findByUsername(username);
            detailService.deleteUser(user.orElseThrow().id);
@@ -116,27 +114,126 @@ public class Controller {
 
 
     }
+    */
+// diese Function geht
 
-    private AdresseUser extractFilteredData(MongoUser user) {
-        // Hier kannst du die Filterlogik implementieren, um die gewünschten Informationen aus dem MongoUser-Objekt zu extrahieren
-        String filteredInfo1 = user.arbeitsadressestadt; // Beispiel: Annahme, dass es eine Methode getSomeInfo() gibt
-        String filteredInfo2 = user.arbeitsadressestrasse; // Beispiel: Annahme, dass es eine Methode getAnotherInfo() gibt
-        String filteredInfo3 = user.arbeitsadressenummer;
-        // Erstelle ein FilteredUserData-Objekt und gib die extrahierten Daten zurück
-        return new AdresseUser(filteredInfo1, filteredInfo2, filteredInfo3);
+    @GetMapping("/placeidw/{username}")
+    public ResponseEntity<PlaceIdResponse> findbyusernamew(@PathVariable String username) {
+        Optional<MongoUser> user = detailService.findByUsername(username);
+        detailService.deleteUser(user.orElseThrow().id);
+        if (user.isPresent()) {
+            MongoUser mongoUser = user.get();
+
+            //Adresse filtern
+
+            //userRepo.delete(mongoUser.withUsername(username));
+            //Adresse an google senden // das geht
+            PlaceIdResponse response = service.Place_Id(mongoUser.arbeitsadressestadt, mongoUser.arbeitsadressestrasse, mongoUser.arbeitsadressenummer);
+
+
+            userRepo.save(mongoUser.withPlace_idWork(String.valueOf(response.getPlaceId())));
+
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+
+
+    }
+
+    @GetMapping("/placeidh/{username}")
+    public ResponseEntity<PlaceIdResponse> findbyusername(@PathVariable String username) {
+        Optional<MongoUser> user = detailService.findByUsername(username);
+        detailService.deleteUser(user.orElseThrow().id);
+        if (user.isPresent()) {
+            MongoUser mongoUser = user.get();
+
+            //Adresse filtern
+
+            //userRepo.delete(mongoUser.withUsername(username));
+            //Adresse an google senden // das geht
+
+            PlaceIdResponse response = service.Place_Id(mongoUser.wohnadressestadt, mongoUser.wohnadressestrasse, mongoUser.wohnadressenummer);
+
+            userRepo.save(mongoUser.withPlace_idHome(String.valueOf(response.getPlaceId())));
+
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+
+
+    }
+
+    @GetMapping("/route/{username}")
+    public ResponseEntity<ResponseEntity> findDurationDistance(@PathVariable String username) {
+        Optional<MongoUser> user = detailService.findByUsername(username);
+        detailService.deleteUser(user.orElseThrow().id);
+        if (user.isPresent()) {
+            MongoUser mongoUser = user.get();
+
+            //Adresse filtern
+
+            //userRepo.delete(mongoUser.withUsername(username));
+            //Adresse an google senden // das geht
+
+            Leg inhalt = service.timeWithoutTraffic(mongoUser.place_idHome, mongoUser.place_idWork);
+            System.out.println(inhalt);
+
+
+
+            userRepo.save(mongoUser.withDistance(String.valueOf(inhalt)));
+            userRepo.save(mongoUser.withDuration(String.valueOf(inhalt)));
+
+            return ResponseEntity.ok(ResponseEntity.ok().build());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+
+
     }
 
 
 
 
 
+    @GetMapping("/duration/{username}")
+    public ResponseEntity<ResponseEntity.BodyBuilder> findDuration(@PathVariable String username) {
+        Optional<MongoUser> user = detailService.findByUsername(username);
+      //  detailService.deleteUser(user.orElseThrow().id);
+        if (user.isPresent()) {
+            MongoUser mongoUser = user.get();
+
+            //Adresse filtern
+
+            //userRepo.delete(mongoUser.withUsername(username));
+            //Adresse an google senden // das geht
+
+            Leg inhalt = service.duration(mongoUser.arbeitsadressestadt, mongoUser.arbeitsadressestrasse, mongoUser.arbeitsadressenummer, mongoUser.wohnadressestadt, mongoUser.wohnadressestrasse, mongoUser.wohnadressenummer);
+            System.out.println(inhalt);
+
+
+            userRepo.save(mongoUser.withDistance(String.valueOf(inhalt)));
+            userRepo.save(mongoUser.withDuration(String.valueOf(inhalt)));
+
+            return ResponseEntity.ok(ResponseEntity.ok());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+
+
+    }}
 
 
 
 
 
 
-}
+
+
+
+
+
 
 
 

@@ -1,23 +1,13 @@
 package com.example.backend;
 
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.User;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 
@@ -46,16 +36,20 @@ public class Service {
 
 
 
-    public PlaceIdResponse timeWithoutTraffic(String place_idH, String place_idW) {
+    public Leg timeWithoutTraffic(String place_idH, String place_idW) {
 
         return Objects.requireNonNull(webClient.get()
-                        .uri("/directions/json?destination=place_id=:"+place_idH+"&origin=place_id="+place_idW+"&key="+API_Key)
-                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                        .uri("/directions/json?departure_time=now&destination=place_id:"+place_idW+"&origin=place_id:"+place_idH+"&key="+API_Key)
+                        .accept(MediaType.APPLICATION_JSON)
                         .retrieve()
-                        .toEntity(PlaceIdResponse.class)
+                        .toEntity(Leg.class)
                         .block())
                 .getBody();
     }
+
+
+
+
 
 
 
@@ -65,13 +59,16 @@ public class Service {
 
 
         return Objects.requireNonNull(webClient.get()
-                        .uri("/geocode/json?address=" + adresse + "=street=" + street + "=number=" + number + "&key=" + API_Key)
+                        .uri("/geocode/json?address="+adresse+"=street="+street+"=number="+number+"&key="+API_Key)
                         .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                         .retrieve()
                         .toEntity(PlaceIdResponse.class)
                         .block())
                 .getBody();
     }
+
+
+
 
 
 /*
@@ -107,12 +104,57 @@ public class Service {
 
 
 
-    */
 
 
+    private final WebClient webClient;
 
-
+    public JsonSenderService() {
+        this.webClient = WebClient.builder()
+                .baseUrl("https://routes.googleapis.com") // Ihre Ziel-URL hier eintragen
+                .defaultHeader("Content-Type", "application/json")
+                .defaultHeader("X-Goog-Api-Key", "AIzaSyACQwB6EJsUNDvda1Yxl9sbnF2Muwhi4v8")
+                .defaultHeader("X-Goog-FieldMask", "routes.duration,routes.distanceMeters,routes.polyline.encodedPolyline")
+                .build();
     }
+
+    public Mono<Void> sendJsonRequest() {
+        // Ihre JSON-Daten hier erstellen
+        String jsonPayload = "{ \"origin\": {Magdeburg ... }, \"destination\": {Berlin ... }, ... }";
+
+        return webClient.post()
+                .uri("/directions/v2:computeRoutes")
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromValue(jsonPayload))
+                .retrieve()
+                .bodyToMono(Void.class);
+    }
+
+
+ */
+
+
+
+    public Leg duration(String citywork , String streetwork , String numberwork, String cityhome , String streethome , String numberhome) {
+
+
+        return Objects.requireNonNull(webClient.get()
+                        .uri("/directions/json?departure_time=now&destination=place_id:ChIJAVkDPzdOqEcRcDteW0YgIQQ&origin=place_id:ChIJW-raVf_1pUcRYBAH-FlmIwQ&key=AIzaSyACQwB6EJsUNDvda1Yxl9sbnF2Muwhi4v8")
+
+                        .retrieve()
+                        .toEntity(Leg.class)
+                        .block())
+                .getBody();
+    }
+
+
+
+
+
+
+
+
+
+}
 
 
 
