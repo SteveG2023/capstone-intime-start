@@ -1,7 +1,7 @@
 import {ChangeEvent, FormEvent, useState} from "react";
 import axios from "axios";
 import {Link, useNavigate} from "react-router-dom";
-
+import "./LoginPage.css";
 
 type Props = {
     setUser: (user:string) => void
@@ -43,7 +43,7 @@ export default function LoginPage(loginPageProps: Props) {
                     <button>LOGIN</button>
                 </form>
                 <Link className="direction-link" to={"/register"}>New here? REGISTER NOW</Link>
-                <Link className="direction-link" to={"/homepage"}>Homepage</Link>
+
             </div>
         </div>
     )

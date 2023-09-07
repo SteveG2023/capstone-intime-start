@@ -1,6 +1,7 @@
 import {ChangeEvent, FormEvent, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
+import "./RegisterPage.css";
 
 export default function RegisterPage() {
     const [username, setUsername] = useState("");
@@ -126,7 +127,7 @@ export default function RegisterPage() {
 
                     </div>
                     <form onSubmit={register}>
-                        <h3>REGISTER User Details</h3>
+                        <h3 className={"homeplace"}>Register</h3>
                         <div className="Register">
                             <input type={"text"} required={true} id={username} placeholder={" username"}
                                    onChange={onChangeUsername}/>
@@ -143,7 +144,7 @@ export default function RegisterPage() {
 
                         </div>
 
-                        <h3>REGISTER YOUR Homplace</h3>
+                        <h3 className={"homeplace"}> Homplace</h3>
                         <div className="Register your Home-Address">
                             <input type={"Stadt"} required={true} id={wohnadressestadt}
                                    placeholder={" Stadt"}
@@ -156,7 +157,7 @@ export default function RegisterPage() {
                                    onChange={onChangewohnadressenummer}/>
                         </div>
 
-                        <h3>REGISTER Your Workplace</h3>
+                        <h3 className={"homeplace"}> Workplace</h3>
                         <div className="Register">
 
 

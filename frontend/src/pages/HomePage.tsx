@@ -15,7 +15,7 @@ export default function HomePage() {
         <div className="wrapper">
             <div className="card">
                 <div className="logo-container-l">
-                    <h3>Das ist eine Homepage</h3>
+                    <h3>Home</h3>
 
                 </div>
 

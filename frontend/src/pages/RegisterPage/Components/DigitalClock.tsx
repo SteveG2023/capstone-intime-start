@@ -1,5 +1,5 @@
 import { useEffect, useState} from 'react';
-
+import "./DigitalClock.css";
 
 const DigitalClock = () => {
 
@@ -21,8 +21,8 @@ const DigitalClock = () => {
 
         return (
             <div className="digital-clock">
-                <h1>Digitaluhr</h1>
-                <p>{`${hours}:${minutes}:${seconds}`}</p>
+                <h1>Uhrzeit</h1>
+                <p className={"Zahlen"}>{`${hours}:${minutes}:${seconds}`}</p>
             </div>
         );
     }

@@ -24,17 +24,28 @@
     text-align: center;
 }
 
-.image-priority{
+.img-priority{
     width: 50%;
     border-radius: 5px;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-end;
+    align-items: flex-start;
+    transform: translateX(80px) translateY(0px);
 }
 
 
-.Background {
+.Background{
+    background-image: url("https://cdn.pixabay.com/photo/2016/04/09/14/21/clock-1318131_1280.jpg");
 
-    //background-size: cover; /* Das Bild füllt den gesamten Bereich aus */
-    //background-repeat: no-repeat; /* Verhindert das Wiederholen des Bildes */
 }
+.digital-clock{
+    background-color: black;
+}
+.zurueck{
+    transform: translateX(1px) translateY(80px);
+}
+.logout {
+    transform: translateX(100px) translateY(80px);
+
+}
+

@@ -1,27 +1,37 @@
 package com.example.backend;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 @Data
-public class Leg<S> {
-
-    private Distance distance;
-    private Duration duration;
-    private Duration duration_in_traffic;
+public class Leg {
 
 
-
-    public static class Distance {
-        private String text;
+       private Duration duration;
+       private Duration_in_Traffic duration_in_traffic;
 
 
 
-    }
-
-    public static class Duration {
-        private String text;
 
 
 
-    }
+
+
+
+
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
