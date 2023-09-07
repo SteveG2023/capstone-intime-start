@@ -38,7 +38,7 @@ public class MongoUser {
     String TimeStart;
 
     String place_id;
-    String duration;
+    int duration;
     String distance;
 
     String fortbewegung;
