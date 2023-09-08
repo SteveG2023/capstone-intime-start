@@ -63,16 +63,6 @@ public class Service {
                 .getBody();
     }
 
-
-
-
-
-
-
-
-
-
-
     ResponseDuration duration(String citywork, String streetwork, String numberwork, String cityhome, String streethome, String numberhome) {
        // WebClient responseEntity =  webClient;
 

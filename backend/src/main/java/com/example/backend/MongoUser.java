@@ -35,10 +35,17 @@ public class MongoUser {
 
     String routeTimewithoutTraffic;
     String routTimewithTraffic;
-    String TimeStart;
+
+    int workTimeStart;
+    int preparationTime;
+    int workTimeEnd;
+    int duration;
+
+
+
 
     String place_id;
-    int duration;
+
     String distance;
 
     String fortbewegung;

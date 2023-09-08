@@ -31,7 +31,7 @@ export default function AdressePageWork() {
         event.preventDefault();
         axios({
             method: 'get',
-            url: `/api/user/placeidw/${stadt}/${strasse}/${nummer}`
+            url: `/api/user/placeidWork/${stadt}${stadt}/${strasse}/${nummer}`
         })
             .then(() => nav("/setup"))
             //.catch((error) => console.log(error))

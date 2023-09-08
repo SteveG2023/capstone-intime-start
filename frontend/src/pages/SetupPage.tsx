@@ -35,7 +35,7 @@ export default function SetupPage() {
                     <Link className="direction-link" to={"/homepage"}>Homepage</Link>
                     </div>
                     <div>
-
+                        <Link className="direction-link" to={"/timeplan"}>Timepage</Link>
                     <div>
                     <Link className="direction-link" to={"/wecker"}>Wecker</Link>
                      </div>

@@ -17,12 +17,12 @@ const DigitalClock = () => {
 
         const hours = time.getHours().toString().padStart(2, '0');
         const minutes = time.getMinutes().toString().padStart(2, '0');
-        const seconds = time.getSeconds().toString().padStart(2, '0');
+
 
         return (
             <div className="digital-clock">
-                <h1>Uhrzeit</h1>
-                <p className={"Zahlen"}>{`${hours}:${minutes}:${seconds}`}</p>
+                <h3>Uhrzeit</h3>
+                <p className={"Zahlen"}>{`${hours}:${minutes}`}</p>
             </div>
         );
     }

@@ -24,10 +24,14 @@ export default function LoginPage(loginPageProps: Props) {
 
     function login(event:FormEvent<HTMLFormElement>) {
         event.preventDefault()
+
         axios.post("/api/user/login", undefined, {auth: {username, password}})
             .then((response) => loginPageProps.setUser(response.data))
-            .then(() => nav("/homepage"))
-            .catch((error) => console.log(error))
+        nav("/homepage");
+
+
+
+
     }
 
     return (

@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 
 function Wecker() {
     const [alarmTime, setAlarmTime] = useState(""); // State für die Weckerzeit
     const [alarmActive, setAlarmActive] = useState(false); // State, um den Wecker zu aktivieren/deaktivieren
 
-    const handleAlarmTimeChange = (e) => {
-        setAlarmTime(e.target.value);
+    const handleAlarmTimeChange = (event) => {
+        setAlarmTime(event.target.value);
     };
 
     const toggleAlarm = () => {

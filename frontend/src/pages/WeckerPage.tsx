@@ -12,8 +12,8 @@ export default function WeckerPage() {
                 <div className="logo-container-l"/>
                 <h1>Wecker</h1>
                 <div>
-                    <Link className={"zurueck"} to={"/homepage"}>
-                        zurück
+                    <Link className={"zurueck"} to={"/setup"}>
+                        Setup
                     </Link>
                     <Link className={"logout"} to={"/"}>
                         logout

@@ -28,7 +28,7 @@ public class MongoUserController {
         }
 
 
-    @PostMapping("/register/placeidwork/{sarbeitsadressstadt}/{arbeitsadressestrasse}/{arbeitsadressenummer}")
+    @PostMapping("/registerTime/{username}")
     public MongoUser saveuserplaceidwork(@RequestBody MongoUser user, @PathVariable String sarbeitsadressstadt, @PathVariable String arbeitsadressestrasse, @PathVariable String arbeitsadressenummer) {
         user.setArbeitsadressestrasse(user.arbeitsadressestrasse);
         user.setArbeitsadressestrasse(user.arbeitsadressestrasse);

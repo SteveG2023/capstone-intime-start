@@ -1,36 +1,33 @@
 import {ChangeEvent, FormEvent, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
-import axios from "axios";
-
+import axios from './Components/TimePicker';
+import TimePicker from "./Components/TimePicker";
 export default function TimePlan() {
 
 
-    const [arbeituhrzeitstart, setArbeitsUhrzeitStart] = useState("");
-    const [arbeitsuhrzeitende, setAArbeitsUhrzeitEnd] = useState("");
-    const [datum,setDatum] = useState("");
-    const [driveBy,setDriveBy] = useState("");
+    const [workTimeStart, setWorkTimeStart] = useState("");
+    const [workTimeEnd, setWorkTimeEnd] = useState("");
+    const [preparationTime,setPreparationTime] = useState("");
+
 
     const nav = useNavigate();
 
 
-    function onChangeArbeitsUhrzeitStart(event: ChangeEvent<HTMLInputElement>) {
-        setArbeitsUhrzeitStart(event.target.value)
+    function onChangeWorkTimeStart(event: ChangeEvent<HTMLInputElement>) {
+        setWorkTimeStart(event.target.value)
     }
-    function onChangeArbeitsuhrzeitEnde(event: ChangeEvent<HTMLInputElement>) {
-        setAArbeitsUhrzeitEnd(event.target.value)
+    function onChangeWorkTimeEnd(event: ChangeEvent<HTMLInputElement>) {
+        setWorkTimeEnd(event.target.value)
     }
-    function onChangeDatum(event: ChangeEvent<HTMLInputElement>) {
-        setDatum(event.target.value)
-    }
-    function onChangeDriveBy(event: ChangeEvent<HTMLInputElement>) {
-        setDriveBy(event.target.value)
+    function onChangePreparationTime(event: ChangeEvent<HTMLInputElement>) {
+        setPreparationTime(event.target.value)
     }
 
 
 
     function registerTime(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        axios.post("/api/user/register/", { arbeituhrzeitstart, arbeitsuhrzeitende, datum,driveBy})
+        axios.post("/api/user/register/", { workTimeStart, workTimeEnd, preparationTime})
 
             .then(() => nav("/hompage"))
             .catch((error) => console.log(error))
@@ -47,15 +44,16 @@ export default function TimePlan() {
                     <div className="Register Your Time">
 
 
-                        <input type={"WorkTimeStart"} required={true} id={arbeituhrzeitstart} placeholder={" WorkTimeStart"}
-                               onChange={onChangeArbeitsUhrzeitStart}/>
-                        <input type={"WorkTimeEnde"} required={true} id={arbeitsuhrzeitende} placeholder={" WorkTimeEnd"}
-                               onChange={onChangeArbeitsuhrzeitEnde}/>
+                        <input type={"WorkTimeStart"} required={true} id={preparationTime} placeholder={" Preparation"}
+                               onChange={onChangePreparationTime}/>
 
-                        <input type={"nachname"} required={true} id={datum} placeholder={" Work-Date"}
-                               onChange={onChangeDatum}/>
-                        <input type={"nachname"} required={true} id={driveBy} placeholder={" Drive_By"}
-                               onChange={onChangeDriveBy}/>
+                        <input type={"WorkTimeEnde"} required={true} id={workTimeEnd} placeholder={" WorkTimeEnd"}
+                               onChange={onChangeWorkTimeEnd}/>
+
+                        <input type={"nachname"} required={true} id={workTimeStart} placeholder={" WorkTimeStart"}
+                               onChange={onChangeWorkTimeStart}/>
+
+
 
 
 

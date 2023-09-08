@@ -90,15 +90,9 @@ export default function RegisterPage() {
 
             // Dritte Axios GET-Anfrage
             setTimeout(() => {
-                axios.get(`/api/user/placeidh/${username}`)
+                axios.get(`/api/user/anfragen/${username}`)
 
             }, 1500); // 5000 Millisekunden entsprechen 5 Sekunden
-            setTimeout(() => {
-                axios.get(`/api/user/placeidw/${username}`)
-
-            }, 5000); // 5000 Millisekunden entsprechen 5 Sekunden
-
-
 
 
 
@@ -178,12 +172,12 @@ export default function RegisterPage() {
 
                         </div>
 
-                        <button>Register</button>
+                        <button>Save </button>
 
                         <div>
 
 
-                            <Link className="direction-link" to={"/"}>Setup</Link>
+                            <Link className="direction-link" to={"/"}>Login</Link>
 
 
                         </div>
