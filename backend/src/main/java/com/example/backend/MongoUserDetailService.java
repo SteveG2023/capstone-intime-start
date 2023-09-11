@@ -46,17 +46,7 @@ public class MongoUserDetailService implements UserDetailsService {
 
 
     }
-    public PlaceIdResponse Place_Id(String adresse, String street, String number) {
 
-
-        return Objects.requireNonNull(webClient.get()
-                        .uri("/geocode/json?address=" + adresse + "=street=" + street + "=number=" + number + "&key=" + API_Key)
-                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                        .retrieve()
-                        .toEntity(PlaceIdResponse.class)
-                        .block())
-                .getBody();
-    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -75,4 +65,4 @@ public class MongoUserDetailService implements UserDetailsService {
 
 
 }
-//SecurityProperties.User(mongoUser.getUsername(), mongoUser.getPassword(), List.of());
+

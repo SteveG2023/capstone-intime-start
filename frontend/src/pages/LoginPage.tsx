@@ -23,16 +23,24 @@ export default function LoginPage(loginPageProps: Props) {
     }
 
     function login(event:FormEvent<HTMLFormElement>) {
-        event.preventDefault()
+        try {
+            event.preventDefault()
 
-        axios.post("/api/user/login", undefined, {auth: {username, password}})
-            .then((response) => loginPageProps.setUser(response.data))
-        nav("/homepage");
+            axios.post("/api/user/login", undefined, {auth: {username, password}})
+                .then((response) => loginPageProps.setUser(response.data))
+            nav("/homepage");
+        }
+        catch(error)
+            {
+                alert("Es ist ein Fehler aufgetreten. Die Adresse ist möglicherweise falsch.");
+            }
+
+
+            }
 
 
 
 
-    }
 
     return (
         <div className="wrapper">

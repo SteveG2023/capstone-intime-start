@@ -22,11 +22,9 @@ public class Service {
     private final MongoUserDetailService service;
     private final com.example.backend.Repository repository;
 
-    private PlaceIdResponse placeIdResponse;
 
-    private UserID userID;
-    private Results results;
-    private MongoUserDetailService mongoUserDetailService;
+
+
 
     private final MongoUserRepo user;
     static WebClient webClient = WebClient.create("https://maps.googleapis.com/maps/api");

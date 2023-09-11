@@ -1,7 +1,7 @@
 
 .suche {
     background-image: url("https://img.freepik.com/fotos-kostenlos/verrueckt-junger-mann-ueberrascht-ausdruck_1194-5027.jpg?w=2000&t=st=1693908129~exp=1693908729~hmac=20cd58cb6aac1d335aa41692686098d67aa62e68559ed89e3eb77ff301b70633");
-    background-size: cover; /* Das Bild wird proportional skaliert, um den Container zu füllen */
+
     background-position: center center; /* Das Bild wird zentriert ausgerichtet */
     background-repeat: no-repeat;
 

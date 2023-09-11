@@ -2,6 +2,10 @@ import {ChangeEvent, FormEvent, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 import "./RegisterPage.css";
+import Uhrzeiteneingabe from "./Components/Uhrzeiteneingabe.tsx";
+import Vorbereitungszeit from "./Components/Vorbereitungszeit.tsx";
+
+
 
 export default function RegisterPage() {
     const [username, setUsername] = useState("");
@@ -14,7 +18,43 @@ export default function RegisterPage() {
     const [arbeitsadressenummer, setarbeitsadressenummer] = useState("");
     const [wohnadressestadt, setwohnadressestadt] = useState("");
     const [wohnadressestrasse, setwohnadressestrasse] = useState("");
-    const [wohnadressenummer, setwohnadressenummer] = useState("");
+    const [wohnadressenummer, setwohnadressenummer] = useState("");const [preparationTime , setpreperationtime]=useState("int");
+
+
+
+
+    const [workTimeStart, setWorkTimeStart] = useState('');
+
+    const [startZeit, setStartZeit] = useState('');
+    const [endZeit, setEndZeit] = useState('');
+    const [vorbereitungszeit, setVorbereitungszeit] = useState('');const [workTimeEnd, setWorkTimeEnd] = useState('');
+    //const [preparationTime, setPreparationTime] = useState('');
+
+    const onChangeworktimestart = (e) => {
+        const newValue = e.target.value;
+        // Hier kannst du die Eingabe validieren und sicherstellen, dass sie deinen Anforderungen entspricht (z.B., Zeitformat).
+        setWorkTimeStart(newValue);
+    };
+
+    const onChangeworktimeend = (e) => {
+        const newValue = e.target.value;
+        // Hier kannst du die Eingabe validieren und sicherstellen, dass sie deinen Anforderungen entspricht (z.B., Zeitformat).
+        setWorkTimeEnd(newValue);
+    };
+
+    const onChangepreparationtime = (e) => {
+        const newValue = e.target.value;
+        // Hier kannst du die Eingabe validieren und sicherstellen, dass sie deinen Anforderungen entspricht (z.B., Mindest- oder Höchstwert).
+        setPreparationTime(newValue);
+    };
+
+    const handleSave = () => {
+        // Hier kannst du die eingegebenen Daten speichern oder weitere Aktionen ausführen.
+    };
+
+    function onChangetimestart(event: ChangeEvent<HTMLInputElement>) {
+        setWorkTimeStart(event.target.value)
+    }
 
 
     const nav = useNavigate();
@@ -22,6 +62,12 @@ export default function RegisterPage() {
     function onChangeUsername(event: ChangeEvent<HTMLInputElement>) {
         setUsername(event.target.value)
     }
+
+
+
+
+
+
 
     function onChangeVorname(event: ChangeEvent<HTMLInputElement>) {
         setVorname(event.target.value)
@@ -83,6 +129,11 @@ export default function RegisterPage() {
                 arbeitsadressestrasse,
                 arbeitsadressenummer,
 
+                startZeit,
+                endZeit,
+                vorbereitungszeit,
+
+
 
             });
 
@@ -92,26 +143,21 @@ export default function RegisterPage() {
             setTimeout(() => {
                 axios.get(`/api/user/anfragen/${username}`)
 
-            }, 1500); // 5000 Millisekunden entsprechen 5 Sekunden
+            }, 2500);
 
 
 
             // Navigieren nach erfolgreicher Ausführung der letzten GET-Anfrage
-            nav("/homepage");
+            nav("/setup");
         } catch (error) {
             console.log(error);
+            alert("Es ist ein Fehler aufgetreten. Die Adresse ist möglicherweise falsch.");
         }
     }
 
 
 
 
-        /*
-        event.preventDefault();
-        axios({
-            method: 'get',
-            url: `/api/user/placeidw/${username}${wohnadressestadt}/${wohnadressestrasse}/${wohnadressenummer}`
-        */
 
 
         return (
@@ -139,7 +185,7 @@ export default function RegisterPage() {
                         </div>
 
                         <h3 className={"homeplace"}> Homplace</h3>
-                        <div className="Register your Home-Address">
+                        <div className="RegisterHome">
                             <input type={"Stadt"} required={true} id={wohnadressestadt}
                                    placeholder={" Stadt"}
                                    onChange={onChangewohnadressestadt}/>
@@ -152,11 +198,7 @@ export default function RegisterPage() {
                         </div>
 
                         <h3 className={"homeplace"}> Workplace</h3>
-                        <div className="Register">
-
-
-
-
+                        <div className="RegisterWork">
 
                             <input type={"City"} required={true} id={arbeitsadressestadt}
                                    placeholder={" Stadt"}
@@ -167,14 +209,30 @@ export default function RegisterPage() {
 
                             <input type={"number"} required={true} id={arbeitsadressenummer}
                                    placeholder={" nummer"}
+
+
                                    onChange={onChangearbeitsadressenummer}/>
 
 
-                        </div>
 
-                        <button>Save </button>
+                            <div>
+                                <h3>Arbeitszeit</h3>
+                                <h3> Wann willst du auf der Arbeit sein</h3>
+                                <Uhrzeiteneingabe selectedTime={workTimeStart} onchange={setWorkTimeStart} />
+                                <h3> Wann hast du schluss</h3>
+                                <Uhrzeiteneingabe />
+                                <h3> Wie lange ist deine vorbereitungszeit</h3>
+                                <Vorbereitungszeit/>
 
-                        <div>
+
+                                <button onClick={handleSave}>Save</button>
+
+                                <div>
+                                    <Link className="direction-link" to="/">
+                                        Login
+                                    </Link>
+                                </div>
+                            </div>
 
 
                             <Link className="direction-link" to={"/"}>Login</Link>

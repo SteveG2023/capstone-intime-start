@@ -1,6 +1,5 @@
 package com.example.backend;
 
-import jakarta.validation.constraints.Null;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -149,7 +150,7 @@ public class Controller {
 
 // Kostengünstige Variante
         @GetMapping("/duration/{username}")
-        public ResponseEntity<ResponseDuration> findDuration (@PathVariable String username) throws
+        public ResponseEntity<Integer> findDuration (@PathVariable String username) throws
         InstantiationException, IllegalAccessException {
 
             Optional<MongoUser> user = detailService.findByUsername(username);
@@ -158,19 +159,32 @@ public class Controller {
                 MongoUser mongoUser = user.get();
 
                 ResponseDuration inhalt = service.duration(mongoUser.arbeitsadressestadt, mongoUser.arbeitsadressestrasse, mongoUser.arbeitsadressenummer, mongoUser.wohnadressestadt, mongoUser.wohnadressestrasse, mongoUser.wohnadressenummer);
+                System.out.println(inhalt);
+                int sum ;
+                int traffic=inhalt.getRoutes().get(0).getLegs().get(0).getDuration_in_traffic().getValue();
+                int notraffic =inhalt.getRoutes().get(0).getLegs().get(0).getDuration().getValue();
+                System.out.println(traffic);
+                System.out.println(notraffic);
 
 
-                //userRepo.save(mongoUser.withDuration(inhalt[0].Route[0].Leg[0].Duration[0].value[1];
 
 
-                return ResponseEntity.ok(inhalt);
+
+
+
+
+
+
+
+                return ResponseEntity.ok(sum=((traffic-notraffic)/60));
+
             } else {
                 return ResponseEntity.notFound().build();
             }
 
         }
-    @GetMapping("/time/{username}/{workTimeStart}/{workTimeEnd}/{preparationTime}")
-                 public ResponseEntity<MongoUser> saveTime (@PathVariable String username,@PathVariable int workTimeStart,@PathVariable int workTimeEnd,@PathVariable int preparationTime) throws
+    @GetMapping("/time/{username}/{startZeit}/{endZeit}/{vorbereitungsZeit}")
+                 public ResponseEntity<MongoUser> saveTime (@PathVariable String username,@PathVariable int startZeit,@PathVariable int endZeit,@PathVariable int vorbereitungsZeit) throws
             InstantiationException, IllegalAccessException {
 
                 Optional<MongoUser> user = detailService.findByUsername(username);
@@ -179,11 +193,7 @@ public class Controller {
             MongoUser mongoUser = user.get();
 
 
-            userRepo.save(mongoUser.withWorkTimeStart(workTimeStart).withWorkTimeEnd(workTimeEnd).withPreparationTime(preparationTime));
-
-
-            //userRepo.save(mongoUser.withDuration(inhalt[0].Route[0].Leg[0].Duration[0].value[1];
-
+            userRepo.save(mongoUser.withEndZeit(endZeit).withStartZeit(startZeit).withVorbereitungsZeit(vorbereitungsZeit));
 
             return ResponseEntity.ok(mongoUser);
         } else {
@@ -244,7 +254,14 @@ public class Controller {
 
 
 
-}}}
+        }
+
+    }
+
+
+
+
+}
 
 
 
