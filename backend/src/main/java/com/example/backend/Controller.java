@@ -188,6 +188,8 @@ public class Controller {
 
 
 
+
+
 // Kostengünstige Variante
         @GetMapping("/duration/{username}")
         public ResponseEntity<Integer> findDuration (@PathVariable String username) throws
