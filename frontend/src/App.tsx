@@ -18,6 +18,7 @@ function App() {
 
     return (
 
+
         <Router>
             <Routes>
                     <Route path={"/"}element={<LoginPage setUser={setUser}/> }/>
@@ -26,16 +27,17 @@ function App() {
 
                     <Route element={<ProtectedRoute user={user}/>}>
 
-                            <Route path={"/wecker"} element={ <WeckerPage/> } />
+                            <Route path={"/weckerpage"} element={ <WeckerPage/> } />
                             <Route path={"/homepage"} element={<Homepage />} />
-                            <Route path={"/setup"}element={<SetupPage/>}/>
+                            <Route path={"/setuppage"}element={<SetupPage/>}/>
                             <Route path={"/adresspagehome"}element={<AdressePageHome />} />
                             <Route path={"/adresspagework"} element={<AdressePageWork  />} />
-                            <Route path={"/timeplan"} element={<TimePlan/> }/>
+                            <Route path={"/timeplanpage"} element={<TimePlan/> }/>
                     </Route>
 
             </Routes>
         </Router>
+
     )
 }
 

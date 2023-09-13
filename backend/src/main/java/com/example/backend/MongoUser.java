@@ -41,6 +41,7 @@ public class MongoUser {
     private String startZeit;
     private String endZeit;
     private String vorbereitungsZeit;
+    private String maximaleweckzeit;
 
 
 

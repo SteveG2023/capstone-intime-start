@@ -1,30 +1,38 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-function Wecker() {
+
+function Weckerdatenbank() {
     const [alarmTime, setAlarmTime] = useState(''); // State für die Weckerzeit
+    const [additionalWeckerTime, setAdditionalWeckerTime] = useState(''); // State für die zusätzliche Weckzeit
     const [alarmActive, setAlarmActive] = useState(false); // State, um den Wecker zu aktivieren/deaktivieren
     const [intervalMinutes, setIntervalMinutes] = useState(60000);
 
-    const handleAlarmTimeChange = (event) => {setAlarmTime(event.target.value);};
+    const handleAlarmTimeChange = (event) => {
+        setAlarmTime(event.target.value);
+    };
 
-    const toggleAlarm = () => {setAlarmActive(!alarmActive);};
+    const toggleAlarm = () => {
+        setAlarmActive(!alarmActive);
+    };
 
-
-
-
-
-
-
-
-
+    async function fetchWeckzeit() {
+        try {
+            const response = await axios.get("/api/user/username/weckzeit"); // Passe den Pfad an
+            if (response.data && typeof response.data === 'string') {
+                return response.data; // Die Weckzeit aus der Antwort extrahieren
+            }
+        } catch (error) {
+            console.error('Error fetching weckzeit:', error);
+        }
+        return null; // Im Fehlerfall oder wenn keine Weckzeit gefunden wird
+    }
 
     useEffect(() => {
         const handleIntervalAlarmRing = async () => {
             try {
                 const currentTime = new Date();
                 const selectedTime = new Date(currentTime.toDateString() + ' ' + alarmTime);
-                console.log(selectedTime)
 
                 // Führe die Axios-Anfrage für die Verkehrszeit aus
                 const responseTraffic = await axios.get("/api/user/duration/s");
@@ -59,9 +67,22 @@ function Wecker() {
         }
     }, [alarmActive, alarmTime, intervalMinutes]);
 
+    // Funktion zum Holen und Setzen der zusätzlichen Weckzeit
+    async function setAdditionalWecker() {
+        const weckzeitFromDB = await fetchWeckzeit();
+        if (weckzeitFromDB) {
+            // Setze die zusätzliche Weckzeit aus der Datenbank
+            setAdditionalWeckerTime(weckzeitFromDB);
+        }
+    }
+
+    // Rufe die Funktion zum Setzen der zusätzlichen Weckzeit auf, wenn die Komponente montiert ist
+    useEffect(() => {
+        setAdditionalWecker();
+    }, []);
+
     return (
         <div>
-
             <input
                 type="time"
                 value={alarmTime}
@@ -70,8 +91,9 @@ function Wecker() {
             <button onClick={toggleAlarm}>
                 {alarmActive ? 'Wecker deaktivieren' : 'Wecker aktivieren'}
             </button>
+            <p>Zusätzliche Weckzeit aus der Datenbank: {additionalWeckerTime}</p>
         </div>
     );
 }
 
-export default Wecker;
+export default Weckerdatenbank;

@@ -96,8 +96,56 @@ public class Controller {
 
 
 
+
+
+
+
+        @GetMapping("/weckerzeit/{username}")
+        public ResponseEntity<String> findWeckerzeit(@PathVariable String username) {
+            Optional<MongoUser> user = service.findByUsername(username);
+            if (user.isPresent()) {
+                MongoUser mongoUser = user.get();
+                String weckerzeit = mongoUser.getStartZeit();
+                System.out.println(weckerzeit);
+                return ResponseEntity.ok(weckerzeit);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        }
+
+    @GetMapping("/vorbereitungszeit/{username}")
+    public ResponseEntity<String> findVorbereitungsZeit(@PathVariable String username) {
+        Optional<MongoUser> user = service.findByUsername(username);
+        if (user.isPresent()) {
+            MongoUser mongoUser = user.get();
+            String weckerzeit = mongoUser.getVorbereitungsZeit();
+            System.out.println(weckerzeit);
+            return ResponseEntity.ok(weckerzeit);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    @GetMapping("/endzeit/{username}")
+    public ResponseEntity<String> findEndZeit(@PathVariable String username) {
+        Optional<MongoUser> user = service.findByUsername(username);
+        if (user.isPresent()) {
+            MongoUser mongoUser = user.get();
+            String weckerzeit = mongoUser.getEndZeit();
+            System.out.println(weckerzeit);
+            return ResponseEntity.ok(weckerzeit);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
+
+
+
+
+
 //Teure Variante
-        @GetMapping("me2/traffictime/{username}")
+        @GetMapping("/traffictime/{username}")
         public ResponseEntity<ResponseDuration> findDurationTimeTraffic (@PathVariable String username) throws InterruptedException {
             Optional<MongoUser> user = service.findByUsername(username);
 
@@ -157,7 +205,12 @@ public class Controller {
                 int notraffic =inhalt.getRoutes().get(0).getLegs().get(0).getDuration().getValue();
                 System.out.println(traffic);
                 System.out.println(notraffic);
-                return ResponseEntity.ok(sum=((traffic-notraffic)/60));
+
+                sum=(traffic-notraffic)/60;
+                System.out.println(sum);
+
+
+                return ResponseEntity.ok(sum);
 
             } else {
                 return ResponseEntity.notFound().build();

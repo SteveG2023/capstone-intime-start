@@ -29,15 +29,15 @@ export default function LoginPage(loginPageProps: Props) {
             axios.post("/api/user/login", undefined, {auth: {username, password}})
                 .then((response) => loginPageProps.setUser(response.data))
 
-            nav("/homepage");
+            nav("/weckerpage");
         }
-                 catch(error)
-            {
-                alert("Es ist ein Fehler aufgetreten. Die Login-Daten  sind möglicherweise falsch.");
-            }
+        catch(error)
+        {
+            alert("Es ist ein Fehler aufgetreten. Die Login-Daten  sind möglicherweise falsch.");
+        }
 
 
-            }
+    }
 
 
 

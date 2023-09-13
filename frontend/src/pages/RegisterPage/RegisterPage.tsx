@@ -17,28 +17,43 @@ export default function RegisterPage() {
     const [arbeitsadressenummer, setarbeitsadressenummer] = useState("");
     const [wohnadressestadt, setwohnadressestadt] = useState("");
     const [wohnadressestrasse, setwohnadressestrasse] = useState("");
-    const [wohnadressenummer, setwohnadressenummer] = useState("");const [preparationTime , setpreperationtime]=useState("int");
-    const [vorbereitungszeit, setvorbereitungszeit] = useState('');const [workTimeEnd, setWorkTimeEnd] = useState('');
+    const [wohnadressenummer, setwohnadressenummer] = useState("");
+    const [preparationTime , setpreperationtime]=useState("int");
+    const [workTimeEnd, setWorkTimeEnd] = useState('');
+
+
+
+
+
+    const [vorbereitungszeit, setvorbereitungszeit] = useState('');
     const [startZeit    , setStartzeit] = useState("");
     const [endZeit, setEndzeit] = useState("");
     const [vorbereitungsZeit, setVorbereitungsZeit] = useState('');
-
+    const [maximaleweckzeit, setMaximaleWeckzeit] = useState('');
+    const nav = useNavigate();
     const onChangeVorbereitungsZeit = (event) => { const newValue = event.target.value; const minutes = newValue.split(':')[1];
         setVorbereitungsZeit(minutes)};
 
+    // Handler zum Ändern des Benutzernamens und Speichern in einem Cookie
+    function onChangeUsername(event: ChangeEvent<HTMLInputElement>) {
+        const newValue = event.target.value;
+        setUsername(newValue);
+    }
     function onChangeStartZeit(event: ChangeEvent<HTMLInputElement>) {
         setStartzeit(event.target.value)
     }
     function onChangeEndZeit(event: ChangeEvent<HTMLInputElement>) {
         setEndzeit(event.target.value)
     }
+    function onChangeMaximaleWeckzeit(event: ChangeEvent<HTMLInputElement>) {
+        setMaximaleWeckzeit(event.target.value)
+    }
 
-    const nav = useNavigate();
-
+/*
     function onChangeUsername(event: ChangeEvent<HTMLInputElement>) {
         setUsername(event.target.value)
     }
-
+*/
 
     function onChangeVorname(event: ChangeEvent<HTMLInputElement>) {
         setVorname(event.target.value)
@@ -105,6 +120,7 @@ export default function RegisterPage() {
                 startZeit,
                 endZeit,
                 vorbereitungszeit,
+                maximaleweckzeit,
 
 
 
@@ -121,7 +137,7 @@ export default function RegisterPage() {
 
 
             // Navigieren nach erfolgreicher Ausführung der letzten GET-Anfrage
-            nav("/setup");
+            nav("/weckerpage");
         } catch (error) {
             console.log(error);
             alert("Es ist ein Fehler aufgetreten. Die Adresse ist möglicherweise falsch.");
@@ -167,7 +183,7 @@ export default function RegisterPage() {
 
                         </div>
 
-                        <h3 className={"homeplace"}> Homplace</h3>
+                        <h3 className={"Wohnort"}> Homplace</h3>
                         <div className="RegisterHome">
 
                            <div>
@@ -192,7 +208,7 @@ export default function RegisterPage() {
 
 
 
-                        <h3 className={"Workplace"}> Workplace</h3>
+                        <h3 className={"Arbeitsort"}> Workplace</h3>
                         <div className="RegisterWork">
 
 
@@ -244,16 +260,32 @@ export default function RegisterPage() {
                             />
                         </div>
                         <div>
-                            <h3>Vorbereitung</h3>
+                            <h3>Vorbereitung in Minuten</h3>
                             <input
 
-                                type="count"
+                                type="number"
                                 required={false}
                                 id={vorbereitungsZeit}
                                 placeholder="Vorbereitung"
                                 onChange={onChangeVorbereitungsZeit}
                             />
                         </div>
+
+
+
+                        <div>
+                            <h3>MaximaleWeckzeit</h3>
+                            <input
+
+                                type="time"
+                                required={false}
+                                id={vorbereitungsZeit}
+                                placeholder="Vorbereitung"
+                                onChange={onChangeMaximaleWeckzeit}
+                            />
+                        </div>
+
+
                         <div>
                         <button>Save </button>
                         </div>
