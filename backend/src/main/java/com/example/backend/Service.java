@@ -1,12 +1,22 @@
 package com.example.backend;
 
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.reactive.function.client.WebClient;
 
 
+import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -14,19 +24,24 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 
 
+
 @org.springframework.stereotype.Service
 
 
-public class Service {
-
-    private final MongoUserDetailService service;
-    private final com.example.backend.Repository repository;
+public class Service implements UserDetailsService {
 
 
 
 
 
-    private final MongoUserRepo user;
+
+    public Optional<MongoUser> findByUsername(String username) {
+        return repo.findMongoUserByUsername( username);
+    }
+
+    private final MongoUserRepo repo;
+
+
     static WebClient webClient = WebClient.create("https://maps.googleapis.com/maps/api");
 
     String API_Key = "AIzaSyACQwB6EJsUNDvda1Yxl9sbnF2Muwhi4v8";
@@ -79,6 +94,37 @@ public class Service {
 
 
 
+
+    //String API_Key = "AIzaSyACQwB6EJsUNDvda1Yxl9sbnF2Muwhi4v8";
+
+
+    public  MongoUser saveUser(MongoUser user) {
+        if (repo.findMongoUserByUsername(user.getUsername()).equals(user.getUsername())) {
+            throw new IllegalArgumentException("Username already taken");
+        }
+
+        PasswordEncoder encoder = Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8();
+        repo.save(user.withPassword(encoder.encode(user.getPassword())));
+        return user;
+    }
+
+
+    public void deleteUser(String id) {
+        if (repo.existsById(id)) {
+            repo.deleteById(id);
+
+        }
+
+
+    }
+
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        MongoUser mongoUser = repo.findMongoUserByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User with username: " + username + " not found"));
+        return new User(mongoUser.getUsername(), mongoUser.getPassword(), List.of());
+    }
 }
 
 

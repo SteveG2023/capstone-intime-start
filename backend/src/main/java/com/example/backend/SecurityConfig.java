@@ -16,17 +16,23 @@ import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 
 @EnableWebSecurity
 @Configuration
+
 public class SecurityConfig {
+
+
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public PasswordEncoder passwordEncoder(){
         return Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8();
     }
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         CsrfTokenRequestAttributeHandler requestHandler = new CsrfTokenRequestAttributeHandler();
         requestHandler.setCsrfRequestAttributeName(null);
         return http
+
+
+
+
                 .csrf((csrf)-> csrf
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                         .csrfTokenRequestHandler(requestHandler))
@@ -40,13 +46,31 @@ public class SecurityConfig {
                                 )))
                 .authorizeHttpRequests(httpRequests ->
                         httpRequests
-                                .requestMatchers(HttpMethod.POST, "/api/user").permitAll()
-                                .requestMatchers("(api/user/**").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/api/user/login").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/api/user/register").permitAll()
+
+
+                                .anyRequest()
+                                .permitAll()
+                )
+                .build();
+    }
+/*
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http
+                .csrf((c)->c.disable()) //Was ist eigentlich CSRF?
+                .httpBasic(Customizer.withDefaults())
+                .sessionManagement(httpSecuritySessionManagementConfigurer ->
+                        httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
+                .authorizeHttpRequests(httpRequests ->
+                        httpRequests
+                                .requestMatchers(HttpMethod.POST, "/api/user/**").permitAll()
                                 // .requestMatchers("/api/employees").hasRole("ADMIN") -> User Roles anlegen!!
-                                .anyRequest().permitAll()
+                                .anyRequest().authenticated()
                 )
                 .build();
     }
 
-
+  */
 }

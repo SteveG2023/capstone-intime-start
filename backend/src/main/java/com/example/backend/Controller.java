@@ -1,12 +1,17 @@
 package com.example.backend;
 
+import jakarta.servlet.http.HttpSession;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Optional;
@@ -19,18 +24,13 @@ import java.util.Optional;
 
 
 
-
 public class Controller {
+
     @Autowired
     private MongoUserRepo userRepo;
-
-    @Autowired
-    private MongoUserDetailService detailService;
     private MongoUser user;
 
     private final Service service;
-
-
 
     @GetMapping("/placeidWork/{arbeitsadressestadt}/{arbeitsadressestrasse}/{arbeitsadressenummer}")
     public PlaceIdResponse PlaceIda(@PathVariable String arbeitsadressestadt, @PathVariable String arbeitsadressestrasse, @PathVariable String arbeitsadressenummer) {
@@ -56,8 +56,8 @@ public class Controller {
 
     @GetMapping("/placeidw/{username}")
     public ResponseEntity<PlaceIdResponse> findbyusernamew(@PathVariable String username) {
-        Optional<MongoUser> user = detailService.findByUsername(username);
-        detailService.deleteUser(user.orElseThrow().id);
+        Optional<MongoUser> user = service.findByUsername(username);
+        service.deleteUser(user.orElseThrow().id);
         if (user.isPresent()) {
             MongoUser mongoUser = user.get();
 
@@ -74,13 +74,11 @@ public class Controller {
 
     @GetMapping("/placeidh/{username}")
     public ResponseEntity<PlaceIdResponse> findbyusername(@PathVariable String username) {
-        Optional<MongoUser> user = detailService.findByUsername(username);
-        detailService.deleteUser(user.orElseThrow().id);
+        Optional<MongoUser> user = service.findByUsername(username);
+        service.deleteUser(user.orElseThrow().id);
         if (user.isPresent()) {
             MongoUser mongoUser = user.get();
-
             //Adresse filtern
-
             //userRepo.delete(mongoUser.withUsername(username));
             //Adresse an google senden // das geht
 
@@ -99,18 +97,13 @@ public class Controller {
 
 
 //Teure Variante
-        @GetMapping("/traffictime/{username}")
+        @GetMapping("me2/traffictime/{username}")
         public ResponseEntity<ResponseDuration> findDurationTimeTraffic (@PathVariable String username) throws InterruptedException {
-            Optional<MongoUser> user = detailService.findByUsername(username);
+            Optional<MongoUser> user = service.findByUsername(username);
 
             if (user.isPresent()) {
                 MongoUser mongoUser = user.get();
-
-
-                //hole die Streckenzeit in der DB
-
-
-                //hole die Zeit  mit Verkehr
+                 //hole die Zeit  mit Verkehr
                 ResponseDuration inhalt = service.duration(mongoUser.arbeitsadressestadt, mongoUser.arbeitsadressestrasse, mongoUser.arbeitsadressenummer, mongoUser.wohnadressestadt, mongoUser.wohnadressestrasse, mongoUser.wohnadressenummer);
 
 
@@ -137,7 +130,6 @@ public class Controller {
                     System.out.println("Fehler bei der Anfrage");
                 }
 
-                //userRepo.save(mongoUser.withDuration(durationText));
 
 
                 return ResponseEntity.ok(inhalt);
@@ -153,7 +145,7 @@ public class Controller {
         public ResponseEntity<Integer> findDuration (@PathVariable String username) throws
         InstantiationException, IllegalAccessException {
 
-            Optional<MongoUser> user = detailService.findByUsername(username);
+            Optional<MongoUser> user = service.findByUsername(username);
             //  detailService.deleteUser(user.orElseThrow().id);
             if (user.isPresent()) {
                 MongoUser mongoUser = user.get();
@@ -165,17 +157,6 @@ public class Controller {
                 int notraffic =inhalt.getRoutes().get(0).getLegs().get(0).getDuration().getValue();
                 System.out.println(traffic);
                 System.out.println(notraffic);
-
-
-
-
-
-
-
-
-
-
-
                 return ResponseEntity.ok(sum=((traffic-notraffic)/60));
 
             } else {
@@ -183,16 +164,14 @@ public class Controller {
             }
 
         }
-    @GetMapping("/time/{username}/{startZeit}/{endZeit}/{vorbereitungsZeit}")
-                 public ResponseEntity<MongoUser> saveTime (@PathVariable String username,@PathVariable int startZeit,@PathVariable int endZeit,@PathVariable int vorbereitungsZeit) throws
+    @PostMapping("/time/{username}/{startZeit}/{endZeit}/{vorbereitungsZeit}")
+                 public ResponseEntity<MongoUser> saveTime (@PathVariable String username,@PathVariable String startZeit,@PathVariable String endZeit,@PathVariable String vorbereitungsZeit) throws
             InstantiationException, IllegalAccessException {
 
-                Optional<MongoUser> user = detailService.findByUsername(username);
+                Optional<MongoUser> user = service.findByUsername(username);
         //  detailService.deleteUser(user.orElseThrow().id);
         if (user.isPresent()) {
             MongoUser mongoUser = user.get();
-
-
             userRepo.save(mongoUser.withEndZeit(endZeit).withStartZeit(startZeit).withVorbereitungsZeit(vorbereitungsZeit));
 
             return ResponseEntity.ok(mongoUser);
@@ -203,10 +182,12 @@ public class Controller {
     }
     @GetMapping("/anfragen/{username}")
     public ResponseEntity<ResponseDuration> Test (@PathVariable String username) throws InterruptedException {
-        Optional<MongoUser> user = detailService.findByUsername(username);
+
+        Optional<MongoUser> user = service.findByUsername(username);
 //suche den User
         if (user.isPresent()) {
             MongoUser mongoUser = user.get();
+            System.out.println(username);
 
             PlaceIdResponse placeipHome = service.Place_Id(mongoUser.getArbeitsadressestadt(),mongoUser.getArbeitsadressestrasse(),mongoUser.getArbeitsadressenummer());
 
@@ -260,9 +241,50 @@ public class Controller {
 
 
 
+    @GetMapping("/me2")
+    public String getMe2() {
+        return SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getName();
+
+    }
+
+
+
+    @PostMapping("/logout")
+    public String login(HttpSession httpSession) {
+        httpSession.invalidate();
+        SecurityContextHolder.clearContext();
+        return "logged out";
+
+    }
+
+
+    @PostMapping("/login")
+    public String login()
+    {
+        return SecurityContextHolder.getContext().getAuthentication().getName();
+    }
+
+    @PostMapping("/register")
+    public String saveUser(@RequestBody MongoUser user) {
+
+
+        return service.saveUser(user).getUsername();
+    }
+    @GetMapping("/me")
+    public String getMe1(Principal principal){
+        if(principal !=null){
+            return principal.getName();
+
+        }
+        return "unbekannt";
+
+    }
+
 
 }
-
 
 
 

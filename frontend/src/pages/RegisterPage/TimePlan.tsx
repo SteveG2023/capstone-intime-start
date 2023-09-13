@@ -1,15 +1,18 @@
 import {ChangeEvent, FormEvent, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
-import axios from './Components/Uhrzeiteneingabe.tsx';
-import Uhrzeiteneingabe from "./Components/Uhrzeiteneingabe.tsx";
-import TimeInput from './Components/Timeinput.tsx';
+
+
+import axios from "axios";
+
 export default function TimePlan() {
 
-
+    const username = 'w';
     const [startZeit    , setStartzeit] = useState("");
     const [endZeit, setEndzeit] = useState("");
-    const [vorbereitungsZeit,setVorbereitungsZeit] = useState("");
+    const [vorbereitungsZeit, setVorbereitungsZeit] = useState('');
 
+    const onChangeVorbereitungsZeit = (event) => { const newValue = event.target.value; const minutes = newValue.split(':')[1];
+        setVorbereitungsZeit(minutes)};
 
     const nav = useNavigate();
 
@@ -20,15 +23,13 @@ export default function TimePlan() {
     function onChangeEndZeit(event: ChangeEvent<HTMLInputElement>) {
         setEndzeit(event.target.value)
     }
-    function onChangeVorbereitungsZeit(event: ChangeEvent<HTMLInputElement>) {
-        setVorbereitungsZeit(event.target.value)
-    }
+
 
 
 
     function registerTime(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
-       // axios.post(´/api/user/"time/a"/${startZeit}/${endzeit}/${VorbereitungZeit) };
+        axios.post(`/api/user/time/${username}/${startZeit}/${endZeit}/${vorbereitungsZeit}`);
 
 
     }
@@ -40,25 +41,47 @@ export default function TimePlan() {
 
                 </div>
                 <form onSubmit={registerTime}>
-                    <h3>REGISTER YOUR TIME</h3>
+                    <h3>Geben Sie Ihre Arbeitszeit ein</h3>
                     <div className="Register Your Time">
 
                         <div>
+                            <div>
+                                <h3>Start</h3>
+                            <input
+                                type="time"
+                                required={true}
+                                id="startZeit"
+                                placeholder="Start"
+                                value={startZeit}
+                                onChange={onChangeStartZeit}
+                            />
+                            </div>
 
 
+                            <div>
+                                <h3>Ende</h3>
+                            <input
+                                type="time"
+                                required={true}
+                                id="endZeit"
+                                placeholder="Ende"
+                                value={endZeit}
+                                onChange={onChangeEndZeit}
+                            />
+                            </div>
+                            <div>
+                                <h3>Vorbereitung</h3>
+                               <input
 
-
-                        <input type={"startzeit"} required={true} id={startZeit} placeholder={" Start"}
-                               onChange={onChangeStartZeit}/>
-
-                        <input type={"endzeit"} required={true} id={endZeit} placeholder={" Ende"}
-                               onChange={onChangeEndZeit}/>
-
-                        <input type={"vorbereitung"} required={true} id={vorbereitungsZeit} placeholder={" Vorbereitung"}
-                               onChange={onChangeVorbereitungsZeit}/>
-
-
-                    </div>
+                                    type="count"
+                                    required={false}
+                                    id="vorbereitungsZeit"
+                                    placeholder="Vorbereitung"
+                                    onChange={onChangeVorbereitungsZeit}
+                                    />
+                            </div>
+                            <button type="submit">Zeit registrieren</button>
+                        </div>
 
 
 

@@ -28,11 +28,12 @@ export default function LoginPage(loginPageProps: Props) {
 
             axios.post("/api/user/login", undefined, {auth: {username, password}})
                 .then((response) => loginPageProps.setUser(response.data))
+
             nav("/homepage");
         }
-        catch(error)
+                 catch(error)
             {
-                alert("Es ist ein Fehler aufgetreten. Die Adresse ist möglicherweise falsch.");
+                alert("Es ist ein Fehler aufgetreten. Die Login-Daten  sind möglicherweise falsch.");
             }
 
 
@@ -52,7 +53,7 @@ export default function LoginPage(loginPageProps: Props) {
                     <h1>LOGIN</h1>
                     <input type={"text"} id={username} placeholder={"Enter your username"} required={true} onChange={onChangeHandlerUsername}/>
                     <input type={"password"} id={password} placeholder={"Enter your password"} required={true} onChange={onChangeHandlerPassword}/>
-                    <button>LOGIN</button>
+                    <button>login</button>
                 </form>
                 <Link className="direction-link" to={"/register"}>New here? REGISTER NOW</Link>
 

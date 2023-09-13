@@ -38,9 +38,9 @@ public class MongoUser {
     String routeTimewithoutTraffic;
     String routTimewithTraffic;
 
-    private long startZeit;
-    private long endZeit;
-    private long vorbereitungsZeit;
+    private String startZeit;
+    private String endZeit;
+    private String vorbereitungsZeit;
 
 
 

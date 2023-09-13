@@ -2,8 +2,7 @@ import {ChangeEvent, FormEvent, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 import "./RegisterPage.css";
-import Uhrzeiteneingabe from "./Components/Uhrzeiteneingabe.tsx";
-import Vorbereitungszeit from "./Components/Vorbereitungszeit.tsx";
+
 
 
 
@@ -19,54 +18,26 @@ export default function RegisterPage() {
     const [wohnadressestadt, setwohnadressestadt] = useState("");
     const [wohnadressestrasse, setwohnadressestrasse] = useState("");
     const [wohnadressenummer, setwohnadressenummer] = useState("");const [preparationTime , setpreperationtime]=useState("int");
+    const [vorbereitungszeit, setvorbereitungszeit] = useState('');const [workTimeEnd, setWorkTimeEnd] = useState('');
+    const [startZeit    , setStartzeit] = useState("");
+    const [endZeit, setEndzeit] = useState("");
+    const [vorbereitungsZeit, setVorbereitungsZeit] = useState('');
 
+    const onChangeVorbereitungsZeit = (event) => { const newValue = event.target.value; const minutes = newValue.split(':')[1];
+        setVorbereitungsZeit(minutes)};
 
-
-
-    const [workTimeStart, setWorkTimeStart] = useState('');
-
-    const [startZeit, setStartZeit] = useState('');
-    const [endZeit, setEndZeit] = useState('');
-    const [vorbereitungszeit, setVorbereitungszeit] = useState('');const [workTimeEnd, setWorkTimeEnd] = useState('');
-    //const [preparationTime, setPreparationTime] = useState('');
-
-    const onChangeworktimestart = (e) => {
-        const newValue = e.target.value;
-        // Hier kannst du die Eingabe validieren und sicherstellen, dass sie deinen Anforderungen entspricht (z.B., Zeitformat).
-        setWorkTimeStart(newValue);
-    };
-
-    const onChangeworktimeend = (e) => {
-        const newValue = e.target.value;
-        // Hier kannst du die Eingabe validieren und sicherstellen, dass sie deinen Anforderungen entspricht (z.B., Zeitformat).
-        setWorkTimeEnd(newValue);
-    };
-
-    const onChangepreparationtime = (e) => {
-        const newValue = e.target.value;
-        // Hier kannst du die Eingabe validieren und sicherstellen, dass sie deinen Anforderungen entspricht (z.B., Mindest- oder Höchstwert).
-        setPreparationTime(newValue);
-    };
-
-    const handleSave = () => {
-        // Hier kannst du die eingegebenen Daten speichern oder weitere Aktionen ausführen.
-    };
-
-    function onChangetimestart(event: ChangeEvent<HTMLInputElement>) {
-        setWorkTimeStart(event.target.value)
+    function onChangeStartZeit(event: ChangeEvent<HTMLInputElement>) {
+        setStartzeit(event.target.value)
     }
-
+    function onChangeEndZeit(event: ChangeEvent<HTMLInputElement>) {
+        setEndzeit(event.target.value)
+    }
 
     const nav = useNavigate();
 
     function onChangeUsername(event: ChangeEvent<HTMLInputElement>) {
         setUsername(event.target.value)
     }
-
-
-
-
-
 
 
     function onChangeVorname(event: ChangeEvent<HTMLInputElement>) {
@@ -125,6 +96,8 @@ export default function RegisterPage() {
                 wohnadressestadt,
                 wohnadressestrasse,
                 wohnadressenummer,
+
+
                 arbeitsadressestadt,
                 arbeitsadressestrasse,
                 arbeitsadressenummer,
@@ -167,79 +140,143 @@ export default function RegisterPage() {
 
                     </div>
                     <form onSubmit={register}>
-                        <h3 className={"homeplace"}>Register</h3>
+                        <h3 className={"User"}>Register</h3>
                         <div className="Register">
-                            <input type={"text"} required={true} id={username} placeholder={" username"}
-                                   onChange={onChangeUsername}/>
-                            <input type={"password"} required={true} id={password} placeholder={" password"}
-                                   onChange={onChangePassword}/>
-                            <input type={"vorname"} required={true} id={vorname} placeholder={" first-name"}
-                                   onChange={onChangeVorname}/>
-                            <input type={"nachname"} required={true} id={nachname}
-                                   placeholder={" last-name"}
-                                   onChange={onChangeNachname}/>
+
+                            <div>
+                                <input type={"text"} required={true} id={username} placeholder={" username"}
+                                       onChange={onChangeUsername}/>
+                                <input type={"password"} required={true} id={password} placeholder={" password"}
+                                       onChange={onChangePassword}/>
+                            </div>
+
+                            <div>
+                                <input type={"vorname"} required={true} id={vorname} placeholder={" first-name"}
+                                       onChange={onChangeVorname}/>
+                                <input type={"nachname"} required={true} id={nachname}
+                                       placeholder={" last-name"}
+                                       onChange={onChangeNachname}/>
+                            </div>
+
+
                             <input type={"Email"} required={true} id={email} placeholder={" email"}
                                    onChange={onChangeEmail}/>
+
+
 
 
                         </div>
 
                         <h3 className={"homeplace"}> Homplace</h3>
                         <div className="RegisterHome">
-                            <input type={"Stadt"} required={true} id={wohnadressestadt}
-                                   placeholder={" Stadt"}
-                                   onChange={onChangewohnadressestadt}/>
-                            <input type={"Strasse"} required={true} id={wohnadressestrasse}
-                                   placeholder={" Strasse"}
-                                   onChange={onChangewohnadressestrasse}/>
-                            <input type={"nummer"} required={true} id={wohnadressenummer}
-                                   placeholder={" Nummer"}
-                                   onChange={onChangewohnadressenummer}/>
-                        </div>
 
-                        <h3 className={"homeplace"}> Workplace</h3>
+                           <div>
+                                <input type={"Stadt"} required={true} id={wohnadressestadt}
+                                       placeholder={" Stadt"}
+                                       onChange={onChangewohnadressestadt}/>
+
+                           </div>
+
+                            <div>
+                                <input type={"Strasse"} required={true} id={wohnadressestrasse}
+                                       placeholder={" Strasse"}
+                                       onChange={onChangewohnadressestrasse}/>
+                             </div>
+
+
+                                <input type={"nummer"} required={true} id={wohnadressenummer}
+                                       placeholder={" Nummer"}
+                                       onChange={onChangewohnadressenummer}/>
+
+                            </div>
+
+
+
+                        <h3 className={"Workplace"}> Workplace</h3>
                         <div className="RegisterWork">
+
+
+                            <div>
 
                             <input type={"City"} required={true} id={arbeitsadressestadt}
                                    placeholder={" Stadt"}
                                    onChange={onChangearbeitsadressestadt}/>
+                             </div>
+
+                            <div>
                             <input type={"street"} required={true} id={arbeitsadressestrasse}
                                    placeholder={" Strasse"}
                                    onChange={onChangearbeitsadressestrasse}/>
+                            </div>
+
+                            <div>
 
                             <input type={"number"} required={true} id={arbeitsadressenummer}
                                    placeholder={" nummer"}
-
-
                                    onChange={onChangearbeitsadressenummer}/>
-
-
-
-                            <div>
-                                <h3>Arbeitszeit</h3>
-                                <h3> Wann willst du auf der Arbeit sein</h3>
-                                <Uhrzeiteneingabe selectedTime={workTimeStart} onchange={setWorkTimeStart} />
-                                <h3> Wann hast du schluss</h3>
-                                <Uhrzeiteneingabe />
-                                <h3> Wie lange ist deine vorbereitungszeit</h3>
-                                <Vorbereitungszeit/>
-
-
-                                <button onClick={handleSave}>Save</button>
-
-                                <div>
-                                    <Link className="direction-link" to="/">
-                                        Login
-                                    </Link>
-                                </div>
-                            </div>
-
-
-                            <Link className="direction-link" to={"/"}>Login</Link>
-
-
+                             </div>
                         </div>
+
+                         <h3>  Arbeitszeiten  </h3>
+
+                        <div>
+                            <h3>Start</h3>
+                            <input
+                                type="time"
+                                required={true}
+                                id={startZeit}
+                                placeholder="Start"
+                                value={startZeit}
+                                onChange={onChangeStartZeit}
+                            />
+                        </div>
+
+
+                        <div>
+                            <h3>Ende</h3>
+                            <input
+                                type="time"
+                                required={true}
+                                id={endZeit}
+                                placeholder="Ende"
+                                value={endZeit}
+                                onChange={onChangeEndZeit}
+                            />
+                        </div>
+                        <div>
+                            <h3>Vorbereitung</h3>
+                            <input
+
+                                type="count"
+                                required={false}
+                                id={vorbereitungsZeit}
+                                placeholder="Vorbereitung"
+                                onChange={onChangeVorbereitungsZeit}
+                            />
+                        </div>
+                        <div>
+                        <button>Save </button>
+                        </div>
+
+
+
+
+                          <Link className="direction-link" to={"/"}>Login</Link>
+
                     </form>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
                 </div>
