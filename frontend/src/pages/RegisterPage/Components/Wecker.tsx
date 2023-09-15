@@ -1,75 +1,108 @@
-import { useState, useEffect } from 'react';
+
+import  { useState, useEffect } from 'react';
 import axios from 'axios';
 
 function Wecker() {
-    const [alarmTime, setAlarmTime] = useState(''); // State für die Weckerzeit
-    const [alarmActive, setAlarmActive] = useState(false); // State, um den Wecker zu aktivieren/deaktivieren
-    const [intervalMinutes, setIntervalMinutes] = useState(60000);
-
-    const handleAlarmTimeChange = (event) => {setAlarmTime(event.target.value);};
-
-    const toggleAlarm = () => {setAlarmActive(!alarmActive);};
-
-
-
-
-
-
-
-
-
+    const [weckzeit, setWeckzeit] = useState<string | null>(null);
+    const [aktiviert, setAktiviert] = useState(false);
+    const [schlummer, setSchlummer] = useState(false);
+    const [audio, setAudio] = useState(new Audio());
+    const [klingelt, setKlingelt] = useState(false);
 
     useEffect(() => {
-        const handleIntervalAlarmRing = async () => {
+        // Funktion, um die Anfrage zu stellen und die Weckzeit zu aktualisieren
+        const sendeAnfrageUndAktualisiereWeckzeit = async () => {
             try {
-                const currentTime = new Date();
-                const selectedTime = new Date(currentTime.toDateString() + ' ' + alarmTime);
-                console.log(selectedTime)
+                const now = new Date();
+                const hours = now.getHours();
+                const minutes = now.getMinutes();
 
-                // Führe die Axios-Anfrage für die Verkehrszeit aus
-                const responseTraffic = await axios.get("/api/user/duration/s");
+                if (aktiviert) {
+                    const response = await axios.get("api/user/weckzeittest/j");
 
-                // Berechne die neue Weckzeit basierend auf der Serverantwort
-                if (responseTraffic.data && typeof responseTraffic.data === 'number') {
-                    const newInterval = responseTraffic.data;
-                    const updatedSelectedTime = new Date(selectedTime.getTime() + newInterval * 1000);
-                    setAlarmTime(updatedSelectedTime.toISOString().substr(11, 5));
+                    if (response.status === 200) {
+                        const erhaltenMinutenSeitMitternacht = response.data;
+                        console.log(erhaltenMinutenSeitMitternacht);
 
-                    console.log('New alarm time updated successfully');
+                        const weckzeitStunden = Math.floor(erhaltenMinutenSeitMitternacht / 60);
+                        const weckzeitMinuten = erhaltenMinutenSeitMitternacht % 60;
+                        const neueWeckzeit = `${weckzeitStunden}:${weckzeitMinuten}`;
+                        setWeckzeit(neueWeckzeit);
+
+                        // Überprüfe, ob die Weckzeit erreicht wurde
+                        if (weckzeitStunden === hours && weckzeitMinuten === minutes) {
+                            handleWeckzeitErreicht();
+                        }
+                    } else {
+                        console.error('Fehlerhafte API-Antwort:', response);
+                    }
                 }
             } catch (error) {
-                console.error('Error updating alarm time:', error);
+                console.error('Fehler beim Abrufen der Weckzeit:', error);
             }
         };
 
-        if (alarmActive) {
-            const currentTime = new Date();
-            const selectedTime = new Date(currentTime.toDateString() + ' ' + alarmTime);
+        // Führe die Funktion alle 5 Minuten aus
+        const intervalId = setInterval(sendeAnfrageUndAktualisiereWeckzeit, 1000 * 60 * 2);
 
-            if (currentTime >= selectedTime) {
-                // Alarmzeit erreicht, Klingeln
-                //handleAlarmRing();
+        // Führe die Funktion sofort aus
+        sendeAnfrageUndAktualisiereWeckzeit();
 
-                // Starte das Intervall für periodische Abfragen alle 10 Minuten
-                const intervalId = setInterval(handleIntervalAlarmRing, intervalMinutes * 2);
+        return () => {
+            clearInterval(intervalId);
+        };
+    }, [aktiviert, weckzeit, audio]);
 
-                // Stopp das Intervall, wenn der Wecker deaktiviert wird
-                return () => clearInterval(intervalId);
+    const handleAktivieren = () => {
+        setAktiviert(true);
+    };
+
+    const handleStoppen = () => {
+        setAktiviert(false);
+        audio.pause();
+        audio.currentTime = 0;
+        setKlingelt(false);
+    };
+
+    const handleSchlummern = () => {
+        if (weckzeit) {
+            const [stunden, minuten] = weckzeit.split(":").map(Number);
+            const neueMinuten = minuten + 2;
+
+            if (neueMinuten >= 60) {
+                const neueStunden = stunden + 1;
+                const neueWeckzeit = `${neueStunden}:${neueMinuten % 60}`;
+                setWeckzeit(neueWeckzeit);
+            } else {
+                const neueWeckzeit = `${stunden}:${neueMinuten}`;
+                setWeckzeit(neueWeckzeit);
             }
         }
-    }, [alarmActive, alarmTime, intervalMinutes]);
+    };
+
+    const handleWeckzeitErreicht = () => {
+        // Hier kannst du die Aktion ausführen, wenn die Weckzeit erreicht wurde.
+        // Zum Beispiel, den Klingelton abspielen.
+        audio.src = 'https://your-audio-file-url.mp3'; // Hier die URL deiner Audiodatei einfügen
+        audio.play();
+        setKlingelt(true);
+    };
 
     return (
         <div>
-
-            <input
-                type="time"
-                value={alarmTime}
-                onChange={handleAlarmTimeChange}
-            />
-            <button onClick={toggleAlarm}>
-                {alarmActive ? 'Wecker deaktivieren' : 'Wecker aktivieren'}
-            </button>
+            <h1>Wecker</h1>
+            {weckzeit && <p>Weckzeit: {weckzeit}</p>}
+            {klingelt && (
+                <img src="https://cdn.pixabay.com/photo/2017/12/24/00/30/clock-3036245_1280.jpg" alt="Klingelbild" />
+            )}
+            {!aktiviert ? (
+                <button onClick={handleAktivieren}>Aktivieren</button>
+            ) : (
+                <div>
+                    <button onClick={handleStoppen}>Stopp</button>
+                    <button onClick={handleSchlummern}>Schlummern</button>
+                </div>
+            )}
         </div>
     );
 }

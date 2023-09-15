@@ -6,6 +6,7 @@ import "./RegisterPage.css";
 
 
 
+
 export default function RegisterPage() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -20,17 +21,17 @@ export default function RegisterPage() {
     const [wohnadressenummer, setwohnadressenummer] = useState("");
     const [preparationTime , setpreperationtime]=useState("int");
     const [workTimeEnd, setWorkTimeEnd] = useState('');
-
-
-
-
-
-    const [vorbereitungszeit, setvorbereitungszeit] = useState('');
     const [startZeit    , setStartzeit] = useState("");
     const [endZeit, setEndzeit] = useState("");
     const [vorbereitungsZeit, setVorbereitungsZeit] = useState('');
     const [maximaleweckzeit, setMaximaleWeckzeit] = useState('');
     const nav = useNavigate();
+
+
+
+
+
+
     const onChangeVorbereitungsZeit = (event) => { const newValue = event.target.value; const minutes = newValue.split(':')[1];
         setVorbereitungsZeit(minutes)};
 
@@ -42,6 +43,7 @@ export default function RegisterPage() {
     function onChangeStartZeit(event: ChangeEvent<HTMLInputElement>) {
         setStartzeit(event.target.value)
     }
+
     function onChangeEndZeit(event: ChangeEvent<HTMLInputElement>) {
         setEndzeit(event.target.value)
     }
@@ -119,7 +121,7 @@ export default function RegisterPage() {
 
                 startZeit,
                 endZeit,
-                vorbereitungszeit,
+                vorbereitungsZeit,
                 maximaleweckzeit,
 
 
@@ -259,17 +261,7 @@ export default function RegisterPage() {
                                 onChange={onChangeEndZeit}
                             />
                         </div>
-                        <div>
-                            <h3>Vorbereitung in Minuten</h3>
-                            <input
 
-                                type="number"
-                                required={false}
-                                id={vorbereitungsZeit}
-                                placeholder="Vorbereitung"
-                                onChange={onChangeVorbereitungsZeit}
-                            />
-                        </div>
 
 
 
@@ -279,11 +271,29 @@ export default function RegisterPage() {
 
                                 type="time"
                                 required={false}
-                                id={vorbereitungsZeit}
-                                placeholder="Vorbereitung"
+                                id={maximaleweckzeit}
+                                placeholder="Maximalweckzeit"
                                 onChange={onChangeMaximaleWeckzeit}
                             />
                         </div>
+                        <div>
+                            <div>
+                                <h3>Vorbereitung in Minuten</h3>
+                                <input
+                                    type="number" // Ändere den Typ auf "number"
+                                    min="20" // Optional: Hier kannst du das Minimum festlegen, z.B. "0" für keine Mindestzeit
+                                    required={false} // Wenn dies optional ist, kannst du "false" beibehalten
+                                    id={vorbereitungsZeit}
+                                    placeholder="Vorbereitungszeit"
+                                    onChange={onChangeVorbereitungsZeit}
+                                />
+                            </div>
+                        </div>
+
+
+
+
+
 
 
                         <div>

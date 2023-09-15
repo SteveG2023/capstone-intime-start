@@ -125,6 +125,42 @@ public class Service implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("User with username: " + username + " not found"));
         return new User(mongoUser.getUsername(), mongoUser.getPassword(), List.of());
     }
+
+
+
+        public static int StringToMinutes(String timeString) {
+            try {
+                // Trennen Sie die Stunden und Minuten aus dem Zeit-String
+                String[] parts = timeString.split(":");
+
+                // Überprüfen Sie, ob der String im korrekten Format (hh:mm) ist
+                if (parts.length != 2) {
+                    throw new IllegalArgumentException("Ungültiges Zeitformat. Verwenden Sie hh:mm.");
+                }
+
+                int hours = Integer.parseInt(parts[0]);
+                int minutes = Integer.parseInt(parts[1]);
+
+                // Konvertieren Sie Stunden und Minuten in Gesamtminuten
+                return hours * 60 + minutes;
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("Ungültige Zeitangabe. Stellen Sie sicher, dass Stunden und Minuten numerisch sind.");
+            }
+        }
+
+        public static void main(String[] args) {
+            String timeString = "14:30"; // Beispiel-Zeit im Format "hh:mm"
+            int startZeitUhr = StringToMinutes(timeString);
+            System.out.println("Uhrzeit in Minuten: " + startZeitUhr);
+        }
+
+
+
+
+
+
+
+
 }
 
 

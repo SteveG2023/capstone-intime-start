@@ -1,19 +1,15 @@
 package com.example.backend;
 
 import jakarta.servlet.http.HttpSession;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 
 import java.security.Principal;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -50,8 +46,6 @@ public class Controller {
 
         return response;
     }
-
-
 
 
     @GetMapping("/placeidw/{username}")
@@ -95,23 +89,18 @@ public class Controller {
     }
 
 
-
-
-
-
-
-        @GetMapping("/weckerzeit/{username}")
-        public ResponseEntity<String> findWeckerzeit(@PathVariable String username) {
-            Optional<MongoUser> user = service.findByUsername(username);
-            if (user.isPresent()) {
-                MongoUser mongoUser = user.get();
-                String weckerzeit = mongoUser.getStartZeit();
-                System.out.println(weckerzeit);
-                return ResponseEntity.ok(weckerzeit);
-            } else {
-                return ResponseEntity.notFound().build();
-            }
+    @GetMapping("/maximalweckzeit/{username}")
+    public ResponseEntity<String> findvorbereitungszeit(@PathVariable String username) {
+        Optional<MongoUser> user = service.findByUsername(username);
+        if (user.isPresent()) {
+            MongoUser mongoUser = user.get();
+            String weckerzeit = mongoUser.getMaximaleweckzeit();
+            System.out.println(weckerzeit);
+            return ResponseEntity.ok(weckerzeit);
+        } else {
+            return ResponseEntity.notFound().build();
         }
+    }
 
     @GetMapping("/vorbereitungszeit/{username}")
     public ResponseEntity<String> findVorbereitungsZeit(@PathVariable String username) {
@@ -125,6 +114,7 @@ public class Controller {
             return ResponseEntity.notFound().build();
         }
     }
+
     @GetMapping("/endzeit/{username}")
     public ResponseEntity<String> findEndZeit(@PathVariable String username) {
         Optional<MongoUser> user = service.findByUsername(username);
@@ -138,92 +128,96 @@ public class Controller {
         }
     }
 
+    @GetMapping("/startzeit/{username}")
+    public ResponseEntity<String> findStartZeit(@PathVariable String username) {
+        Optional<MongoUser> user = service.findByUsername(username);
+        if (user.isPresent()) {
+            MongoUser mongoUser = user.get();
+            String weckerzeit = mongoUser.getStartZeit();
+            System.out.println(weckerzeit);
+            return ResponseEntity.ok(weckerzeit);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
 
+    //Teure Variante
+    @GetMapping("/traffictime/{username}")
+    public ResponseEntity<ResponseDuration> findDurationTimeTraffic(@PathVariable String username) throws InterruptedException {
+        Optional<MongoUser> user = service.findByUsername(username);
+
+        if (user.isPresent()) {
+            MongoUser mongoUser = user.get();
+            //hole die Zeit  mit Verkehr
+            ResponseDuration inhalt = service.duration(mongoUser.arbeitsadressestadt, mongoUser.arbeitsadressestrasse, mongoUser.arbeitsadressenummer, mongoUser.wohnadressestadt, mongoUser.wohnadressestrasse, mongoUser.wohnadressenummer);
 
 
+            if (inhalt != null) {
+                int timewithtraffic = inhalt.getRoutes().get(0).getLegs().get(0).getDuration_in_traffic().getValue();
+                int timewhitouttraffic = inhalt.getRoutes().get(0).getLegs().get(0).getDuration().getValue();
 
+                System.out.println("Zeit mit Verkehr: " + timewithtraffic);
 
-//Teure Variante
-        @GetMapping("/traffictime/{username}")
-        public ResponseEntity<ResponseDuration> findDurationTimeTraffic (@PathVariable String username) throws InterruptedException {
-            Optional<MongoUser> user = service.findByUsername(username);
+                int summe = timewithtraffic - timewhitouttraffic;
 
-            if (user.isPresent()) {
-                MongoUser mongoUser = user.get();
-                 //hole die Zeit  mit Verkehr
-                ResponseDuration inhalt = service.duration(mongoUser.arbeitsadressestadt, mongoUser.arbeitsadressestrasse, mongoUser.arbeitsadressenummer, mongoUser.wohnadressestadt, mongoUser.wohnadressestrasse, mongoUser.wohnadressenummer);
+                System.out.println("Zeit ohne Verkehr: " + timewhitouttraffic);
+                System.out.println("Differenz: " + summe / 60 + " Minuten");
+                userRepo.save(mongoUser.withDuration(Integer.parseInt(String.valueOf(timewhitouttraffic))));
 
-
-                if (inhalt != null) {
-                    int timewithtraffic = inhalt.getRoutes().get(0).getLegs().get(0).getDuration_in_traffic().getValue();
-                    int timewhitouttraffic = inhalt.getRoutes().get(0).getLegs().get(0).getDuration().getValue();
-
-                    System.out.println("Zeit mit Verkehr: " + timewithtraffic);
-
-                    int summe = timewithtraffic - timewhitouttraffic;
-
-                    System.out.println("Zeit ohne Verkehr: " + timewhitouttraffic);
-                    System.out.println("Differenz: " + summe/60+" Minuten");
-                    userRepo.save(mongoUser.withDuration(Integer.parseInt(String.valueOf(timewhitouttraffic))));
-
-                    if (timewithtraffic > 3) {
-                        int delayInSeconds = 3;
-                        System.out.println("Die Anfrage dauert länger. Verzögerung von " + delayInSeconds + " Sekunden.");
-                        Thread.sleep(delayInSeconds * 1000);
-                    }
-
-                    System.out.println("Fortsetzung des Codes nach der Verzögerung");
-                } else {
-                    System.out.println("Fehler bei der Anfrage");
+                if (timewithtraffic > 3) {
+                    int delayInSeconds = 3;
+                    System.out.println("Die Anfrage dauert länger. Verzögerung von " + delayInSeconds + " Sekunden.");
+                    Thread.sleep(delayInSeconds * 1000);
                 }
 
-
-
-                return ResponseEntity.ok(inhalt);
+                System.out.println("Fortsetzung des Codes nach der Verzögerung");
             } else {
-                return ResponseEntity.notFound().build();
-            }
-        }
-
-
-
-
-
-// Kostengünstige Variante
-        @GetMapping("/duration/{username}")
-        public ResponseEntity<Integer> findDuration (@PathVariable String username) throws
-        InstantiationException, IllegalAccessException {
-
-            Optional<MongoUser> user = service.findByUsername(username);
-            //  detailService.deleteUser(user.orElseThrow().id);
-            if (user.isPresent()) {
-                MongoUser mongoUser = user.get();
-
-                ResponseDuration inhalt = service.duration(mongoUser.arbeitsadressestadt, mongoUser.arbeitsadressestrasse, mongoUser.arbeitsadressenummer, mongoUser.wohnadressestadt, mongoUser.wohnadressestrasse, mongoUser.wohnadressenummer);
-                System.out.println(inhalt);
-                int sum ;
-                int traffic=inhalt.getRoutes().get(0).getLegs().get(0).getDuration_in_traffic().getValue();
-                int notraffic =inhalt.getRoutes().get(0).getLegs().get(0).getDuration().getValue();
-                System.out.println(traffic);
-                System.out.println(notraffic);
-
-                sum=(traffic-notraffic)/60;
-                System.out.println(sum);
-
-
-                return ResponseEntity.ok(sum);
-
-            } else {
-                return ResponseEntity.notFound().build();
+                System.out.println("Fehler bei der Anfrage");
             }
 
+
+            return ResponseEntity.ok(inhalt);
+        } else {
+            return ResponseEntity.notFound().build();
         }
-    @PostMapping("/time/{username}/{startZeit}/{endZeit}/{vorbereitungsZeit}")
-                 public ResponseEntity<MongoUser> saveTime (@PathVariable String username,@PathVariable String startZeit,@PathVariable String endZeit,@PathVariable String vorbereitungsZeit) throws
+    }
+
+    // Kostengünstige Variante
+    @GetMapping("/duration/{username}")
+    public ResponseEntity<Integer> findDuration(@PathVariable String username) throws
             InstantiationException, IllegalAccessException {
 
-                Optional<MongoUser> user = service.findByUsername(username);
+        Optional<MongoUser> user = service.findByUsername(username);
+        //  detailService.deleteUser(user.orElseThrow().id);
+        if (user.isPresent()) {
+            MongoUser mongoUser = user.get();
+
+            ResponseDuration inhalt = service.duration(mongoUser.arbeitsadressestadt, mongoUser.arbeitsadressestrasse, mongoUser.arbeitsadressenummer, mongoUser.wohnadressestadt, mongoUser.wohnadressestrasse, mongoUser.wohnadressenummer);
+            System.out.println(inhalt);
+            int sum;
+            int traffic = inhalt.getRoutes().get(0).getLegs().get(0).getDuration_in_traffic().getValue();
+            int notraffic = inhalt.getRoutes().get(0).getLegs().get(0).getDuration().getValue();
+            System.out.println(traffic);
+            System.out.println(notraffic);
+
+            sum = (traffic - notraffic) / 60;
+            System.out.println(sum);
+
+
+            return ResponseEntity.ok(sum);
+
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+
+    }
+
+    @PostMapping("/time/{username}/{startZeit}/{endZeit}/{vorbereitungsZeit}")
+    public ResponseEntity<MongoUser> saveTime(@PathVariable String username, @PathVariable String startZeit, @PathVariable String endZeit, @PathVariable String vorbereitungsZeit) throws
+            InstantiationException, IllegalAccessException {
+
+        Optional<MongoUser> user = service.findByUsername(username);
         //  detailService.deleteUser(user.orElseThrow().id);
         if (user.isPresent()) {
             MongoUser mongoUser = user.get();
@@ -235,8 +229,9 @@ public class Controller {
         }
 
     }
+
     @GetMapping("/anfragen/{username}")
-    public ResponseEntity<ResponseDuration> Test (@PathVariable String username) throws InterruptedException {
+    public ResponseEntity<ResponseDuration> anfragen(@PathVariable String username) throws InterruptedException {
 
         Optional<MongoUser> user = service.findByUsername(username);
 //suche den User
@@ -244,7 +239,7 @@ public class Controller {
             MongoUser mongoUser = user.get();
             System.out.println(username);
 
-            PlaceIdResponse placeipHome = service.Place_Id(mongoUser.getArbeitsadressestadt(),mongoUser.getArbeitsadressestrasse(),mongoUser.getArbeitsadressenummer());
+            PlaceIdResponse placeipHome = service.Place_Id(mongoUser.getArbeitsadressestadt(), mongoUser.getArbeitsadressestrasse(), mongoUser.getArbeitsadressenummer());
 
             if (placeipHome != null) {
 
@@ -271,7 +266,7 @@ public class Controller {
                 int summe = timewithtraffic - timewhitouttraffic;
 
                 System.out.println("Zeit ohne Verkehr: " + timewhitouttraffic);
-                System.out.println("Differenz: " + summe/60+" Minuten");
+                System.out.println("Differenz: " + summe / 60 + " Minuten");
                 userRepo.save(mongoUser.withPlace_idHome(placeipHome.getPlaceId()).withPlace_idWork(placeipHome.getPlaceId()).withDuration(Integer.parseInt(String.valueOf(timewhitouttraffic))));
 
                 if (timewithtraffic > 3) {
@@ -284,16 +279,11 @@ public class Controller {
             } else {
                 System.out.println("Fehler bei der Anfrage");
             }
-              return ResponseEntity.ok(inhalt);
+            return ResponseEntity.ok(inhalt);
         } else {
             return ResponseEntity.notFound().build();
-
-
-
         }
-
     }
-
 
 
     @GetMapping("/me2")
@@ -306,7 +296,6 @@ public class Controller {
     }
 
 
-
     @PostMapping("/logout")
     public String login(HttpSession httpSession) {
         httpSession.invalidate();
@@ -317,8 +306,7 @@ public class Controller {
 
 
     @PostMapping("/login")
-    public String login()
-    {
+    public String login() {
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
@@ -328,9 +316,10 @@ public class Controller {
 
         return service.saveUser(user).getUsername();
     }
+
     @GetMapping("/me")
-    public String getMe1(Principal principal){
-        if(principal !=null){
+    public String getMe1(Principal principal) {
+        if (principal != null) {
             return principal.getName();
 
         }
@@ -338,9 +327,105 @@ public class Controller {
 
     }
 
+/////////////////////////////////////////////TestsEndpunkte
 
-}
+    @GetMapping("/durationTest/{username}")
+    public ResponseEntity<Integer> findDurationTest(@PathVariable String username) throws
+            InstantiationException, IllegalAccessException {
 
+        Optional<MongoUser> user = service.findByUsername(username);
+        //  detailService.deleteUser(user.orElseThrow().id);
+        if (user.isPresent()) {
+            MongoUser mongoUser = user.get();
+            int sum = 15;
+            System.out.print(sum);
+            return ResponseEntity.ok(sum);
+
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+
+    }
+
+    @GetMapping("/vorbereitungszeitTest/{vorbereitungszeit}/{username}")
+    public ResponseEntity<String> findvortest(@PathVariable String username, @PathVariable String vorbereitungszeit) {
+        Optional<MongoUser> user = service.findByUsername(username);
+        if (user.isPresent()) {
+            MongoUser mongoUser = user.get();
+            userRepo.save(mongoUser.withVorbereitungsZeit(vorbereitungszeit));
+
+            System.out.println(findVorbereitungsZeit(toString()));
+            return ResponseEntity.ok(mongoUser.getVorbereitungsZeit());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/durationNonTrafficTest/{username}")
+    public ResponseEntity<Integer> findDurationnoTraffic(@PathVariable String username) throws InstantiationException, IllegalAccessException {
+        Optional<MongoUser> user = service.findByUsername(username);
+        if (user.isPresent()) {
+            MongoUser mongoUser = user.get();
+            int responseEntity = (mongoUser.duration);
+            int sum = ((responseEntity * 10) / 3600);
+
+
+            System.out.println(sum);
+            return ResponseEntity.ok(sum);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
+    @GetMapping("/weckzeit/{username}")
+    public ResponseEntity<Integer> Weckzeit(@PathVariable String username) throws InstantiationException, IllegalAccessException, InterruptedException {
+        Optional<MongoUser> user = service.findByUsername(username);
+        if (user.isPresent()) {
+            MongoUser mongoUser = user.get();
+            //Daten werden vom User gezogen
+            int duration = (mongoUser.duration);
+            String startzeit = mongoUser.getStartZeit();
+            String endzeit = mongoUser.getEndZeit();
+            String fahrzeit = mongoUser.getMaximaleweckzeit();
+            String vorbereitungszeit = mongoUser.getVorbereitungsZeit();
+            int durationOnTraffic = findDurationTest(username).getBody();
+
+            // Berechnung
+            int sum = ((duration) / 60);
+            int vorbereitungszeit1 = Integer.parseInt(vorbereitungszeit);
+            int startZeitMin = Service.StringToMinutes(startzeit);
+            int endZeitMin = Service.StringToMinutes(startzeit);
+            int zeitBisZurArbeit = (sum + vorbereitungszeit1);
+            int weckzeitohneVerkehr = startZeitMin - sum;
+            int weckZeitMitVerkehr = weckzeitohneVerkehr - durationOnTraffic;
+
+            System.out.println(startzeit);
+            System.out.println(endzeit);
+            System.out.println(fahrzeit);
+            System.out.println(vorbereitungszeit);
+            System.out.println(duration);
+            System.out.println(durationOnTraffic);
+            System.out.println(sum);
+
+
+            return ResponseEntity.ok(weckZeitMitVerkehr);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
+    @GetMapping("/weckzeittest/{username}")
+    public int weckzeitTest(@PathVariable String username)   {
+
+            int sum = 535;
+            System.out.print(sum);
+
+        return sum;
+        }
+
+    }
 
 
 

@@ -8,6 +8,11 @@ function Weckerdatenbank() {
     const [alarmActive, setAlarmActive] = useState(false); // State, um den Wecker zu aktivieren/deaktivieren
     const [intervalMinutes, setIntervalMinutes] = useState(60000);
 
+
+
+
+
+
     const handleAlarmTimeChange = (event) => {
         setAlarmTime(event.target.value);
     };
@@ -18,12 +23,24 @@ function Weckerdatenbank() {
 
     async function fetchWeckzeit() {
         try {
-            const response = await axios.get("/api/user/username/weckzeit"); // Passe den Pfad an
-            if (response.data && typeof response.data === 'string') {
-                return response.data; // Die Weckzeit aus der Antwort extrahieren
+            const startzeit = await axios.get("/api/user//startzeit/a");
+            const maximaleweckzeit = await axios.get("/api/user/maximaleweckzeit/a");
+            const endzeit = await axios.get("/api/user/endzeit/a");
+            const vorbereitungszeit = await axios.get("/api/user/vorbereitungszeit/a");
+            const fahrzeit = await axios.get("/api/user/durationNonTrafficTest/a");
+            const fahrzeitmitverkehr = await axios.get("/api/user/durationTest/a");
+            if ((startzeit.data && typeof startzeit.data === 'string')
+                &&(endzeit.data && typeof endzeit.data === 'string')
+                &&(maximaleweckzeit.data&& typeof maximaleweckzeit.data === 'string')
+                &&(vorbereitungszeit.data&& typeof vorbereitungszeit.data === 'string')
+                &&(fahrzeit.data&& typeof fahrzeit.data === 'string')
+                &&(fahrzeitmitverkehr.data&& typeof fahrzeitmitverkehr.data === 'string')){
+
+                return startzeit.data,fahrzeit.data,vorbereitungszeit.data,maximaleweckzeit.data,endzeit.data,maximaleweckzeit.data; // Die Weckzeit aus der Antwort extrahieren
+                console.log(startzeit.data);
             }
         } catch (error) {
-            console.error('Error fetching weckzeit:', error);
+            console.error('Es konnte keine Datenbak Abfrage durchgeführt werden', error);
         }
         return null; // Im Fehlerfall oder wenn keine Weckzeit gefunden wird
     }
@@ -35,7 +52,7 @@ function Weckerdatenbank() {
                 const selectedTime = new Date(currentTime.toDateString() + ' ' + alarmTime);
 
                 // Führe die Axios-Anfrage für die Verkehrszeit aus
-                const responseTraffic = await axios.get("/api/user/duration/s");
+                const responseTraffic = await axios.get("/api/user/durationTest/s");
 
                 // Berechne die neue Weckzeit basierend auf der Serverantwort
                 if (responseTraffic.data && typeof responseTraffic.data === 'number') {

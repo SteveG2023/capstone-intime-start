@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import DigitalClock from "./RegisterPage/Components/DigitalClock";
 import Wecker from "./RegisterPage/Components/Wecker"; // Importieren Sie die Wecker-Komponente
 import "./WeckerPage.css";
+import Weckerdatenbank from "./RegisterPage/Components/Weckerdatenbank.tsx";
 
 export default function WeckerPage() {
     return (
@@ -26,8 +27,8 @@ export default function WeckerPage() {
                     <DigitalClock />
                 </div>
                 <div className="clock-content grid">
-                    {/* Fügen Sie den Wecker hier ein */}
-                    <Wecker />
+                    {<Wecker />}
+
                 </div>
                 <div id="root"></div>
 
