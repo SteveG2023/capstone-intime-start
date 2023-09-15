@@ -30,7 +30,7 @@
     display: flex;
     justify-content: flex-end;
     align-items: flex-start;
-    transform: translateX(80px) translateY(0px);
+    transform: translateX(120px) translateY(0px);
 }
 
 
@@ -41,11 +41,16 @@
 .digital-clock{
     background-color: black;
 }
-.zurueck{
-    transform: translateX(1px) translateY(80px);
+.setup{
+
+    position: absolute;
+    top: 50px;
+    left: 250px;
 }
 .logout {
-    transform: translateX(100px) translateY(80px);
+    position: absolute;
+    top: 50px;
+    left: 50px;
 
 }
 

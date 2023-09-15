@@ -83,14 +83,14 @@ function Wecker() {
     const handleWeckzeitErreicht = () => {
         // Hier kannst du die Aktion ausführen, wenn die Weckzeit erreicht wurde.
         // Zum Beispiel, den Klingelton abspielen.
-        audio.src = 'https://your-audio-file-url.mp3'; // Hier die URL deiner Audiodatei einfügen
+        audio.src = "https://www.br.de/radio/bayern1/baustellen-bayern-100~_v-img__16__9__l_-1dc0e8f74459dd04c91a0d45af4972b9069f1135.jpg?version=85f9a"; // Hier die URL deiner Audiodatei einfügen
         audio.play();
         setKlingelt(true);
     };
 
     return (
         <div>
-            <h1>Wecker</h1>
+
             {weckzeit && <p>Weckzeit: {weckzeit}</p>}
             {klingelt && (
                 <img src="https://cdn.pixabay.com/photo/2017/12/24/00/30/clock-3036245_1280.jpg" alt="Klingelbild" />

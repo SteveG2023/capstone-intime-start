@@ -5,7 +5,7 @@ import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import LoginPage from "./pages/LoginPage.tsx";
 import ProtectedRoute from "./ProtectedRoute.tsx";
 import RegisterPage from "./pages/RegisterPage/RegisterPage.tsx";
-import Homepage from "./pages/HomePage.tsx";
+
 import WeckerPage from "./pages/WeckerPage.tsx";
 import SetupPage from "./pages/SetupPage.tsx";
 import AdressePageHome from "./pages/RegisterPage/AdressePageHome.tsx";
@@ -28,7 +28,7 @@ function App() {
                     <Route element={<ProtectedRoute user={user}/>}>
 
                             <Route path={"/weckerpage"} element={ <WeckerPage/> } />
-                            <Route path={"/homepage"} element={<Homepage />} />
+
                             <Route path={"/setuppage"}element={<SetupPage/>}/>
                             <Route path={"/adresspagehome"}element={<AdressePageHome />} />
                             <Route path={"/adresspagework"} element={<AdressePageWork  />} />

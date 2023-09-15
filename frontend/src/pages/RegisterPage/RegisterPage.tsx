@@ -51,11 +51,7 @@ export default function RegisterPage() {
         setMaximaleWeckzeit(event.target.value)
     }
 
-/*
-    function onChangeUsername(event: ChangeEvent<HTMLInputElement>) {
-        setUsername(event.target.value)
-    }
-*/
+
 
     function onChangeVorname(event: ChangeEvent<HTMLInputElement>) {
         setVorname(event.target.value)

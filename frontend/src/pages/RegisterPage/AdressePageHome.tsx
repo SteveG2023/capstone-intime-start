@@ -3,6 +3,7 @@ import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 
 export default function AdressePageHome() {
+    const username = 'z';
     const [stadt, setStadt] = useState("");
     const [strasse, setStrasse] = useState("");
     const [nummer, setNummer] = useState("");
@@ -32,9 +33,9 @@ export default function AdressePageHome() {
         event.preventDefault();
         axios({
             method: 'get',
-            url: `/api/user/placeidh/${stadt}/${strasse}/${nummer}`
+            url: `/api/user/placeidhome/${username}/${stadt}/${strasse}/${nummer}`
         })
-            .then(() => nav("/timeplan"))
+            .then(() => nav("/setuppage"))
             .catch((error) => console.log(error))
     }
 
@@ -59,7 +60,7 @@ export default function AdressePageHome() {
                     <div>
 
 
-                        <Link className="direction-link" to={"/setup"}>Setup</Link>
+                        <Link className="direction-link" to={"/setuppage"}>zurück</Link>
 
 
                     </div>

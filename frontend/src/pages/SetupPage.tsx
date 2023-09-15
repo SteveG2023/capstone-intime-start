@@ -14,30 +14,19 @@ export default function SetupPage() {
             <div className="card">
                 <div className="logo-container-l">
                     <h3>Einstellungen</h3>
+                <div>
 
-
-                    <div>
-                    <Link className="direction-link" to={""}>Klingelton</Link>
-
-
-
-                    </div>
-
-                    <Link className="direction-link" to={""}>Farbe</Link>
-                    <div>
 
                     <Link className="direction-link" to={"/adresspagework"}>Workplace</Link>
 
                     </div>
                     <Link className="direction-link" to={"/adresspagehome"}>Homeplace</Link>
                     </div>
+
                     <div>
-                    <Link className="direction-link" to={"/homepage"}>Homepage</Link>
-                    </div>
+                        <Link className="direction-link" to={"/timeplanpage"}>Timeplan</Link>
                     <div>
-                        <Link className="direction-link" to={"/timeplan"}>Timepage</Link>
-                    <div>
-                    <Link className="direction-link" to={"/wecker"}>Wecker</Link>
+                    <Link className="direction-link" to={"/weckerpage"}>Wecker</Link>
                      </div>
                     <Link className="direction-link" to={"/"}>Logout</Link>
                     </div>

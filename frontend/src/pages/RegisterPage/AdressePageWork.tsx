@@ -5,7 +5,7 @@ import axios from "axios";
 
 export default function AdressePageWork() {
 
-
+    const username = 'z';
     const [stadt, setStadt] = useState("");
     const [strasse, setStrasse] = useState("");
     const [nummer,setNummer] = useState("");
@@ -31,9 +31,9 @@ export default function AdressePageWork() {
         event.preventDefault();
         axios({
             method: 'get',
-            url: `/api/user/placeidWork/${stadt}${stadt}/${strasse}/${nummer}`
+            url: `/api/user/placeidwork/${username}/${stadt}${stadt}/${strasse}/${nummer}`
         })
-            .then(() => nav("/setup"))
+            .then(() => nav("/setuppage"))
             //.catch((error) => console.log(error))
     }
 
@@ -74,7 +74,7 @@ export default function AdressePageWork() {
                     <div>
 
 
-                        <Link className="direction-link" to={"/setup"}>Setup</Link>
+                        <Link className="direction-link" to={"/setuppage"}>zurück</Link>
 
 
                     </div>
