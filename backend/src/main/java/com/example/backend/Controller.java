@@ -189,7 +189,7 @@ public class Controller {
             InstantiationException, IllegalAccessException {
 
         Optional<MongoUser> user = service.findByUsername(username);
-        //  detailService.deleteUser(user.orElseThrow().id);
+
         if (user.isPresent()) {
             MongoUser mongoUser = user.get();
 
@@ -217,13 +217,15 @@ public class Controller {
     // wird vom Register verwendet
     @GetMapping("/anfragen/{username}")
     public ResponseEntity<ResponseDuration> anfragen(@PathVariable String username) throws InterruptedException {
-
+        //Username finden
         Optional<MongoUser> user = service.findByUsername(username);
       if (user.isPresent()) {
             MongoUser mongoUser = user.get();
             System.out.println(username);
+            //placeidHome holen
 
-            PlaceIdResponse placeipHome = service.Place_Id(mongoUser.getArbeitsadressestadt(), mongoUser.getArbeitsadressestrasse(), mongoUser.getArbeitsadressenummer());
+            PlaceIdResponse placeipHome = service.Place_Id(mongoUser.getWohnadressestadt(), mongoUser.getWohnadressestrasse(), mongoUser.getWohnadressenummer());
+            //Placeid Speichern
 
             if (placeipHome != null) {
 
@@ -231,8 +233,9 @@ public class Controller {
                 Thread.sleep(3000);
                 System.out.println(placeipHome);
             }
+          //placeidHome holen
 
-            PlaceIdResponse placeipWork = service.Place_Id(mongoUser.getWohnadressestadt(), mongoUser.getWohnadressestrasse(), mongoUser.getWohnadressenummer());
+            PlaceIdResponse placeipWork = service.Place_Id(mongoUser.getArbeitsadressestadt(), mongoUser.getArbeitsadressestrasse(), mongoUser.getArbeitsadressenummer());
 
             if (placeipWork != null) {
 
@@ -251,7 +254,9 @@ public class Controller {
 
                 System.out.println("Zeit ohne Verkehr: " + timewhitouttraffic);
                 System.out.println("Differenz: " + summe / 60 + " Minuten");
-                userRepo.save(mongoUser.withPlace_idHome(placeipHome.getPlaceId()).withPlace_idWork(placeipHome.getPlaceId()).withDuration(Integer.parseInt(String.valueOf(timewhitouttraffic))));
+
+                //Speichern der PlaceId home
+                userRepo.save(mongoUser.withPlace_idHome(placeipHome.getPlaceId()).withPlace_idWork(placeipWork.getPlaceId()).withDuration(Integer.parseInt(String.valueOf(timewhitouttraffic))));
 
                 if (timewithtraffic > 3) {
                     int delayInSeconds = 3;
@@ -285,6 +290,12 @@ public class Controller {
         httpSession.invalidate();
         SecurityContextHolder.clearContext();
         return "logged out";
+
+    }
+    @PostMapping("/delete/{username}")
+    public String delete(String username) {
+    service.deleteUser(username);
+        return "delete";
 
     }
 
@@ -366,7 +377,7 @@ public class Controller {
     @GetMapping("/weckzeittest/{username}")
     public int weckzeitTest(@PathVariable String username) {
 
-        int sum = 535;
+        int sum = 800;
         System.out.print(sum);
 
         return sum;

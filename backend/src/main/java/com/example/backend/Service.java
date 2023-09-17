@@ -1,16 +1,15 @@
 package com.example.backend;
 
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.reactive.function.client.WebClient;
 
 
@@ -99,7 +98,7 @@ public class Service implements UserDetailsService {
 
 
     public  MongoUser saveUser(MongoUser user) {
-        if (repo.findMongoUserByUsername(user.getUsername()).equals(user.getUsername())) {
+        if (repo.findMongoUserByUsername(user.getUsername()).equals(user.getUsername())&& repo.findMongoUserByUsername(user.getEmail()).equals(user.getEmail())) {
             throw new IllegalArgumentException("Username already taken");
         }
 
@@ -109,9 +108,9 @@ public class Service implements UserDetailsService {
     }
 
 
-    public void deleteUser(String id) {
-        if (repo.existsById(id)) {
-            repo.deleteById(id);
+    public void deleteUser(String username) {
+        if (repo.existsById(username)) {
+            repo.deleteById(username);
 
         }
 
@@ -154,11 +153,43 @@ public class Service implements UserDetailsService {
             System.out.println("Uhrzeit in Minuten: " + startZeitUhr);
         }
 
+        public ResponseEntity<ResponseDuration> anfragen(String username) throws InterruptedException {
+                Optional<MongoUser> user = findByUsername(username);
+
+                 if (user.isPresent()) {
+                     MongoUser mongoUser = user.get();
+                     //hole die Zeit  mit Verkehr
+                     ResponseDuration inhalt = duration(mongoUser.arbeitsadressestadt, mongoUser.arbeitsadressestrasse, mongoUser.arbeitsadressenummer, mongoUser.wohnadressestadt, mongoUser.wohnadressestrasse, mongoUser.wohnadressenummer);
 
 
+                     if (inhalt != null) {
+                         int timewithtraffic = inhalt.getRoutes().get(0).getLegs().get(0).getDuration_in_traffic().getValue();
+                         int timewhitouttraffic = inhalt.getRoutes().get(0).getLegs().get(0).getDuration().getValue();
+
+                         System.out.println("Zeit mit Verkehr: " + timewithtraffic);
+
+                         int summe = timewithtraffic - timewhitouttraffic;
+
+                         System.out.println("Zeit ohne Verkehr: " + timewhitouttraffic);
+                         System.out.println("Differenz: " + summe / 60 + " Minuten");
+                         repo.save(mongoUser.withDuration(Integer.parseInt(String.valueOf(timewhitouttraffic))));
+
+                         if (timewithtraffic > 3) {
+                             int delayInSeconds = 3;
+                             System.out.println("Die Anfrage dauert länger. Verzögerung von " + delayInSeconds + " Sekunden.");
+                             Thread.sleep(delayInSeconds * 1000);
+                         }
+                         System.out.println("Fortsetzung des Codes nach der Verzögerung");
+                    } else {
+                         System.out.println("Fehler bei der Anfrage");
+                     }
+                     return ResponseEntity.ok(inhalt);
+                 } else {
+                     return ResponseEntity.notFound().build();
+                 }
 
 
-
+        }
 
 
 }

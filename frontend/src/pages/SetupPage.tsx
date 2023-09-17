@@ -31,6 +31,12 @@ export default function SetupPage() {
                     <Link className="direction-link" to={"/"}>Logout</Link>
                     </div>
 
+
+
+
+
+
+
             </div>
 
         </div>

@@ -6,7 +6,7 @@ import axios from "axios";
 
 export default function TimePlan() {
 
-    const username = 'z';
+    const username = 'u';
     const [startZeit, setStartzeit] = useState("");
     const [endZeit, setEndzeit] = useState("");
     const [vorbereitungsZeit, setVorbereitungsZeit] = useState('');

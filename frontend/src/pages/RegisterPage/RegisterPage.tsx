@@ -19,8 +19,7 @@ export default function RegisterPage() {
     const [wohnadressestadt, setwohnadressestadt] = useState("");
     const [wohnadressestrasse, setwohnadressestrasse] = useState("");
     const [wohnadressenummer, setwohnadressenummer] = useState("");
-    const [preparationTime , setpreperationtime]=useState("int");
-    const [workTimeEnd, setWorkTimeEnd] = useState('');
+
     const [startZeit    , setStartzeit] = useState("");
     const [endZeit, setEndzeit] = useState("");
     const [vorbereitungsZeit, setVorbereitungsZeit] = useState('');
@@ -32,8 +31,9 @@ export default function RegisterPage() {
 
 
 
-    const onChangeVorbereitungsZeit = (event) => { const newValue = event.target.value; const minutes = newValue.split(':')[1];
-        setVorbereitungsZeit(minutes)};
+    const onChangeVorbereitungsZeit = (event) => {
+        setVorbereitungsZeit(event.target.value);
+    }
 
     // Handler zum Ändern des Benutzernamens und Speichern in einem Cookie
     function onChangeUsername(event: ChangeEvent<HTMLInputElement>) {
@@ -273,17 +273,14 @@ export default function RegisterPage() {
                             />
                         </div>
                         <div>
-                            <div>
-                                <h3>Vorbereitung in Minuten</h3>
-                                <input
-                                    type="number" // Ändere den Typ auf "number"
-                                    min="20" // Optional: Hier kannst du das Minimum festlegen, z.B. "0" für keine Mindestzeit
-                                    required={false} // Wenn dies optional ist, kannst du "false" beibehalten
-                                    id={vorbereitungsZeit}
-                                    placeholder="Vorbereitungszeit"
-                                    onChange={onChangeVorbereitungsZeit}
-                                />
-                            </div>
+                            <input
+                                type="number"
+                                required={false}
+                                id="vorbereitungsZeit"
+                                placeholder="Vorbereitung"
+                                value={vorbereitungsZeit}
+                                onChange={onChangeVorbereitungsZeit}
+                            />
                         </div>
 
 
