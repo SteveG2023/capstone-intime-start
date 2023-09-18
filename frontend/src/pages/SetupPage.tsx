@@ -15,20 +15,18 @@ export default function SetupPage() {
                 <div className="logo-container-l">
                     <h3>Einstellungen</h3>
                 <div>
-
-
                     <Link className="direction-link" to={"/adresspagework"}>Workplace</Link>
 
                     </div>
-                    <Link className="direction-link" to={"/adresspagehome"}>Homeplace</Link>
+                          <Link className="direction-link" to={"/adresspagehome"}>Homeplace</Link>
                     </div>
 
                     <div>
                         <Link className="direction-link" to={"/timeplanpage"}>Timeplan</Link>
                     <div>
-                    <Link className="direction-link" to={"/weckerpage"}>Wecker</Link>
+                        <Link className="direction-link" to={"/weckerpage"}>Wecker</Link>
                      </div>
-                    <Link className="direction-link" to={"/"}>Logout</Link>
+                         <Link className="direction-link" to={"/"}>Logout</Link>
                     </div>
 
 

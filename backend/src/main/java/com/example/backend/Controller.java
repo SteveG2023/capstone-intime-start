@@ -24,7 +24,7 @@ public class Controller {
 
     @Autowired
     private MongoUserRepo userRepo;
-    private MongoUser user;
+
 
     private final Service service;
 
@@ -37,22 +37,7 @@ public class Controller {
 
     @GetMapping("/placeidwork/{username}/{arbeitsadressestadt}/{arbeitsadressestrasse}/{arbeitsadressenummer}")
     public ResponseEntity<PlaceIdResponse> changeAdressWork(@PathVariable String username, @PathVariable String arbeitsadressestadt,@PathVariable String arbeitsadressestrasse,@PathVariable String arbeitsadressenummer) {
-        Optional<MongoUser> user = service.findByUsername(username);
-
-        if (user.isPresent()) {
-            MongoUser mongoUser = user.get();
-
-
-            PlaceIdResponse response = service.Place_Id(mongoUser.arbeitsadressenummer, mongoUser.arbeitsadressestrasse, mongoUser.arbeitsadressestadt);
-            String place = response.getPlaceId();
-
-            userRepo.save(mongoUser.withArbeitsadressenummer(arbeitsadressenummer).withArbeitsadressestrasse(arbeitsadressestrasse).withArbeitsadressestadt(arbeitsadressestadt).withPlace_idWork(place));
-
-
-            return ResponseEntity.ok(response);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+       return service.placeidAbfragenWork(username,arbeitsadressestadt,arbeitsadressestrasse,arbeitsadressenummer);
 
 
     }
@@ -60,22 +45,7 @@ public class Controller {
 
     @GetMapping("/placeidhome/{username}/{wohnadressestadt}/{wohnadressestrasse}/{wohnadressenummer}")
     public ResponseEntity<PlaceIdResponse> changeAdressHome(@PathVariable String username, @PathVariable String wohnadressestadt,@PathVariable String wohnadressestrasse,@PathVariable String wohnadressenummer) {
-        Optional<MongoUser> user = service.findByUsername(username);
-
-        if (user.isPresent()) {
-            MongoUser mongoUser = user.get();
-
-
-            PlaceIdResponse response = service.Place_Id(mongoUser.wohnadressenummer, mongoUser.wohnadressestrasse, mongoUser.wohnadressestadt);
-            String place = response.getPlaceId();
-
-            userRepo.save(mongoUser.withWohnadressenummer(wohnadressenummer).withWohnadressestrasse(wohnadressestrasse).withWohnadressestadt(wohnadressestadt).withPlace_idHome(place));
-
-
-            return ResponseEntity.ok(response);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+      return service.placeidAbfragenHome(username,wohnadressestadt,wohnadressestrasse,wohnadressenummer);
 
 
     }
@@ -85,60 +55,19 @@ public class Controller {
 
 
     @PostMapping("/time/{username}/{startZeit}/{endZeit}/{vorbereitungsZeit}/{maximalweckZeit}")
-    public ResponseEntity<MongoUser> saveTime(@PathVariable String username, @PathVariable String startZeit, @PathVariable String endZeit,@PathVariable String vorbereitungsZeit, @PathVariable String maximalweckZeit ) throws
-            InstantiationException, IllegalAccessException {
+    public ResponseEntity<MongoUser> saveTime(@PathVariable String username, @PathVariable String startZeit, @PathVariable String endZeit, @PathVariable String vorbereitungsZeit, @PathVariable String maximalweckZeit ) throws
+            InstantiationException, IllegalAccessException, InterruptedException {
 
-        Optional<MongoUser> user = service.findByUsername(username);
-        System.out.println(maximalweckZeit);
-
-        if (user.isPresent()) {
-            MongoUser mongoUser = user.get();
-            userRepo.save(mongoUser.withEndZeit(endZeit).withStartZeit(startZeit).withVorbereitungsZeit(vorbereitungsZeit).withMaximalweckzeit(maximalweckZeit));
-
-            return ResponseEntity.ok(mongoUser);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-
+       return service.testzeit(username,startZeit,endZeit,vorbereitungsZeit,maximalweckZeit);
     }
 
 
     // wird vom Wecker verwendet
     @GetMapping("/weckzeit/{username}")
     public ResponseEntity<Integer> Weckzeit(@PathVariable String username) throws InstantiationException, IllegalAccessException, InterruptedException {
-        Optional<MongoUser> user = service.findByUsername(username);
-        if (user.isPresent()) {
-            MongoUser mongoUser = user.get();
-            //Daten werden vom User gezogen
-            int duration = (mongoUser.duration);
-            String startzeit = mongoUser.getStartZeit();
-            String endzeit = mongoUser.getEndZeit();
-            String fahrzeit = mongoUser.getMaximalweckzeit();
-            String vorbereitungszeit = mongoUser.getVorbereitungsZeit();
-            int durationOnTraffic = findDurationTest(username).getBody();
-
-            // Berechnung
-            int sum = ((duration) / 60);
-            int vorbereitungszeit1 = Integer.parseInt(vorbereitungszeit);
-            int startZeitMin = Service.StringToMinutes(startzeit);
-            int endZeitMin = Service.StringToMinutes(startzeit);
-            int zeitBisZurArbeit = (sum + vorbereitungszeit1);
-            int weckzeitohneVerkehr = startZeitMin - sum;
-            int weckZeitMitVerkehr = weckzeitohneVerkehr - durationOnTraffic;
-
-            System.out.println(startzeit);
-            System.out.println(endzeit);
-            System.out.println(fahrzeit);
-            System.out.println(vorbereitungszeit);
-            System.out.println(duration);
-            System.out.println(durationOnTraffic);
-            System.out.println(sum);
 
 
-            return ResponseEntity.ok(weckZeitMitVerkehr);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+     return service.weckzeitTime(username);
     }
 
 
@@ -146,39 +75,7 @@ public class Controller {
     //wird noch nicht verwendet
     @GetMapping("/traffictime/{username}")
     public ResponseEntity<ResponseDuration> findDurationTimeTraffic(@PathVariable String username) throws InterruptedException {
-        Optional<MongoUser> user = service.findByUsername(username);
-
-        if (user.isPresent()) {
-            MongoUser mongoUser = user.get();
-            //hole die Zeit  mit Verkehr
-            ResponseDuration inhalt = service.duration(mongoUser.arbeitsadressestadt, mongoUser.arbeitsadressestrasse, mongoUser.arbeitsadressenummer, mongoUser.wohnadressestadt, mongoUser.wohnadressestrasse, mongoUser.wohnadressenummer);
-
-
-            if (inhalt != null) {
-                int timewithtraffic = inhalt.getRoutes().get(0).getLegs().get(0).getDuration_in_traffic().getValue();
-                int timewhitouttraffic = inhalt.getRoutes().get(0).getLegs().get(0).getDuration().getValue();
-
-                System.out.println("Zeit mit Verkehr: " + timewithtraffic);
-
-                int summe = timewithtraffic - timewhitouttraffic;
-
-                System.out.println("Zeit ohne Verkehr: " + timewhitouttraffic);
-                System.out.println("Differenz: " + summe / 60 + " Minuten");
-                userRepo.save(mongoUser.withDuration(Integer.parseInt(String.valueOf(timewhitouttraffic))));
-
-                if (timewithtraffic > 3) {
-                    int delayInSeconds = 3;
-                    System.out.println("Die Anfrage dauert länger. Verzögerung von " + delayInSeconds + " Sekunden.");
-                    Thread.sleep(delayInSeconds * 1000);
-                }
-                System.out.println("Fortsetzung des Codes nach der Verzögerung");
-            } else {
-                System.out.println("Fehler bei der Anfrage");
-            }
-            return ResponseEntity.ok(inhalt);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+      return service.trafficTime(username);
     }
 
 
@@ -188,92 +85,17 @@ public class Controller {
     public ResponseEntity<Integer> findDuration(@PathVariable String username) throws
             InstantiationException, IllegalAccessException {
 
-        Optional<MongoUser> user = service.findByUsername(username);
+        return service.durationMinut(username);
 
-        if (user.isPresent()) {
-            MongoUser mongoUser = user.get();
-
-            ResponseDuration inhalt = service.duration(mongoUser.arbeitsadressestadt, mongoUser.arbeitsadressestrasse, mongoUser.arbeitsadressenummer, mongoUser.wohnadressestadt, mongoUser.wohnadressestrasse, mongoUser.wohnadressenummer);
-            System.out.println(inhalt);
-            int sum;
-            int traffic = inhalt.getRoutes().get(0).getLegs().get(0).getDuration_in_traffic().getValue();
-            int notraffic = inhalt.getRoutes().get(0).getLegs().get(0).getDuration().getValue();
-            System.out.println(traffic);
-            System.out.println(notraffic);
-
-            sum = (traffic - notraffic) / 60;
-            System.out.println(sum);
-
-
-            return ResponseEntity.ok(sum);
-
-        } else {
-            return ResponseEntity.notFound().build();
-        }
 
     }
+    // diese Funktion funktioniert
+    @GetMapping ("/anfragen2/{username}")
+        public ResponseEntity<ResponseDuration> speicherungDerUserDatenLocation(@PathVariable String username) throws InterruptedException {
 
+        return   service.anfragen(username);
 
-    // wird vom Register verwendet
-    @GetMapping("/anfragen/{username}")
-    public ResponseEntity<ResponseDuration> anfragen(@PathVariable String username) throws InterruptedException {
-        //Username finden
-        Optional<MongoUser> user = service.findByUsername(username);
-      if (user.isPresent()) {
-            MongoUser mongoUser = user.get();
-            System.out.println(username);
-            //placeidHome holen
-
-            PlaceIdResponse placeipHome = service.Place_Id(mongoUser.getWohnadressestadt(), mongoUser.getWohnadressestrasse(), mongoUser.getWohnadressenummer());
-            //Placeid Speichern
-
-            if (placeipHome != null) {
-
-                userRepo.save(mongoUser.withPlace_idHome(placeipHome.getPlaceId()).withPlace_idWork(placeipHome.getPlaceId()));
-                Thread.sleep(3000);
-                System.out.println(placeipHome);
-            }
-          //placeidHome holen
-
-            PlaceIdResponse placeipWork = service.Place_Id(mongoUser.getArbeitsadressestadt(), mongoUser.getArbeitsadressestrasse(), mongoUser.getArbeitsadressenummer());
-
-            if (placeipWork != null) {
-
-                Thread.sleep(3000);
-                System.out.println(placeipWork);
-            }
-            ResponseDuration inhalt = service.duration(mongoUser.arbeitsadressestadt, mongoUser.arbeitsadressestrasse, mongoUser.arbeitsadressenummer, mongoUser.wohnadressestadt, mongoUser.wohnadressestrasse, mongoUser.wohnadressenummer);
-
-            if (inhalt != null) {
-                int timewithtraffic = inhalt.getRoutes().get(0).getLegs().get(0).getDuration_in_traffic().getValue();
-                int timewhitouttraffic = inhalt.getRoutes().get(0).getLegs().get(0).getDuration().getValue();
-
-                System.out.println("Zeit mit Verkehr: " + timewithtraffic);
-
-                int summe = timewithtraffic - timewhitouttraffic;
-
-                System.out.println("Zeit ohne Verkehr: " + timewhitouttraffic);
-                System.out.println("Differenz: " + summe / 60 + " Minuten");
-
-                //Speichern der PlaceId home
-                userRepo.save(mongoUser.withPlace_idHome(placeipHome.getPlaceId()).withPlace_idWork(placeipWork.getPlaceId()).withDuration(Integer.parseInt(String.valueOf(timewhitouttraffic))));
-
-                if (timewithtraffic > 3) {
-                    int delayInSeconds = 3;
-                    System.out.println("Die Anfrage dauert länger. Verzögerung von " + delayInSeconds + " Sekunden.");
-                    Thread.sleep(delayInSeconds * 1000);
-                }
-
-                System.out.println("Fortsetzung des Codes nach der Verzögerung");
-            } else {
-                System.out.println("Fehler bei der Anfrage");
-            }
-            return ResponseEntity.ok(inhalt);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
     }
-
 
     @GetMapping("/me2")
     public String getMe2() {
@@ -343,19 +165,7 @@ public class Controller {
 
     }
 
-    @GetMapping("/vorbereitungszeitTest/{vorbereitungszeit}/{username}")
-    public ResponseEntity<String> findvortest(@PathVariable String username, @PathVariable String vorbereitungszeit) {
-        Optional<MongoUser> user = service.findByUsername(username);
-        if (user.isPresent()) {
-            MongoUser mongoUser = user.get();
-            userRepo.save(mongoUser.withVorbereitungsZeit(vorbereitungszeit));
 
-            System.out.println(findVorbereitungsZeit(toString()));
-            return ResponseEntity.ok(mongoUser.getVorbereitungsZeit());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
 
     @GetMapping("/durationNonTrafficTest/{username}")
     public ResponseEntity<Integer> findDurationnoTraffic(@PathVariable String username) throws InstantiationException, IllegalAccessException {
@@ -384,19 +194,7 @@ public class Controller {
     }
 
 
-    // da die Registrierung von der vorbereitungszeit nicht geht ist die Funktion nur ein uebergang
-    @GetMapping("/vorbereitungszeit/{username}")
-    public ResponseEntity<String> findVorbereitungsZeit(@PathVariable String username) {
-        Optional<MongoUser> user = service.findByUsername(username);
-        if (user.isPresent()) {
-            MongoUser mongoUser = user.get();
-            String weckerzeit = mongoUser.getVorbereitungsZeit();
-            System.out.println(weckerzeit);
-            return ResponseEntity.ok(weckerzeit);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
+
 
 }
 

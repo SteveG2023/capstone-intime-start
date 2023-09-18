@@ -1,41 +1,70 @@
-import React from "react";
+
 import { Link } from "react-router-dom";
 import DigitalClock from "./RegisterPage/Components/DigitalClock";
 import Wecker from "./RegisterPage/Components/Wecker"; // Importieren Sie die Wecker-Komponente
 import "./WeckerPage.css";
+import {useEffect, useState} from "react";
+import axios from "axios";
 
 
 export default function WeckerPage() {
+
+
+
+    const [username, setUsername] = useState("");
+
+    useEffect(() => {
+
+        axios.get("/api/user/me2")
+            .then((response) => {
+                setUsername(response.data);
+            })
+            .then(axios.get)
+            .catch((error) => console.log(error));
+    }, []);
+
+
+
+
+
+
     return (
-        <div className={"animierter-hintergrund"}>
+        <div className={"Background"}>
 
 
-               // <div className="logo-container-l"/>
-                <h1>Wecker</h1>
+                <div className="logo-container-l"/>
+            <video autoPlay muted loop id="video-background"> </video>
+
+
                 <div>
-                     <div>
-                        <Link className={"setup"} to={"/setuppage"}>
-                            Setup
-                        </Link>
-                    </div>
+                    <Link className={"setup"} to={"/setuppage"}>
+                          Setup
+                    </Link>
+                </div>
 
+                <div>
+                    <Link className={"logout"} to={"/"}>
+                        logout
+                    </Link>
+                </div>
                     <div>
-                        <Link className={"logout"} to={"/"}>
-                            logout
-                        </Link>
-                    </div>
 
-               </div>
+                        <h1>Wecker</h1>
 
-                    <div className="digital-clock">
-                        <DigitalClock />
-                    </div>
-                    <div className="clock-content grid">
-                        {<Wecker />}
 
-                    </div>
-                <div id="root"></div>
-                    <div className={"box"}>
+                        <div className="digital-clock">
+
+
+
+                            <DigitalClock />
+                        </div>
+                        <div className="clock-content grid">
+                                {<Wecker />}
+
+                        </div>
+
+                        <div id="root"></div>
+                        <div className={"box"}>
                             <img
                                 className="img-priority"
                                 src={
@@ -47,7 +76,7 @@ export default function WeckerPage() {
                     </div>
 
 
-                <div>
+
 
                 </div>
 

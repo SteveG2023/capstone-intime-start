@@ -1,4 +1,4 @@
-import {ChangeEvent, FormEvent, useState} from "react";
+import {ChangeEvent, FormEvent, useEffect, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 
 
@@ -6,11 +6,22 @@ import axios from "axios";
 
 export default function TimePlan() {
 
-    const username = 'u';
+    const [username, setUsername] = useState(""); // Hier wird die Variable für den Benutzernamen gesetzt
     const [startZeit, setStartzeit] = useState("");
     const [endZeit, setEndzeit] = useState("");
     const [vorbereitungsZeit, setVorbereitungsZeit] = useState('');
     const [maximalWeckZeit, setMaximalWeckZeit] = useState("");
+
+
+
+    useEffect(() => {
+
+        axios.get("/api/user/me2")
+            .then((response) => {
+                setUsername(response.data);
+            })
+            .catch((error) => console.log(error));
+    }, []);
 
     const onChangeVorbereitungsZeit = (event) => {
         setVorbereitungsZeit(event.target.value);

@@ -31,26 +31,59 @@
     justify-content: flex-end;
     align-items: flex-start;
     transform: translateX(120px) translateY(0px);
+    background-position: center center; /* Das Bild wird zentriert ausgerichtet */
+}
+
+.root{
+    background-size: cover; /* Das Bild wird proportional skaliert, um den Container zu füllen */
+    background-position: center center; /* Das Bild wird zentriert ausgerichtet */
+    background-repeat: no-repeat;
+
 }
 
 
 
 
-
-}
 .digital-clock{
-    background-color: black;
-}
-.setup{
 
-    position: absolute;
-    top: 50px;
-    left: 250px;
-}
-.logout {
-    position: absolute;
-    top: 50px;
-    left: 50px;
-
+    width: 100px;
+    height: 100px;
+    background-color: red; /* Startfarbe */
+    border-radius: 10%; /* Macht das Element rund */
+    position:center;
+    animation: circleAnimation 5s linear infinite; /* Animationseigenschaften */
 }
 
+
+.Background{
+ background-image: url("https://cdn.pixabay.com/photo/2017/05/24/18/57/tree-2341285_1280.jpg");
+    background-size: cover; /* Das Bild wird proportional skaliert, um den Container zu füllen */
+    background-position: center center; /* Das Bild wird zentriert ausgerichtet */
+    background-repeat: no-repeat;
+}
+.circle-container {
+    width: 200px;
+    height: 200px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Basisstil für den Kreis */
+
+
+
+/* CSS-Animation mit Keyframes */
+@keyframes circleAnimation {
+    0% {
+        transform: scale(1); /* Startgröße */
+        background-color: red; /* Startfarbe */
+    }
+    50% {
+        transform: scale(2); /* Endgröße */
+        background-color: blue; /* Endfarbe */
+    }
+    100% {
+        transform: scale(1); /* Zurück zur Startgröße */
+        background-color: red; /* Zurück zur Startfarbe */
+    }
+}

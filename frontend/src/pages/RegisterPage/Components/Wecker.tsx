@@ -1,8 +1,11 @@
 
 import  { useState, useEffect } from 'react';
 import axios from 'axios';
+import {Simulate} from "react-dom/test-utils";
+import durationChange = Simulate.durationChange;
 
 function Wecker() {
+    const [username, setUsername] = useState("");
     const [weckzeit, setWeckzeit] = useState<string | null>(null);
     const [aktiviert, setAktiviert] = useState(false);
     const [schlummer, setSchlummer] = useState(false);
@@ -10,6 +13,13 @@ function Wecker() {
     const [klingelt, setKlingelt] = useState(false);
 
     useEffect(() => {
+
+
+
+
+
+
+
         // Funktion, um die Anfrage zu stellen und die Weckzeit zu aktualisieren
         const sendeAnfrageUndAktualisiereWeckzeit = async () => {
             try {
@@ -17,8 +27,24 @@ function Wecker() {
                 const hours = now.getHours();
                 const minutes = now.getMinutes();
 
+
+                axios.get("/api/user/me2")
+                    .then((response) => {
+                        setUsername(response.data);
+                    })
+                    .catch((error) => console.log(error))
+
+
+
+
+
+
+
                 if (aktiviert) {
-                    const response = await axios.get("api/user/weckzeittest/j");
+
+                    await axios.get(`api/user/duration/${username}`);
+                    const response = await axios.get(`api/user/weckzeit/${username}`);
+
 
                     if (response.status === 200) {
                         const erhaltenMinutenSeitMitternacht = response.data;
@@ -42,8 +68,8 @@ function Wecker() {
             }
         };
 
-        // Führe die Funktion alle 5 Minuten aus
-        const intervalId = setInterval(sendeAnfrageUndAktualisiereWeckzeit, 1000 * 60 * 2);
+        // Führe die Funktion alle 10 Minuten aus
+        const intervalId = setInterval(sendeAnfrageUndAktualisiereWeckzeit, 1000 * 60 * 10);
 
         // Führe die Funktion sofort aus
         sendeAnfrageUndAktualisiereWeckzeit();

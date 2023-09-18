@@ -1,4 +1,4 @@
-import {ChangeEvent, FormEvent, useState} from "react";
+import {ChangeEvent, FormEvent, useEffect, useState} from "react";
 import axios from "axios";
 import {Link, useNavigate} from "react-router-dom";
 import "./LoginPage.css";
@@ -13,6 +13,16 @@ export default function LoginPage(loginPageProps: Props) {
     const [password, setPassword] = useState("");
 
     const nav = useNavigate();
+
+
+    useEffect(() => {
+
+        axios.get("/api/user/me2")
+            .then((response) => {
+                setUsername(response.data);
+            })
+            .catch((error) => console.log(error));
+    }, []);
 
     function onChangeHandlerUsername(event: ChangeEvent<HTMLInputElement>) {
         setUsername(event.target.value)

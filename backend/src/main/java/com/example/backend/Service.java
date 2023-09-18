@@ -85,15 +85,7 @@ public class Service implements UserDetailsService {
                 .block())
                 .getBody();
 
-
-
-
     }
-
-
-
-
-
     //String API_Key = "AIzaSyACQwB6EJsUNDvda1Yxl9sbnF2Muwhi4v8";
 
 
@@ -113,11 +105,7 @@ public class Service implements UserDetailsService {
             repo.deleteById(username);
 
         }
-
-
     }
-
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         MongoUser mongoUser = repo.findMongoUserByUsername(username)
@@ -148,48 +136,228 @@ public class Service implements UserDetailsService {
         }
 
         public static void main(String[] args) {
-            String timeString = "14:30"; // Beispiel-Zeit im Format "hh:mm"
+            String timeString = "14:30";
             int startZeitUhr = StringToMinutes(timeString);
             System.out.println("Uhrzeit in Minuten: " + startZeitUhr);
         }
+        public ResponseEntity<PlaceIdResponse> placeidAbfragenHome( String username,String wohnadressestadt,String wohnadressestrasse, String wohnadressenummer){
+            Optional<MongoUser> user = findByUsername(username);
+
+            if (user.isPresent()) {
+                MongoUser mongoUser = user.get();
+
+                PlaceIdResponse response = Place_Id(mongoUser.wohnadressenummer, mongoUser.wohnadressestrasse, mongoUser.wohnadressestadt);
+                repo.save(mongoUser.withWohnadressenummer(wohnadressenummer).withWohnadressestrasse(wohnadressestrasse).withWohnadressestadt(wohnadressestadt).withPlace_idHome(response.getPlaceId()));
+                return ResponseEntity.ok(response);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        }
+
+
+
+
+
+        public ResponseEntity<PlaceIdResponse> placeidAbfragenWork (String username,String arbeitsadressestadt,String arbbeitsadressestrasse,String arbeitsadressenummer){
+
+            Optional<MongoUser> user = findByUsername(username);
+            if (user.isPresent()) {
+                MongoUser mongoUser = user.get();
+                PlaceIdResponse response = Place_Id(mongoUser.arbeitsadressestadt, mongoUser.arbeitsadressestrasse, mongoUser.arbeitsadressestadt);
+                repo.save(mongoUser.withArbeitsadressestadt(arbeitsadressestadt).withArbeitsadressestrasse(arbbeitsadressestrasse).withArbeitsadressenummer(arbeitsadressenummer).withPlace_idWork(response.getPlaceId()));
+
+                return ResponseEntity.ok(response);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        }
+
+
 
         public ResponseEntity<ResponseDuration> anfragen(String username) throws InterruptedException {
-                Optional<MongoUser> user = findByUsername(username);
 
-                 if (user.isPresent()) {
-                     MongoUser mongoUser = user.get();
-                     //hole die Zeit  mit Verkehr
-                     ResponseDuration inhalt = duration(mongoUser.arbeitsadressestadt, mongoUser.arbeitsadressestrasse, mongoUser.arbeitsadressenummer, mongoUser.wohnadressestadt, mongoUser.wohnadressestrasse, mongoUser.wohnadressenummer);
+            Optional<MongoUser> user = findByUsername(username);
+            if (user.isPresent()) {
+                MongoUser mongoUser = user.get();
+                System.out.println(username);
+                //placeidHome holen
 
+                PlaceIdResponse placeipHome = Place_Id(mongoUser.getWohnadressestadt(), mongoUser.getWohnadressestrasse(), mongoUser.getWohnadressenummer());
+                //Placeid Speichern
 
-                     if (inhalt != null) {
-                         int timewithtraffic = inhalt.getRoutes().get(0).getLegs().get(0).getDuration_in_traffic().getValue();
-                         int timewhitouttraffic = inhalt.getRoutes().get(0).getLegs().get(0).getDuration().getValue();
+                if (placeipHome != null) {
 
-                         System.out.println("Zeit mit Verkehr: " + timewithtraffic);
+                    repo.save(mongoUser.withPlace_idHome(placeipHome.getPlaceId()).withPlace_idHome(placeipHome.getPlaceId()));
+                    Thread.sleep(3000);
+                    System.out.println(placeipHome);
+                }
+                //placeidHome holen
 
-                         int summe = timewithtraffic - timewhitouttraffic;
+                PlaceIdResponse placeipWork = Place_Id(mongoUser.getArbeitsadressestadt(), mongoUser.getArbeitsadressestrasse(), mongoUser.getArbeitsadressenummer());
 
-                         System.out.println("Zeit ohne Verkehr: " + timewhitouttraffic);
-                         System.out.println("Differenz: " + summe / 60 + " Minuten");
-                         repo.save(mongoUser.withDuration(Integer.parseInt(String.valueOf(timewhitouttraffic))));
+                if (placeipWork != null) {
 
-                         if (timewithtraffic > 3) {
-                             int delayInSeconds = 3;
-                             System.out.println("Die Anfrage dauert länger. Verzögerung von " + delayInSeconds + " Sekunden.");
-                             Thread.sleep(delayInSeconds * 1000);
-                         }
-                         System.out.println("Fortsetzung des Codes nach der Verzögerung");
-                    } else {
-                         System.out.println("Fehler bei der Anfrage");
-                     }
-                     return ResponseEntity.ok(inhalt);
-                 } else {
-                     return ResponseEntity.notFound().build();
-                 }
+                    Thread.sleep(3000);
+                    System.out.println(placeipWork);
+                }
+                ResponseDuration inhalt = duration(mongoUser.arbeitsadressestadt, mongoUser.arbeitsadressestrasse, mongoUser.arbeitsadressenummer, mongoUser.wohnadressestadt, mongoUser.wohnadressestrasse, mongoUser.wohnadressenummer);
 
+                if (inhalt != null) {
+                    int timewithtraffic = inhalt.getRoutes().get(0).getLegs().get(0).getDuration_in_traffic().getValue();
+                    int timewhitouttraffic = inhalt.getRoutes().get(0).getLegs().get(0).getDuration().getValue();
+
+                    System.out.println("Zeit mit Verkehr: " + timewithtraffic);
+
+                    int summe = timewithtraffic - timewhitouttraffic;
+
+                    System.out.println("Zeit ohne Verkehr: " + timewhitouttraffic);
+                    System.out.println("Differenz: " + summe / 60 + " Minuten");
+
+                    //Speichern der PlaceId home
+                    repo.save(mongoUser.withPlace_idHome(placeipHome.getPlaceId()).withPlace_idWork(placeipWork.getPlaceId()).withDuration(Integer.parseInt(String.valueOf(timewhitouttraffic))));
+
+                    if (timewithtraffic > 3) {
+                        int delayInSeconds = 3;
+                        System.out.println("Die Anfrage dauert länger. Verzögerung von " + delayInSeconds + " Sekunden.");
+                        Thread.sleep(delayInSeconds * 1000);
+                    }
+
+                    System.out.println("Fortsetzung des Codes nach der Verzögerung");
+                } else {
+                    System.out.println("Fehler bei der Anfrage");
+                }
+                return ResponseEntity.ok(inhalt);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
 
         }
+
+        public ResponseEntity<Integer> durationMinut (String username){
+            Optional<MongoUser> user = findByUsername(username);
+
+            if (user.isPresent()) {
+                MongoUser mongoUser = user.get();
+
+                ResponseDuration inhalt = duration(mongoUser.arbeitsadressestadt, mongoUser.arbeitsadressestrasse, mongoUser.arbeitsadressenummer, mongoUser.wohnadressestadt, mongoUser.wohnadressestrasse, mongoUser.wohnadressenummer);
+                System.out.println(inhalt);
+                int sum;
+                int traffic = inhalt.getRoutes().get(0).getLegs().get(0).getDuration_in_traffic().getValue();
+                int notraffic = inhalt.getRoutes().get(0).getLegs().get(0).getDuration().getValue();
+                System.out.println(traffic);
+                System.out.println(notraffic);
+
+                sum = (traffic - notraffic) / 60;
+                System.out.println(sum);
+
+
+                return ResponseEntity.ok(sum);
+
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+
+        }
+
+        public ResponseEntity<ResponseDuration> trafficTime (String username) throws InterruptedException {
+
+            Optional<MongoUser> user = findByUsername(username);
+
+            if (user.isPresent()) {
+                MongoUser mongoUser = user.get();
+                //hole die Zeit  mit Verkehr
+                ResponseDuration inhalt = duration(mongoUser.arbeitsadressestadt, mongoUser.arbeitsadressestrasse, mongoUser.arbeitsadressenummer, mongoUser.wohnadressestadt, mongoUser.wohnadressestrasse, mongoUser.wohnadressenummer);
+
+
+                if (inhalt != null) {
+                    int timewithtraffic = inhalt.getRoutes().get(0).getLegs().get(0).getDuration_in_traffic().getValue();
+                    int timewhitouttraffic = inhalt.getRoutes().get(0).getLegs().get(0).getDuration().getValue();
+
+                    System.out.println("Zeit mit Verkehr: " + timewithtraffic);
+
+                    int summe = timewithtraffic - timewhitouttraffic;
+
+                    System.out.println("Zeit ohne Verkehr: " + timewhitouttraffic);
+                    System.out.println("Differenz: " + summe / 60 + " Minuten");
+                    repo.save(mongoUser.withDuration(Integer.parseInt(String.valueOf(timewhitouttraffic))));
+
+                    if (timewithtraffic > 3) {
+                        int delayInSeconds = 3;
+                        System.out.println("Die Anfrage dauert länger. Verzögerung von " + delayInSeconds + " Sekunden.");
+                        Thread.sleep(delayInSeconds * 1000);
+                    }
+                    System.out.println("Fortsetzung des Codes nach der Verzögerung");
+                } else {
+                    System.out.println("Fehler bei der Anfrage");
+                }
+                return ResponseEntity.ok(inhalt);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+    }
+
+
+    public ResponseEntity<Integer> weckzeitTime(String username) throws InterruptedException {
+
+        Optional<MongoUser> user = findByUsername(username);
+        if (user.isPresent()) {
+            MongoUser mongoUser = user.get();
+            //Daten werden vom User gezogen
+            int duration = (mongoUser.getDuration());
+            String startzeit = mongoUser.getStartZeit();
+
+            String endzeit = mongoUser.getEndZeit();
+            String fahrzeit = mongoUser.getMaximalweckZeit();
+            String vorbereitungszeit = mongoUser.getVorbereitungsZeit();
+            ResponseDuration durationOnTraffic = trafficTime(username).getBody();
+            int duration1 = durationOnTraffic.getRoutes().get(0).getLegs().get(0).getDuration_in_traffic().getValue();
+
+
+            //30 min
+            //ResponseDuration durationOnTraffic = findDurationTimeTraffic(username).getBody();
+            Integer durationFind= durationMinut(username).getBody();
+            // Berechnung
+            int sum = ((duration) / 60);                                    //48
+            int vorbereitungszeitmin = Integer.parseInt(vorbereitungszeit); //30
+            int startZeitMin = Service.StringToMinutes(startzeit);         //11:46
+            int zeitBisZurArbeit = (sum+vorbereitungszeitmin);  //Fahrzeit+vorbereitungszeit  30 min + 125min  147 min
+            int weckzeitohneVerkehr = (startZeitMin-zeitBisZurArbeit);
+            // Startzeit =706-78 = 628
+            int weckZeitMitVerkehr = (weckzeitohneVerkehr );
+
+
+
+
+            return ResponseEntity.ok(weckZeitMitVerkehr);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
+
+    public ResponseEntity<MongoUser> testzeit (String username, String endZeit, String startZeit, String vorbreitungsZeit, String maximalweckZeit)   {
+
+        Optional<MongoUser> user = findByUsername(username);
+        System.out.println(maximalweckZeit
+        );
+
+        System.out.println(startZeit);
+        System.out.println(endZeit);
+        System.out.println(vorbreitungsZeit);
+
+        if (user.isPresent()) {
+            System.out.println("bin drinne ");
+            MongoUser mongoUser = user.get();
+            repo.save(mongoUser.withEndZeit(endZeit).withStartZeit(startZeit).withVorbereitungsZeit(vorbreitungsZeit).withMaximalweckZeit(maximalweckZeit));
+
+            return ResponseEntity.ok(mongoUser);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+
+
+    }
 
 
 }

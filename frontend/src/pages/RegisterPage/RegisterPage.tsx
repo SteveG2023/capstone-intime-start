@@ -128,7 +128,7 @@ export default function RegisterPage() {
 
             // Dritte Axios GET-Anfrage
             setTimeout(() => {
-                axios.get(`/api/user/anfragen/${username}`)
+                axios.get(`/api/user/anfragen2/${username}`)
 
             }, 2500);
 

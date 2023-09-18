@@ -5,13 +5,27 @@ import axios from "axios";
 
 export default function AdressePageWork() {
 
-    const username = 'z';
+    const [username, setUsername] = useState("");
     const [stadt, setStadt] = useState("");
     const [strasse, setStrasse] = useState("");
     const [nummer,setNummer] = useState("");
-
+    const [loading, setLoading] = useState(true);
 
     const nav = useNavigate();
+
+
+    useEffect(() => {
+        axios
+            .get("/api/user/me2")
+            .then((response) => {
+                setUsername(response.data);
+                setLoading(false); // Markieren Sie die Anfrage als abgeschlossen
+            })
+            .catch((error) => {
+                console.log(error);
+                setLoading(false); // Markieren Sie die Anfrage als abgeschlossen
+            });
+    }, []);
 
 
     function onChangeStadt(event: ChangeEvent<HTMLInputElement>) {
@@ -31,7 +45,7 @@ export default function AdressePageWork() {
         event.preventDefault();
         axios({
             method: 'get',
-            url: `/api/user/placeidwork/${username}/${stadt}${stadt}/${strasse}/${nummer}`
+            url: `/api/user/placeidwork/${username}/${stadt}/${strasse}/${nummer}`
         })
             .then(() => nav("/setuppage"))
             //.catch((error) => console.log(error))
@@ -47,36 +61,33 @@ export default function AdressePageWork() {
                 <form onSubmit={registerwork}>
                     <h3>REGISTER Your Workplace</h3>
                     <div className="Register">
-
-
-                        <input type={"street"} required={true} id={strasse} placeholder={" Work-Street"}
-                               onChange={onChangeStrasse}/>
-                        <input type={"number"} required={true} id={nummer} placeholder={" Work-Number"}
-                               onChange={onChangeNummer}/>
-
-                        <input type={"City"} required={true} id={stadt} placeholder={" Work-City"   }
-                               onChange={onChangeStadt}/>
-
-
-
-
-
-
-
-
-
+                        <input
+                            type={"street"}
+                            required={true}
+                            id={strasse}
+                            placeholder={" Work-Street"}
+                            onChange={onChangeStrasse}
+                        />
+                        <input
+                            type={"number"}
+                            required={true}
+                            id={nummer}
+                            placeholder={" Work-Number"}
+                            onChange={onChangeNummer}
+                        />
+                        <input
+                            type={"City"}
+                            required={true}
+                            id={stadt}
+                            placeholder={" Work-City"}
+                            onChange={onChangeStadt}
+                        />
                     </div>
-
-                    <button>Save</button>
-
-
-
+                    <button disabled={loading}>Save</button>
                     <div>
-
-
-                        <Link className="direction-link" to={"/setuppage"}>zurück</Link>
-
-
+                        <Link className="direction-link" to={"/setuppage"}>
+                            zurück
+                        </Link>
                     </div>
                 </form>
 
