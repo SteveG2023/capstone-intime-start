@@ -4,6 +4,10 @@ import axios from "axios";
 import "./RegisterPage.css";
 
 
+type Props = {
+    user: string;
+
+}
 
 
 

@@ -2,21 +2,20 @@ import { ChangeEvent, FormEvent, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-export default function AdressePageHome() {
-    const [username, setUsername] = useState(""); // Hier wird die Variable für den Benutzernamen gesetzt
+type Props = {
+    user: string;
+}
+
+    export default function AdressePageHome(props: Props){
+
+
+
     const [stadt, setStadt] = useState("");
     const [strasse, setStrasse] = useState("");
     const [nummer, setNummer] = useState("");
     const nav = useNavigate();
 
-    useEffect(() => {
 
-        axios.get("/api/user/me")
-            .then((response) => {
-                setUsername(response.data);
-            })
-            .catch((error) => console.log(error));
-    }, []);
 
     function onChangeStadt(event: ChangeEvent<HTMLInputElement>) {
         setStadt(event.target.value);
@@ -34,7 +33,7 @@ export default function AdressePageHome() {
         event.preventDefault();
         axios({
             method: 'get',
-            url: `/api/user/placeidhome/${username}/${stadt}/${strasse}/${nummer}`
+            url: `/api/user/placeidhome/${props.user}/${stadt}/${strasse}/${nummer}`
         })
             .then(() => nav("/setuppage"))
             .catch((error) => console.log(error))

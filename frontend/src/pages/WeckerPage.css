@@ -47,11 +47,11 @@
 .digital-clock{
 
     width: 100px;
-    height: 100px;
+    height:100px;
     background-color: red; /* Startfarbe */
     border-radius: 10%; /* Macht das Element rund */
     position:center;
-    animation: circleAnimation 5s linear infinite; /* Animationseigenschaften */
+
 }
 
 

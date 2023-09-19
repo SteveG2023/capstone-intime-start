@@ -1,10 +1,15 @@
 package com.example.backend;
 
+import jakarta.servlet.http.HttpSession;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
+
+import static org.testng.AssertJUnit.assertEquals;
+import static sun.security.jgss.GSSUtil.login;
 
 @SpringBootTest
 
@@ -20,14 +25,21 @@ class ControllerTest {
 
 
     @Test
-    void changeAdressWork(String berlin) {
-        MongoUserRepo mongoUserRepo = Mockito.mock(MongoUserRepo.class);
-        Service service = new Service(mongoUserRepo);
+    void testChangeAddress() {
+        // Erstelle eine Instanz deines AddressService
 
-        Mockito.verify("ChIJuRMYfoNhsUcRoDrWe_I9JgQ");
+
     }
 
-    @Test
+
+
+
+
+
+
+
+
+@Test
     void changeAdressHome() {
         MongoUserRepo mongoUserRepo = Mockito.mock(MongoUserRepo.class);
 
@@ -71,6 +83,15 @@ class ControllerTest {
     @Test
     void testLogin() {
     }
+
+    @Test
+    public void test_successful_logout() {
+        HttpSession httpSession = new MockHttpSession();
+        String result = (login(httpSession));
+        assertEquals("logged out", result);
+    }
+
+
 
 
 }

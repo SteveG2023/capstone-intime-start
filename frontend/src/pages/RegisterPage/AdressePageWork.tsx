@@ -3,7 +3,13 @@ import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 
 
-export default function AdressePageWork() {
+type Props = {
+    user: string;
+
+}
+
+
+export default function AdressePageWork(props: Props) {
 
     const [username, setUsername] = useState("");
     const [stadt, setStadt] = useState("");
@@ -14,18 +20,7 @@ export default function AdressePageWork() {
     const nav = useNavigate();
 
 
-    useEffect(() => {
-        axios
-            .get("/api/user/me")
-            .then((response) => {
-                setUsername(response.data);
-                setLoading(false); // Markieren Sie die Anfrage als abgeschlossen
-            })
-            .catch((error) => {
-                console.log(error);
-                setLoading(false); // Markieren Sie die Anfrage als abgeschlossen
-            });
-    }, []);
+
 
 
     function onChangeStadt(event: ChangeEvent<HTMLInputElement>) {
@@ -45,7 +40,7 @@ export default function AdressePageWork() {
         event.preventDefault();
         axios({
             method: 'get',
-            url: `/api/user/placeidwork/${username}/${stadt}/${strasse}/${nummer}`
+            url: `/api/user/placeidwork/${props.user}/${stadt}/${strasse}/${nummer}`
         })
             .then(() => nav("/setuppage"))
             //.catch((error) => console.log(error))

@@ -4,9 +4,15 @@ import {Link, useNavigate} from "react-router-dom";
 
 import axios from "axios";
 
-export default function TimePlan() {
 
-    const [username, setUsername] = useState(""); // Hier wird die Variable für den Benutzernamen gesetzt
+type Props = {
+    user: string;
+
+}
+
+export default function TimePlan(props: Props) {
+
+
     const [startZeit, setStartzeit] = useState("");
     const [endZeit, setEndzeit] = useState("");
     const [vorbereitungsZeit, setVorbereitungsZeit] = useState('');
@@ -14,14 +20,7 @@ export default function TimePlan() {
 
 
 
-    useEffect(() => {
 
-        axios.get("/api/user/me2")
-            .then((response) => {
-                setUsername(response.data);
-            })
-            .catch((error) => console.log(error));
-    }, []);
 
     const onChangeVorbereitungsZeit = (event) => {
         setVorbereitungsZeit(event.target.value);
@@ -44,10 +43,10 @@ export default function TimePlan() {
 
     function registerTime(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        axios.post(`/api/user/time/${username}/${startZeit}/${endZeit}/${vorbereitungsZeit}/${maximalWeckZeit}`)
+        axios.post(`/api/user/time/${props.user}/${startZeit}/${endZeit}/${vorbereitungsZeit}/${maximalWeckZeit}`)
 
         .then(() => nav("/setuppage"))
-     //.catch((error) => console.log(error))
+     .catch((error) => console.log(error))
 
 
     }

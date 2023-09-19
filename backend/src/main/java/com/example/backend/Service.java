@@ -233,7 +233,7 @@ public class Service implements UserDetailsService {
 
         }
 
-        public ResponseEntity<Integer> durationMinut (String username){
+        public ResponseEntity<Integer> durationMinute (String username){
             Optional<MongoUser> user = findByUsername(username);
 
             if (user.isPresent()) {
@@ -315,7 +315,7 @@ public class Service implements UserDetailsService {
 
             //30 min
             //ResponseDuration durationOnTraffic = findDurationTimeTraffic(username).getBody();
-            Integer durationFind= durationMinut(username).getBody();
+            Integer durationFind= durationMinute(username).getBody();
             // Berechnung
             int sum = ((duration) / 60);                                    //48
             int vorbereitungszeitmin = Integer.parseInt(vorbereitungszeit); //30

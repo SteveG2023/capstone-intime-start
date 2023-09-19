@@ -24,14 +24,17 @@ class ServiceTest {
 
     @Test
     String saveUser(String steve) {
+        //given
+
+
+        String actuel=saveUser(username);
+
 
         //when
         String username = "Steve";
         String solution = "Steve";
 
-        //given
 
-        String actuel=saveUser(username);
 
         //then
         assertEquals(solution,actuel);

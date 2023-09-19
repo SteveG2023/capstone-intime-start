@@ -5,6 +5,7 @@ import "./LoginPage.css";
 
 type Props = {
     setUser: (user:string) => void
+
 }
 export default function LoginPage(loginPageProps: Props) {
 
@@ -19,7 +20,7 @@ export default function LoginPage(loginPageProps: Props) {
 
         axios.get("/api/user/me")
             .then((response) => {
-                setUsername(response.data);
+                loginPageProps.setUser(response.data);
             })
             .catch((error) => console.log(error));
     }, []);
@@ -33,22 +34,12 @@ export default function LoginPage(loginPageProps: Props) {
     }
 
     function login(event:FormEvent<HTMLFormElement>) {
-        try {
-            event.preventDefault()
-
-            axios.post("/api/user/login", undefined, {auth: {username, password}})
-                .then((response) => loginPageProps.setUser(response.data))
-
-            nav("/weckerpage");
-        }
-        catch(error)
-        {
-            alert("Es ist ein Fehler aufgetreten. Die Login-Daten  sind möglicherweise falsch.");
-        }
-
-
+        event.preventDefault()
+        axios.post("/api/user/login", undefined, {auth: {username, password}})
+            .then((response) => loginPageProps.setUser(response.data))
+            .then(() => nav("/weckerpage"))
+            .catch((error) => console.log(error))
     }
-
 
 
 

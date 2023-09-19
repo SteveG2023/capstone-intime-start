@@ -85,7 +85,7 @@ public class Controller {
     public ResponseEntity<Integer> findDuration(@PathVariable String username) throws
             InstantiationException, IllegalAccessException {
 
-        return service.durationMinut(username);
+        return service.durationMinute(username);
 
 
     }
@@ -124,6 +124,7 @@ public class Controller {
 
     @PostMapping("/login")
     public String login() {
+
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 

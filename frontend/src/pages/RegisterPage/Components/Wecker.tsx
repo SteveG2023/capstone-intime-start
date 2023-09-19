@@ -1,10 +1,14 @@
 
 import  { useState, useEffect } from 'react';
 import axios from 'axios';
-import {Simulate} from "react-dom/test-utils";
-import durationChange = Simulate.durationChange;
 
-function Wecker() {
+
+type Props = {
+    user: string;
+
+}
+
+function Wecker(props: Props) {
     const [username, setUsername] = useState("");
     const [weckzeit, setWeckzeit] = useState<string | null>(null);
     const [aktiviert, setAktiviert] = useState(false);
@@ -20,31 +24,20 @@ function Wecker() {
 
 
 
-        // Funktion, um die Anfrage zu stellen und die Weckzeit zu aktualisieren
+
         const sendeAnfrageUndAktualisiereWeckzeit = async () => {
             try {
                 const now = new Date();
                 const hours = now.getHours();
                 const minutes = now.getMinutes();
 
-
-                axios.get("/api/user/me")
-                    .then((response) => {
-                        setUsername(response.data);
-                    })
-                    .catch((error) => console.log(error))
-
-
-
-
-
-
-
                 if (aktiviert) {
 
-                    await axios.get(`api/user/duration/${username}`);
-                    const response = await axios.get(`api/user/weckzeit/${username}`);
 
+
+                   // await axios.get(`api/user/duration/${username}`);
+                    const response = await axios.get(`api/user/weckzeit/${props.user}`);
+                    console.log(response)
 
                     if (response.status === 200) {
                         const erhaltenMinutenSeitMitternacht = response.data;

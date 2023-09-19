@@ -27,12 +27,12 @@ function App() {
 
                     <Route element={<ProtectedRoute user={user}/>}>
 
-                            <Route path={"/weckerpage"} element={ <WeckerPage/> } />
+                            <Route path={"/weckerpage"} element={ <WeckerPage user={user} />} />
 
                             <Route path={"/setuppage"}element={<SetupPage/>}/>
-                            <Route path={"/adresspagehome"}element={<AdressePageHome />} />
-                            <Route path={"/adresspagework"} element={<AdressePageWork  />} />
-                            <Route path={"/timeplanpage"} element={<TimePlan/> }/>
+                            <Route path={"/adresspagehome"}element={<AdressePageHome user={user} />} />
+                            <Route path={"/adresspagework"} element={<AdressePageWork user={user} />} />
+                            <Route path={"/timeplanpage"} element={<TimePlan user={user} /> }/>
                     </Route>
 
             </Routes>
