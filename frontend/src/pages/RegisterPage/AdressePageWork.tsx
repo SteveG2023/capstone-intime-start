@@ -16,7 +16,7 @@ export default function AdressePageWork() {
 
     useEffect(() => {
         axios
-            .get("/api/user/me2")
+            .get("/api/user/me")
             .then((response) => {
                 setUsername(response.data);
                 setLoading(false); // Markieren Sie die Anfrage als abgeschlossen

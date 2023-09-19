@@ -28,7 +28,7 @@ function Wecker() {
                 const minutes = now.getMinutes();
 
 
-                axios.get("/api/user/me2")
+                axios.get("/api/user/me")
                     .then((response) => {
                         setUsername(response.data);
                     })
