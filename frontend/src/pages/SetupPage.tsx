@@ -12,7 +12,7 @@ export default function SetupPage() {
         <div className="suche">
             <div className="card">
                 <div className="logo-container-l">
-                    <h3>Einstellungen</h3>
+                    <h3 className={"einstellung"}>Einstellungen</h3>
                     <div>
                         <Link className="direction-link" to={"/adresspagework"}>Workplace</Link>
 

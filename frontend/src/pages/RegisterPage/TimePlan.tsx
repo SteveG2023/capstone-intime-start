@@ -1,9 +1,7 @@
 import {ChangeEvent, FormEvent, useEffect, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
-
-
 import axios from "axios";
-
+import "./TimePlan.css";
 
 type Props = {
     user: string;
@@ -17,9 +15,6 @@ export default function TimePlan(props: Props) {
     const [endZeit, setEndzeit] = useState("");
     const [vorbereitungsZeit, setVorbereitungsZeit] = useState('');
     const [maximalWeckZeit, setMaximalWeckZeit] = useState("");
-
-
-
 
 
     const onChangeVorbereitungsZeit = (event) => {
@@ -45,8 +40,8 @@ export default function TimePlan(props: Props) {
         event.preventDefault();
         axios.post(`/api/user/time/${props.user}/${startZeit}/${endZeit}/${vorbereitungsZeit}/${maximalWeckZeit}`)
 
-        .then(() => nav("/setuppage"))
-     .catch((error) => console.log(error))
+            .then(() => nav("/setuppage"))
+            .catch((error) => console.log(error))
 
 
     }
@@ -58,12 +53,12 @@ export default function TimePlan(props: Props) {
 
                 </div>
                 <form onSubmit={registerTime}>
-                    <h3>Geben Sie Ihre Arbeitszeit ein</h3>
+                    <h3 className={"uberschrift"}>Geben Sie Ihre Arbeitszeit ein</h3>
                     <div className="Register Your Time">
 
                         <div>
                             <div>
-                                <h3>Start</h3>
+                                <h3 className={"uberschrift"}>Start</h3>
                                 <input
                                     type="time"
                                     required={true}
@@ -76,7 +71,7 @@ export default function TimePlan(props: Props) {
 
 
                             <div>
-                                <h3>Ende</h3>
+                                <h3 className={"uberschrift"}>Ende</h3>
                                 <input
                                     type="time"
                                     required={true}
@@ -87,6 +82,7 @@ export default function TimePlan(props: Props) {
                                 />
                             </div>
                             <div>
+                                <h3 className={"uberschrift"}>Vorbereitungszeit</h3>
                                 <input
                                     type="number"
                                     required={false}
@@ -97,7 +93,7 @@ export default function TimePlan(props: Props) {
                                 />
                             </div>
                             <div>
-                                <h3>Maximal-Weckzeit</h3>
+                                <h3 className={"uberschrift"}>Maximal-Weckzeit</h3>
                                 <input
                                     type="time"
                                     required={true}
@@ -111,9 +107,10 @@ export default function TimePlan(props: Props) {
                         </div>
 
                     </div>
+
                     <div>
 
-                        <button>Save</button>
+                        <button>Speichern</button>
 
                     </div>
 

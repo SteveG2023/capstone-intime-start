@@ -188,7 +188,7 @@ public class Controller {
     @GetMapping("/weckzeittest/{username}")
     public int weckzeitTest(@PathVariable String username) {
 
-        int sum = 800;
+        int sum = 605;
         System.out.print(sum);
 
         return sum;

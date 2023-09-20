@@ -1,20 +1,19 @@
-import { ChangeEvent, FormEvent, useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import {ChangeEvent, FormEvent, useState, useEffect} from "react";
+import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
+import "./AdressPageHome.css";
 
 type Props = {
     user: string;
 }
 
-    export default function AdressePageHome(props: Props){
-
+export default function AdressePageHome(props: Props) {
 
 
     const [stadt, setStadt] = useState("");
     const [strasse, setStrasse] = useState("");
     const [nummer, setNummer] = useState("");
     const nav = useNavigate();
-
 
 
     function onChangeStadt(event: ChangeEvent<HTMLInputElement>) {
@@ -44,13 +43,20 @@ type Props = {
             <div className="card">
                 <div className="logoContainerL"></div>
                 <form onSubmit={register}>
-                    <h3>REGISTER YOUR HOMEPLACE</h3>
+                    <h3 className={"wohnort"}>Wohnort</h3>
                     <div className="Register your Home-Address">
-                        <input type="text" required={true} value={stadt} placeholder="Stadt" onChange={onChangeStadt} />
-                        <input type="text" required={true} value={strasse} placeholder="Strasse" onChange={onChangeStrasse} />
-                        <input type="text" required={true} value={nummer} placeholder="Nummer" onChange={onChangeNummer} />
+                        <div></div>
+                        <input type="text" required={true} value={stadt} placeholder="Stadt" onChange={onChangeStadt}/>
                     </div>
-                    <button>Save</button>
+                    <div>
+                        <input type="text" required={true} value={strasse} placeholder="Strasse"
+                               onChange={onChangeStrasse}/>
+                    </div>
+                    <div>
+                        <input type="text" required={true} value={nummer} placeholder="Nummer"
+                               onChange={onChangeNummer}/>
+                    </div>
+                    <button>Speichern</button>
                     <div>
                         <Link className="direction-link" to="/setuppage">zurück</Link>
                     </div>

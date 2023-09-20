@@ -235,10 +235,10 @@ export default function RegisterPage() {
                              </div>
                         </div>
 
-                         <h3>  Arbeitszeiten  </h3>
+                         <h3 className={"Arbeitszeiten"}>  Arbeitszeiten  </h3>
 
                         <div>
-                            <h3>Start</h3>
+                            <h3 className={"Start"}>Start</h3>
                             <input
                                 type="time"
                                 required={true}
@@ -251,7 +251,7 @@ export default function RegisterPage() {
 
 
                         <div>
-                            <h3>Ende</h3>
+                            <h3 className={"Ende"}>Ende</h3>
                             <input
                                 type="time"
                                 required={true}
@@ -266,7 +266,7 @@ export default function RegisterPage() {
 
 
                         <div>
-                            <h3>MaximaleWeckzeit</h3>
+                            <h3 className={"Maximaleweckzeit"}>MaximaleWeckzeit</h3>
                             <input
 
                                 type="time"

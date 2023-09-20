@@ -1,7 +1,7 @@
 import {ChangeEvent, FormEvent, useEffect, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
-
+import "./AdressPageWork.css";
 
 type Props = {
     user: string;
@@ -11,7 +11,7 @@ type Props = {
 
 export default function AdressePageWork(props: Props) {
 
-    const [username, setUsername] = useState("");
+
     const [stadt, setStadt] = useState("");
     const [strasse, setStrasse] = useState("");
     const [nummer,setNummer] = useState("");
@@ -54,31 +54,45 @@ export default function AdressePageWork(props: Props) {
 
                 </div>
                 <form onSubmit={registerwork}>
-                    <h3>REGISTER Your Workplace</h3>
+                    <h3 className={"arbeitsort"}>Arbeitsort</h3>
                     <div className="Register">
-                        <input
-                            type={"street"}
-                            required={true}
-                            id={strasse}
-                            placeholder={" Work-Street"}
-                            onChange={onChangeStrasse}
-                        />
-                        <input
-                            type={"number"}
-                            required={true}
-                            id={nummer}
-                            placeholder={" Work-Number"}
-                            onChange={onChangeNummer}
-                        />
+
+                     <div>
+
                         <input
                             type={"City"}
                             required={true}
                             id={stadt}
-                            placeholder={" Work-City"}
+                            placeholder={" Stadt"}
                             onChange={onChangeStadt}
                         />
+                        </div>
+
+                        <div>
+                            <input
+                                type={"street"}
+                                required={true}
+                                id={strasse}
+                                placeholder={" Strasse"}
+                                onChange={onChangeStrasse}
+                            />
+                        </div>
+
+                        <div>
+
+
+                            <input
+                                type={"number"}
+                                required={true}
+                                id={nummer}
+                                placeholder={" Nummer"}
+                                onChange={onChangeNummer}
+                            />
+
+                        </div>
+
                     </div>
-                    <button disabled={loading}>Save</button>
+                    <button >Speichern</button>
                     <div>
                         <Link className="direction-link" to={"/setuppage"}>
                             zurück
