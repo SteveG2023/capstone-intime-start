@@ -1,0 +1,10 @@
+.wrapper{
+
+    width: 100%; /* 100% der Bildschirmbreite */
+    height: 100%; /* 100% der Bildschirmhöhe */
+    display: flex; /* Verwenden Sie Flexbox, um die Anordnung der Hauptkomponenten zu steuern */
+    flex-direction: column; /* Stapeln Sie die Hauptkomponenten vertikal */
+}
+.arbeitsort{
+    color: #734080;
+}

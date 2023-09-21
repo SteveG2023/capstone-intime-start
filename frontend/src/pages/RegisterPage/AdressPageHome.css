@@ -1,0 +1,28 @@
+.wrapper{
+
+    width: 100%; /* 100% der Bildschirmbreite */
+    height: 100%; /* 100% der Bildschirmhöhe */
+    display: flex; /* Verwenden Sie Flexbox, um die Anordnung der Hauptkomponenten zu steuern */
+    flex-direction: column; /* Stapeln Sie die Hauptkomponenten vertikal */
+
+}
+.wohnort{
+    color: #734080;
+    /* From https://css.glass */
+    background: rgba(255, 255, 255, 0.42);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(7.4px);
+    -webkit-backdrop-filter: blur(7.4px);
+    border: 1px solid rgba(255, 255, 255, 0.65);
+}
+
+.arbeitsort{
+    /* From https://css.glass */
+    background: rgba(255, 255, 255, 0.42);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(7.4px);
+    -webkit-backdrop-filter: blur(7.4px);
+    border: 1px solid rgba(255, 255, 255, 0.65);
+}

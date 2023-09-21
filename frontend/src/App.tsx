@@ -1,35 +1,44 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import {useState} from "react";
+import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
+
+import LoginPage from "./pages/LoginPage.tsx";
+import ProtectedRoute from "./ProtectedRoute.tsx";
+import RegisterPage from "./pages/RegisterPage/RegisterPage.tsx";
+
+import WeckerPage from "./pages/WeckerPage.tsx";
+import SetupPage from "./pages/SetupPage.tsx";
+import AdressePageHome from "./pages/RegisterPage/AdressePageHome.tsx";
+import AdressePageWork from "./pages/RegisterPage/AdressePageWork.tsx";
+import TimePlan from "./pages/RegisterPage/TimePlan.tsx";
 
 function App() {
-  const [count, setCount] = useState(0)
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    const [user, setUser] = useState("")
+
+    return (
+
+
+        <Router>
+            <Routes>
+                    <Route path={"/"}element={<LoginPage setUser={setUser}/> }/>
+
+                    <Route path={"/Register"}element={<RegisterPage/>}/>
+
+                    <Route element={<ProtectedRoute user={user}/>}>
+
+                            <Route path={"/weckerpage"} element={ <WeckerPage user={user} />} />
+
+                            <Route path={"/setuppage"}element={<SetupPage/>}/>
+                            <Route path={"/adresspagehome"}element={<AdressePageHome user={user} />} />
+                            <Route path={"/adresspagework"} element={<AdressePageWork user={user} />} />
+                            <Route path={"/timeplanpage"} element={<TimePlan user={user} /> }/>
+                    </Route>
+
+            </Routes>
+        </Router>
+
+    )
 }
 
 export default App

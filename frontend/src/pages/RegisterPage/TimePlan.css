@@ -1,0 +1,24 @@
+.uberschrift {
+
+    color: #2b6080;
+    text-shadow: 5px 2px 4px rgba(0, 0, 0, 0.6); /* Schatten-Effekt: horizontaler Versatz, vertikaler Versatz, Unschärfe, Schattenfarbe */
+
+    animation: wiggleLetters 0.5s ease infinite alternate; /* Animationseigenschaften anpassen */
+}
+.wrapper{
+
+    width: 100%; /* 100% der Bildschirmbreite */
+    height: 100%; /* 100% der Bildschirmhöhe */
+    display: flex; /* Verwenden Sie Flexbox, um die Anordnung der Hauptkomponenten zu steuern */
+    flex-direction: column; /* Stapeln Sie die Hauptkomponenten vertikal */
+}
+
+
+@keyframes wiggleLetters {
+    0% {
+        transform: translateX(0); /* Keine Verschiebung zu Beginn der Animation */
+    }
+    100% {
+        transform: translateX(2px); /* Verschiebung der Buchstaben nach rechts */
+    }
+}
