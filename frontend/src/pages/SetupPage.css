@@ -1,17 +1,15 @@
-.suche {
-    background-image: url("https://img.freepik.com/fotos-kostenlos/verrueckt-junger-mann-ueberrascht-ausdruck_1194-5027.jpg?w=2000&t=st=1693908129~exp=1693908729~hmac=20cd58cb6aac1d335aa41692686098d67aa62e68559ed89e3eb77ff301b70633");
+.wrapper {
+    background-image: url("https://img.freepik.com/fotos-kostenlos/junge-mann-verrueckt-besorgt_1194-5021.jpg?w=2000&t=st=1693907322~exp=1693907922~hmac=c8671ba8e129096562a3ed58835fb6b8daf5019918042314515076104ea81e5e");
+    background-size: cover; /* Das Bild wird proportional skaliert, um den Container zu füllen */
     background-position: center center; /* Das Bild wird zentriert ausgerichtet */
     background-repeat: no-repeat;
-    background-size: cover; /* Das Bild wird so skaliert, dass es den gesamten Hintergrund bedeckt */
+    border: 2px solid red; /* Beispielrahmen mit roter Farbe und 2px Breite */
+    padding: 10px; /* Platz um den Inhalt innerhalb der Begrenzung */
+    width: 390px; /* Breite der Webseite */
+    height: 844px; /* Höhe der Webseite */
 }
 
-.wrapper{
 
-    width: 100%; /* 100% der Bildschirmbreite */
-    height: 100%; /* 100% der Bildschirmhöhe */
-    display: flex; /* Verwenden Sie Flexbox, um die Anordnung der Hauptkomponenten zu steuern */
-    flex-direction: column; /* Stapeln Sie die Hauptkomponenten vertikal */
-}
 .einstellung{
     /* From https://css.glass */
     background: rgba(255, 255, 255, 0.42);
@@ -20,8 +18,12 @@
     backdrop-filter: blur(7.4px);
     -webkit-backdrop-filter: blur(7.4px);
     border: 1px solid rgba(255, 255, 255, 0.65);
+    color: #afa0a0; /* Rot */
 }
 .direction-link{
+
+
+
     /* From https://css.glass */
     background: rgba(255, 255, 255, 0.42);
     border-radius: 16px;
@@ -29,4 +31,34 @@
     backdrop-filter: blur(7.4px);
     -webkit-backdrop-filter: blur(7.4px);
     border: 1px solid rgba(255, 255, 255, 0.65);
+
+    display: flex;
+    gap:25px;
+    flex-direction: column;
+    justify-content: center;
+    align-content: end;
+    margin: 10px;
+    align-self: auto;
+    height: 50px
+
 }
+
+.card {
+
+    background-image: url("https://img.freepik.com/fotos-kostenlos/verrueckt-junger-mann-ueberrascht-ausdruck_1194-5027.jpg?w=2000&t=st=1693908129~exp=1693908729~hmac=20cd58cb6aac1d335aa41692686098d67aa62e68559ed89e3eb77ff301b70633");
+    display: flex;
+    gap:25px;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+   top:0;
+    position:absolute;
+    left: 0;
+    width:100%;
+    height:100%;
+}
+
+
+
+
+

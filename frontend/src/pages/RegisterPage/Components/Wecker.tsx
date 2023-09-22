@@ -11,7 +11,7 @@ function Wecker(props: Props) {
     const [username, setUsername] = useState("");
     const [weckzeit, setWeckzeit] = useState<string | null>(null);
     const [aktiviert, setAktiviert] = useState(false);
-    const [schlummer, setSchlummer] = useState(false);
+    //const [schlummer, setSchlummer] = useState(false);
     const [audio, setAudio] = useState(new Audio());
     const [klingelt, setKlingelt] = useState(false);
     const formatMinutes = (minutes: number) => { return minutes.toString().padStart(2, '0');
@@ -120,6 +120,7 @@ function Wecker(props: Props) {
                              src="https://www.br.de/radio/bayern1/baustellen-bayern-100~_v-img__16__9__l_-1dc0e8f74459dd04c91a0d45af4972b9069f1135.jpg?version=85f9a"
                              alt="Category Image"/>
                     </div>
+                    <button onClick={handleSchlummern}>Schlummern</button>
                 </div>
             )}
 
@@ -130,7 +131,7 @@ function Wecker(props: Props) {
                 <div>
                     <div>
                         <button onClick={handleStoppen}>Stopp</button>
-                        <button onClick={handleSchlummern}>Schlummern</button>
+
 
                     </div>
 

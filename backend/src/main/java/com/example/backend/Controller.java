@@ -1,6 +1,7 @@
 package com.example.backend;
 
 import jakarta.servlet.http.HttpSession;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,6 +14,7 @@ import java.security.Principal;
 import java.util.Optional;
 
 @RequiredArgsConstructor
+
 @RestController
 @SpringBootApplication
 @CrossOrigin
@@ -188,7 +190,7 @@ public class Controller {
     @GetMapping("/weckzeittest/{username}")
     public int weckzeitTest(@PathVariable String username) {
 
-        int sum = 605;
+        int sum = 780;
         System.out.print(sum);
 
         return sum;

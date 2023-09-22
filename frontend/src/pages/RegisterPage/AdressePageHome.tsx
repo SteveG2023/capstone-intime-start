@@ -1,4 +1,4 @@
-import {ChangeEvent, FormEvent, useState, useEffect} from "react";
+import {ChangeEvent, FormEvent, useState, } from "react";
 import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 import "./AdressPageHome.css";
@@ -40,20 +40,20 @@ export default function AdressePageHome(props: Props) {
 
     return (
         <div className="wrapper">
-            <div className="card">
+            <div className="">
                 <div className="logoContainerL"></div>
-                <form onSubmit={register}>
+                <form className={"register"} onSubmit={register}>
                     <h3 className={"wohnort"}>Wohnort</h3>
                     <div className="Register your Home-Address">
                         <div></div>
-                        <input type="text" required={true} value={stadt} placeholder="Stadt" onChange={onChangeStadt}/>
+                        <input className={"eingabe"} type="text" required={true} value={stadt} placeholder="Stadt" onChange={onChangeStadt}/>
                     </div>
                     <div>
-                        <input type="text" required={true} value={strasse} placeholder="Strasse"
+                        <input className={"eingabe"} type="text" required={true} value={strasse} placeholder="Strasse"
                                onChange={onChangeStrasse}/>
                     </div>
                     <div>
-                        <input type="text" required={true} value={nummer} placeholder="Nummer"
+                        <input className={"eingabe"} type="text" required={true} value={nummer} placeholder="Nummer"
                                onChange={onChangeNummer}/>
                     </div>
                     <button>Speichern</button>
