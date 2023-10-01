@@ -46,19 +46,28 @@ export default function LoginPage(loginPageProps: Props) {
 
     return (
         <div className="wrapper">
-            <div className="card">
-                <div className="logo-container-l">
+            <div className="">
+
+                        <form onSubmit={login}>
+                            <h1 className={"intime"}>In-Time</h1>
+                            <h2 className={"login"}>Login</h2>
+
+                            <input className={"Felder"} type={"text"} id={username} placeholder={"Enter your username"} required={true} onChange={onChangeHandlerUsername}/>
+
+
+
+                            <input className={"Felder"} type={"password"} id={password} placeholder={"Enter your password"} required={true} onChange={onChangeHandlerPassword}/>
+
+
+                            <button className={"Felder1"}>Login</button>
+                            <Link  className={"Felder2"} to={"/register"}>New here? REGISTER NOW</Link>
+
+                        </form>
+
+        </div>
+
 
                 </div>
-                <form onSubmit={login}>
-                    <h1>LOGIN</h1>
-                    <input type={"text"} id={username} placeholder={"Enter your username"} required={true} onChange={onChangeHandlerUsername}/>
-                    <input type={"password"} id={password} placeholder={"Enter your password"} required={true} onChange={onChangeHandlerPassword}/>
-                    <button>login</button>
-                </form>
-                <Link className="direction-link" to={"/register"}>New here? REGISTER NOW</Link>
 
-            </div>
-        </div>
     )
 }

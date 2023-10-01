@@ -1,9 +1,10 @@
 .wrapper{
 
-    width: 100%; /* 100% der Bildschirmbreite */
-    height: 100%; /* 100% der Bildschirmhöhe */
+
     display: flex; /* Verwenden Sie Flexbox, um die Anordnung der Hauptkomponenten zu steuern */
     flex-direction: column; /* Stapeln Sie die Hauptkomponenten vertikal */
+    width: 390px; /* Breite der Webseite */
+    height: 844px; /* Höhe der Webseite */
 
 }
 .wohnort{
@@ -25,4 +26,8 @@
     backdrop-filter: blur(7.4px);
     -webkit-backdrop-filter: blur(7.4px);
     border: 1px solid rgba(255, 255, 255, 0.65);
+}
+.eingabe{
+    width: 150px; /* Setzt die Breite auf 300 Pixel */
+    height: 25px; /* Setzt die Höhe auf 40 Pixel */
 }

@@ -1,12 +1,13 @@
 .wrapper {
     background-image: url("https://img.freepik.com/fotos-kostenlos/junge-mann-verrueckt-besorgt_1194-5021.jpg?w=2000&t=st=1693907322~exp=1693907922~hmac=c8671ba8e129096562a3ed58835fb6b8daf5019918042314515076104ea81e5e");
     background-size: cover; /* Das Bild wird proportional skaliert, um den Container zu füllen */
-    background-position: center center; /* Das Bild wird zentriert ausgerichtet */
+    background-position: center ; /* Das Bild wird zentriert ausgerichtet */
     background-repeat: no-repeat;
-
+    width: 390px; /* Breite der Webseite */
+    height: 1000px; /* Höhe der Webseite */
 
 }
-.Wohnort{
+.Wohnort {
     /* From https://css.glass */
     background: rgba(255, 255, 255, 0.42);
     border-radius: 16px;
@@ -14,15 +15,11 @@
     backdrop-filter: blur(7.4px);
     -webkit-backdrop-filter: blur(7.4px);
     border: 1px solid rgba(255, 255, 255, 0.65);
+    color: #afa0a0; /* Rot */
 }
 
-.wrapper{
 
-    width: 100%; /* 100% der Bildschirmbreite */
-    height: 100%; /* 100% der Bildschirmhöhe */
-    display: flex; /* Verwenden Sie Flexbox, um die Anordnung der Hauptkomponenten zu steuern */
-    flex-direction: column; /* Stapeln Sie die Hauptkomponenten vertikal */
-}
+
 .Arbeitsort{
     /* From https://css.glass */
     background: rgba(255, 255, 255, 0.42);
@@ -31,6 +28,7 @@
     backdrop-filter: blur(7.4px);
     -webkit-backdrop-filter: blur(7.4px);
     border: 1px solid rgba(255, 255, 255, 0.65);
+    color: #afa0a0; /* Rot */
 }
 .User{
     /* From https://css.glass */
@@ -40,6 +38,7 @@
     backdrop-filter: blur(7.4px);
     -webkit-backdrop-filter: blur(7.4px);
     border: 1px solid rgba(255, 255, 255, 0.65);
+    color: #afa0a0; /* Rot */
 }
 .Arbeitszeiten{
     /* From https://css.glass */
@@ -49,6 +48,7 @@
     backdrop-filter: blur(7.4px);
     -webkit-backdrop-filter: blur(7.4px);
     border: 1px solid rgba(255, 255, 255, 0.65);
+    color: #afa0a0; /* Rot */
 }
 .Start{
     /* From https://css.glass */
@@ -58,6 +58,7 @@
     backdrop-filter: blur(7.4px);
     -webkit-backdrop-filter: blur(7.4px);
     border: 1px solid rgba(255, 255, 255, 0.65);
+    color: #afa0a0; /* Rot */
 }
 .Ende{/* From https://css.glass */
     background: rgba(255, 255, 255, 0.42);
@@ -66,6 +67,7 @@
     backdrop-filter: blur(7.4px);
     -webkit-backdrop-filter: blur(7.4px);
     border: 1px solid rgba(255, 255, 255, 0.65);
+    color: #afa0a0; /* Rot */
 }
 .Maximaleweckzeit{
     /* From https://css.glass */
@@ -75,4 +77,14 @@
     backdrop-filter: blur(7.4px);
     -webkit-backdrop-filter: blur(7.4px);
     border: 1px solid rgba(255, 255, 255, 0.65);
+    color: #afa0a0; /* Rot */
+}
+.input{
+    width: 150px; /* Setzt die Breite auf 300 Pixel */
+    height: 15px; /* Setzt die Höhe auf 40 Pixel */
+}
+.input1{
+    width:100px; /* Setzt die Breite auf 300 Pixel */
+    height: 15px; /* Setzt die Höhe auf 40 Pixel */
+
 }

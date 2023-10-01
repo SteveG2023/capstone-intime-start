@@ -23,7 +23,6 @@ export default function RegisterPage() {
     const [wohnadressestadt, setwohnadressestadt] = useState("");
     const [wohnadressestrasse, setwohnadressestrasse] = useState("");
     const [wohnadressenummer, setwohnadressenummer] = useState("");
-
     const [startZeit    , setStartzeit] = useState("");
     const [endZeit, setEndzeit] = useState("");
     const [vorbereitungsZeit, setVorbereitungsZeit] = useState('');
@@ -153,7 +152,7 @@ export default function RegisterPage() {
 
         return (
             <div className="wrapper">
-                <div className="card">
+                <div className="">
                     <div className="logoContainerL">
 
                     </div>
@@ -162,22 +161,22 @@ export default function RegisterPage() {
                         <div className="Register">
 
                             <div>
-                                <input type={"text"} required={true} id={username} placeholder={" username"}
+                                <input className={"input"} type={"text"} required={true} id={username} placeholder={" username"}
                                        onChange={onChangeUsername}/>
-                                <input type={"password"} required={true} id={password} placeholder={" password"}
+                                <input className={"input"} type={"password"} required={true} id={password} placeholder={" password"}
                                        onChange={onChangePassword}/>
                             </div>
 
                             <div>
-                                <input type={"vorname"} required={true} id={vorname} placeholder={" first-name"}
+                                <input className={"input"} type={"vorname"} required={true} id={vorname} placeholder={" first-name"}
                                        onChange={onChangeVorname}/>
-                                <input type={"nachname"} required={true} id={nachname}
+                                <input className={"input"} type={"nachname"} required={true} id={nachname}
                                        placeholder={" last-name"}
                                        onChange={onChangeNachname}/>
                             </div>
 
 
-                            <input type={"Email"} required={true} id={email} placeholder={" email"}
+                            <input className={"input"} type={"Email"} required={true} id={email} placeholder={" email"}
                                    onChange={onChangeEmail}/>
 
 
@@ -189,20 +188,20 @@ export default function RegisterPage() {
                         <div className="RegisterHome">
 
                            <div>
-                                <input type={"Stadt"} required={true} id={wohnadressestadt}
+                                <input className={"input"} type={"Stadt"} required={true} id={wohnadressestadt}
                                        placeholder={" Stadt"}
                                        onChange={onChangewohnadressestadt}/>
 
                            </div>
 
                             <div>
-                                <input type={"Strasse"} required={true} id={wohnadressestrasse}
+                                <input className={"input"} type={"Strasse"} required={true} id={wohnadressestrasse}
                                        placeholder={" Strasse"}
                                        onChange={onChangewohnadressestrasse}/>
                              </div>
 
 
-                                <input type={"nummer"} required={true} id={wohnadressenummer}
+                                <input className={"input"} type={"nummer"} required={true} id={wohnadressenummer}
                                        placeholder={" Nummer"}
                                        onChange={onChangewohnadressenummer}/>
 
@@ -216,21 +215,21 @@ export default function RegisterPage() {
 
                             <div>
 
-                            <input type={"City"} required={true} id={arbeitsadressestadt}
+                            <input className={"input"} type={"City"} required={true} id={arbeitsadressestadt}
                                    placeholder={" Stadt"}
                                    onChange={onChangearbeitsadressestadt}/>
                              </div>
 
                             <div>
-                            <input type={"street"} required={true} id={arbeitsadressestrasse}
+                            <input className={"input"} type={"street"} required={true} id={arbeitsadressestrasse}
                                    placeholder={" Strasse"}
                                    onChange={onChangearbeitsadressestrasse}/>
                             </div>
 
                             <div>
 
-                            <input type={"number"} required={true} id={arbeitsadressenummer}
-                                   placeholder={" nummer"}
+                            <input className={"input"} type={"number"} required={true} id={arbeitsadressenummer}
+                                   placeholder={" Nummer"}
                                    onChange={onChangearbeitsadressenummer}/>
                              </div>
                         </div>
@@ -240,6 +239,7 @@ export default function RegisterPage() {
                         <div>
                             <h3 className={"Start"}>Start</h3>
                             <input
+                                className={"input1"}
                                 type="time"
                                 required={true}
                                 id={startZeit}
@@ -253,6 +253,7 @@ export default function RegisterPage() {
                         <div>
                             <h3 className={"Ende"}>Ende</h3>
                             <input
+                                className={"input1"}
                                 type="time"
                                 required={true}
                                 id={endZeit}
@@ -268,7 +269,7 @@ export default function RegisterPage() {
                         <div>
                             <h3 className={"Maximaleweckzeit"}>MaximaleWeckzeit</h3>
                             <input
-
+                                className={"input1"}
                                 type="time"
                                 required={false}
                                 id={maximaleweckzeit}
@@ -278,10 +279,11 @@ export default function RegisterPage() {
                         </div>
                         <div>
                             <input
+                                className={"input1"}
                                 type="number"
                                 required={false}
                                 id="vorbereitungsZeit"
-                                placeholder="Vorbereitung"
+                                placeholder="Vorb."
                                 value={vorbereitungsZeit}
                                 onChange={onChangeVorbereitungsZeit}
                             />

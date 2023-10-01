@@ -48,10 +48,8 @@ export default function TimePlan(props: Props) {
 
     return (
         <div className="wrapper">
-            <div className="card">
-                <div className="logoContainerL">
+            <div className="">
 
-                </div>
                 <form onSubmit={registerTime}>
                     <h3 className={"uberschrift"}>Geben Sie Ihre Arbeitszeit ein</h3>
                     <div className="Register Your Time">

@@ -57,6 +57,5 @@ public class MongoUser {
     String fortbewegung;
 
 
-    public MongoUser(String steve1, String steve, String gumpert) {
-    }
+
 }

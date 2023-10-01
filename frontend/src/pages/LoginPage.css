@@ -3,6 +3,57 @@
     background-size: cover; /* Das Bild wird proportional skaliert, um den Container zu füllen */
     background-position: center center; /* Das Bild wird zentriert ausgerichtet */
     background-repeat: no-repeat;
+    border: 2px solid red; /* Beispielrahmen mit roter Farbe und 2px Breite */
+    padding: 10px; /* Platz um den Inhalt innerhalb der Begrenzung */
+    width: 390px; /* Breite der Webseite */
+    height: 844px; /* Höhe der Webseite */
 
+
+}
+.card{
+
+    height: 100%; /* Höhe auf 100 Pixel setzen */
+
+}
+.Felder{
+    display: flex;
+    flex-direction: column;
+    gap:50px;
+    position: relative;
+    top: 150px;
+    left: 120px;
+    width: 160px; /* Setzt die Breite auf 300 Pixel */
+    height: 25px; /* Setzt die Höhe auf 40 Pixel */
+}
+.Felder1{
+    display: flex;
+    flex-direction: column;
+    gap:50px;
+    position: relative;
+    top: 180px;
+    left: 160px;
+
+
+}
+.Felder2{
+    display: flex;
+    flex-direction: column;
+    gap:50px;
+    position: relative;
+    top: 180px;
+    left: 130px;
+    width: 150px; /* Setzt die Breite auf 300 Pixel */
+    height: 15px; /* Setzt die Höhe auf 40 Pixel */
+}
+.login{
+    color: #afa0a0; /* Rot */
+
+    position: relative;
+    top: 0px;
+    left: 0px;
+}
+.intime{
+
+    color: #205880;
 
 }

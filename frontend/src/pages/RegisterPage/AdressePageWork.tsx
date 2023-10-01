@@ -49,51 +49,56 @@ export default function AdressePageWork(props: Props) {
 
     return (
         <div className="wrapper">
-            <div className="card">
+            <div className="">
                 <div className="logoContainerL">
 
                 </div>
                 <form onSubmit={registerwork}>
                     <h3 className={"arbeitsort"}>Arbeitsort</h3>
-                    <div className="Register">
 
-                     <div>
+                    <div className="register">
+
+
 
                         <input
+                            className={"eingabe"}
                             type={"City"}
                             required={true}
                             id={stadt}
                             placeholder={" Stadt"}
                             onChange={onChangeStadt}
                         />
-                        </div>
 
-                        <div>
+
+
                             <input
+                                className={"eingabe"}
                                 type={"street"}
                                 required={true}
                                 id={strasse}
                                 placeholder={" Strasse"}
                                 onChange={onChangeStrasse}
                             />
-                        </div>
 
-                        <div>
+
+
 
 
                             <input
+                                className={"eingabe"}
                                 type={"number"}
                                 required={true}
                                 id={nummer}
                                 placeholder={" Nummer"}
                                 onChange={onChangeNummer}
+
                             />
 
-                        </div>
 
-                    </div>
+
+
                     <button >Speichern</button>
-                    <div>
+
                         <Link className="direction-link" to={"/setuppage"}>
                             zurück
                         </Link>

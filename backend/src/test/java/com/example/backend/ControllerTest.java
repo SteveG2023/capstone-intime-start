@@ -1,66 +1,64 @@
 package com.example.backend;
 
-import jakarta.servlet.http.HttpSession;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mock.web.MockHttpSession;
+
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static sun.security.jgss.GSSUtil.login;
+
+
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+
 
 @SpringBootTest
 
 //@AutoConfigureMockMvc;
 class ControllerTest {
 
-    @Autowired
+
     private MockMvc mvc;
+    @Autowired
+    private final Controller controller;
 
     @Autowired
     private MongoUserRepo mongoUserRepo;
 
-
-
-    @Test
-    void testChangeAddress() {
-        // Erstelle eine Instanz deines AddressService
-
-
+    ControllerTest(MockMvc mvc, Controller controller) {
+        this.mvc = mvc;
+        this.controller = controller;
     }
 
 
+    @Test
+    public void testChangeAddress() throws Exception {
+        MongoUserRepo mongoUserRepo = mock(MongoUserRepo.class);
 
 
-
-
-
-
-
-@Test
-    void changeAdressHome() {
-        MongoUserRepo mongoUserRepo = Mockito.mock(MongoUserRepo.class);
 
     }
 
     @Test
     void saveTime() {
-        MongoUserRepo mongoUserRepo = Mockito.mock(MongoUserRepo.class);
+        MongoUserRepo mongoUserRepo = mock(MongoUserRepo.class);
         Service service = new Service(mongoUserRepo);
 
     }
 
     @Test
     void weckzeit() {
-        MongoUserRepo mongoUserRepo = Mockito.mock(MongoUserRepo.class);
+        MongoUserRepo mongoUserRepo = mock(MongoUserRepo.class);
         Service service = new Service(mongoUserRepo);
     }
 
     @Test
     void findDurationTimeTraffic() {
-        MongoUserRepo mongoUserRepo = Mockito.mock(MongoUserRepo.class);
+        MongoUserRepo mongoUserRepo = mock(MongoUserRepo.class);
         Service service = new Service(mongoUserRepo);
     }
 
@@ -70,7 +68,7 @@ class ControllerTest {
     // password konnte nicht umgewandelt werden
     @Test
     void saveUser() {
-        MongoUserRepo mongoUserRepo = Mockito.mock(MongoUserRepo.class);
+        MongoUserRepo mongoUserRepo = mock(MongoUserRepo.class);
         Service service = new Service(mongoUserRepo);
 
     }
@@ -80,18 +78,19 @@ class ControllerTest {
     void delete() {
     }
 
-    @Test
-    void testLogin() {
-    }
 
     @Test
-    public void test_successful_logout() {
-        HttpSession httpSession = new MockHttpSession();
-        String result = (login(httpSession));
-        assertEquals("logged out", result);
+    public void test_returns_empty_string_if_no_authenticated_user() {
+
+        String expectedName = "JohnDoe";
+        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(expectedName, null));
+        String actualName = controller.login();
+        assertEquals(expectedName, actualName);
     }
-
-
-
-
 }
+
+
+
+
+
+

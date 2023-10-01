@@ -6,9 +6,12 @@
     animation: wiggleLetters 0.5s ease infinite alternate; /* Animationseigenschaften anpassen */
 }
 .wrapper{
+    width: 399px; /* Breite der Webseite */
+    height: 844px; /* Höhe der Webseite */
 
-    width: 100%; /* 100% der Bildschirmbreite */
-    height: 100%; /* 100% der Bildschirmhöhe */
+
+
+
     display: flex; /* Verwenden Sie Flexbox, um die Anordnung der Hauptkomponenten zu steuern */
     flex-direction: column; /* Stapeln Sie die Hauptkomponenten vertikal */
 }
@@ -21,4 +24,10 @@
     100% {
         transform: translateX(2px); /* Verschiebung der Buchstaben nach rechts */
     }
+}
+.card{
+ display:flex;
+ flex-direction: column;
+    gap:20px;
+
 }

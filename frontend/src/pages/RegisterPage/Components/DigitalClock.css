@@ -1,0 +1,108 @@
+.item-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 15px;
+}
+.scroll-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 3px solid darkcyan;
+    border-radius: 15px;
+    padding: 10px 0;
+}
+
+.item-link-image {
+    width: 110px;
+}
+
+.item-link-text {
+    text-decoration: none;
+    color: darkcyan;
+    font-size: 20px;
+    text-align: center;
+}
+
+.img-priority{
+    width: 50%;
+    border-radius: 5px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    transform: translateX(120px) translateY(0px);
+    background-position: center center; /* Das Bild wird zentriert ausgerichtet */
+}
+
+.root{
+    background-size: cover; /* Das Bild wird proportional skaliert, um den Container zu füllen */
+    background-position: center center; /* Das Bild wird zentriert ausgerichtet */
+    background-repeat: no-repeat;
+
+}
+
+
+
+
+
+.digital-clock {
+    width: 100px;
+    height: 80px;
+    background-color: red;
+    border-radius: 10%;
+    animation: moveClock 10s linear infinite alternate;
+    position: relative; /* Positioniert das Element absolut innerhalb des Elterncontainers */
+    left: 0%; /* Verschiebt das Element horizontal um 50% nach rechts */
+    transform: translateX(-50%); /* Zentriert das Element horizontal */
+    z-index: 5; /* Setzen Sie die z-index auf 1, um das Element höher zu setzen */
+}
+
+
+.Background{
+    background-image: url("https://cdn.pixabay.com/photo/2017/05/24/18/57/tree-2341285_1280.jpg");
+    background-size: cover; /* Das Bild wird proportional skaliert, um den Container zu füllen */
+    background-position: center center; /* Das Bild wird zentriert ausgerichtet */
+    background-repeat: no-repeat;
+}
+.circle-container {
+    width: 200px;
+    height: 200px;
+    position: relative;
+    overflow: hidden;
+}
+.setup{:
+margin-left: 100px; /* Verschiebt das Bild nach rechts */
+    /* From https://css.glass */
+    background: rgba(255, 255, 255, 0.42);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(7.4px);
+    -webkit-backdrop-filter: blur(7.4px);
+    border: 1px solid rgba(255, 255, 255, 0.65);
+}
+.logout{
+    margin-right: 100px;
+    /* From https://css.glass */
+    background: rgba(255, 255, 255, 0.42);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(7.4px);
+    -webkit-backdrop-filter: blur(7.4px);
+    border: 1px solid rgba(255, 255, 255, 0.65);
+}
+
+
+
+
+/* CSS-Animation mit Keyframes */
+@keyframes moveClock {
+    0% {
+        left: 50%; /* Startposition: Zentriert */
+    }
+
+    100% {
+        left: 40%; /* Endposition: Ganz links */
+    }
+
+
+}

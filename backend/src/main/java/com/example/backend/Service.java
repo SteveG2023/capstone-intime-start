@@ -43,7 +43,7 @@ public class Service implements UserDetailsService {
 
     static WebClient webClient = WebClient.create("https://maps.googleapis.com/maps/api");
 
-    String API_Key = "AIzaSyACQwB6EJsUNDvda1Yxl9sbnF2Muwhi4v8";
+    String API_Key = "";
 
 
     public ResponseDuration timeWithoutTraffic(String place_idH, String place_idW) {
@@ -72,7 +72,7 @@ public class Service implements UserDetailsService {
                         .retrieve()
                         .toEntity(PlaceIdResponse.class)
                         .block())
-                .getBody();
+                        .getBody();
     }
 
     ResponseDuration duration(String citywork, String streetwork, String numberwork, String cityhome, String streethome, String numberhome) {
@@ -306,12 +306,12 @@ public class Service implements UserDetailsService {
             int duration = (mongoUser.getDuration());
             String startzeit = mongoUser.getStartZeit();
 
-            String endzeit = mongoUser.getEndZeit();
-            String fahrzeit = mongoUser.getMaximalweckZeit();
+            //String endzeit = mongoUser.getEndZeit();
+           // String fahrzeit = mongoUser.getMaximalweckZeit();
             String vorbereitungszeit = mongoUser.getVorbereitungsZeit();
             ResponseDuration durationOnTraffic = trafficTime(username).getBody();
             int duration1 = durationOnTraffic.getRoutes().get(0).getLegs().get(0).getDuration_in_traffic().getValue();
-
+            int verkehr = duration-duration1;
 
             //30 min
             //ResponseDuration durationOnTraffic = findDurationTimeTraffic(username).getBody();
@@ -320,7 +320,7 @@ public class Service implements UserDetailsService {
             int sum = ((duration) / 60);                                    //48
             int vorbereitungszeitmin = Integer.parseInt(vorbereitungszeit); //30
             int startZeitMin = Service.StringToMinutes(startzeit);         //11:46
-            int zeitBisZurArbeit = (sum+vorbereitungszeitmin);  //Fahrzeit+vorbereitungszeit  30 min + 125min  147 min
+            int zeitBisZurArbeit = (sum+vorbereitungszeitmin+verkehr);  //Fahrzeit+vorbereitungszeit  30 min + 125min  147 min
             int weckzeitohneVerkehr = (startZeitMin-zeitBisZurArbeit);
             // Startzeit =706-78 = 628
             int weckZeitMitVerkehr = (weckzeitohneVerkehr );

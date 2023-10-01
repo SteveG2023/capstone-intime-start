@@ -1,8 +1,7 @@
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 import DigitalClock from "./RegisterPage/Components/DigitalClock";
 import Wecker from "./RegisterPage/Components/Wecker"; // Importieren Sie die Wecker-Komponente
 import "./WeckerPage.css";
-
 
 
 type Props = {
@@ -12,38 +11,29 @@ type Props = {
 export default function WeckerPage(props: Props) {
 
 
-
     return (
-        <div className={"Background"}>
-
-            <div>
-                <Link className={"logout"} to={"/"}>
-                    logout
-                </Link>
-
-                <Link className={"setup"} to={"/setuppage"}>
-                    Setup
-                </Link>
-            </div>
+        <div className={"background"}>
 
 
-            <div className="logo-container-l"/>
-            <video autoPlay muted loop id="video-background"> </video>
+            <Link className={"logout"} to={"/"}>
+                logout
+            </Link>
+
+            <Link className={"setup"} to={"/setuppage"}>
+                Setup
+            </Link>
 
 
-
-
-
-            <div>
+            <div className={"wecker"}>
 
                 <h1>Wecker</h1>
 
 
                 <div className="digital-clock">
-                    <DigitalClock />
+                    <DigitalClock/>
                 </div>
                 <div className="clock-content grid">
-                    <Wecker user={props.user} />
+                    <Wecker user={props.user}/>
 
                 </div>
 
@@ -52,8 +42,6 @@ export default function WeckerPage(props: Props) {
 
 
                 </div>
-
-
 
 
             </div>

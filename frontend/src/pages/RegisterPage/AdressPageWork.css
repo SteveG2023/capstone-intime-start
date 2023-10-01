@@ -1,10 +1,27 @@
 .wrapper{
 
-    width: 100%; /* 100% der Bildschirmbreite */
-    height: 100%; /* 100% der Bildschirmhöhe */
+
     display: flex; /* Verwenden Sie Flexbox, um die Anordnung der Hauptkomponenten zu steuern */
     flex-direction: column; /* Stapeln Sie die Hauptkomponenten vertikal */
+    width: 390px; /* Breite der Webseite */
+    height: 844px; /* Höhe der Webseite */
 }
 .arbeitsort{
     color: #734080;
+}
+.register{
+    display: flex;
+    flex-direction: column;
+    gap:30px;
+
+}
+.eingabe{
+    width: 150px; /* Setzt die Breite auf 300 Pixel */
+    height: 25px; /* Setzt die Höhe auf 40 Pixel */
+    display: flex;
+    flex-direction: column;
+    gap:50px;
+    position: relative;
+    top: 0px;
+    left: 120px;
 }
