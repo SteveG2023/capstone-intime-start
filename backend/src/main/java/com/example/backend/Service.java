@@ -43,7 +43,7 @@ public class Service implements UserDetailsService {
 
     static WebClient webClient = WebClient.create("https://maps.googleapis.com/maps/api");
 
-    String API_Key = "AIzaSyACQwB6EJsUNDvda1Yxl9sbnF2Muwhi4v8";
+    String API_Key = "";
 
 
     public ResponseDuration timeWithoutTraffic(String place_idH, String place_idW) {
